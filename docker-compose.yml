@@ -1,0 +1,28 @@
+version: '3'
+services:
+  app:
+    restart: always
+    container_name: app
+    build: .
+    environment:
+      - ELJUR_TOKEN=SECRET
+      - JWT_SECRET=SECRET
+      - DEBUG=TRUE
+    depends_on:
+      - mongodb
+  mongodb:
+    restart: always
+    image: "mongo:latest"
+    environment:
+      - AUTH=no
+    container_name: mongo
+  router:
+    restart: always
+    image: "nginx:latest"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+    container_name: nginx
