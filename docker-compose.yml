@@ -7,6 +7,7 @@ services:
     environment:
       - ELJUR_TOKEN=SECRET
       - JWT_SECRET=SECRET
+      - HASH_SECRET=SECRET
       - DEBUG=TRUE
     depends_on:
       - mongodb
