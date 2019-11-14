@@ -1,0 +1,33 @@
+name: Docs Builder
+
+on:
+  push:
+    paths:
+    - 'api.yaml'
+
+
+jobs:
+  build-docs:
+    name: Docs Builder
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup Node.js for use with actions
+      uses: actions/setup-node@v1.1.0
+    - name: Install test deps
+      run: |
+        npm install -g bootprint
+        npm install -g bootprint-openapi
+    - name: Reder docs
+      run: bootprint openapi api.yaml docs
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Build docs" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    
