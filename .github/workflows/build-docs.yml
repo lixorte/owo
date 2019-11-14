@@ -1,4 +1,4 @@
-name: CI
+name: Docs Builder
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-docs:
-
+    name: Docs Builder
     runs-on: ubuntu-latest
 
     steps:
