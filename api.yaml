@@ -299,7 +299,7 @@ paths:
           schema:
             type: integer
             default: 0
-          description: Number of ellections to skip before collecting
+          description: Сколько отступов отступить до сбора данных
         - in: query
           name: limit
           required: true
