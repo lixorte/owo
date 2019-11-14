@@ -1,0 +1,525 @@
+openapi: "3.0.0"
+security: []
+info:
+  version: 0.0.1
+  title: OWO Election Info
+  license:
+    name: Apache 2.0
+servers:
+  - url: "https://example.com/api"
+paths:  
+  /election/getlast/{type}:
+    get:
+      parameters:
+        - in: path
+          name: type
+          schema:
+            type: string
+            enum:
+              - "song"
+              - "theme"
+          required: true
+          description: Тип голосования
+      summary: Результаты последнего голосования
+      operationId: getLastElection
+      tags:
+        - Операции, доступные пользователю
+      responses:
+        "200":
+          description: Последний пулл голосования
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Election"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /election/{electionUid}:
+    get:
+      summary: Получить информацию о голосовании по его id
+      operationId: getElectionInfo
+      parameters:
+        - in: path
+          name: electionUid
+          schema:
+            type: string
+          required: true
+          description: ID голосования
+      tags:
+        - Операции, доступные пользователю
+      responses:
+        "200":
+          description: Данные о голосовании с указанным id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Election"
+        "404":
+          description: Нет такого голосования
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    patch:
+      summary: Обновить информацию о голосовании по его id
+      operationId: updateElectionInfo
+      parameters:
+        - in: path
+          name: electionUid
+          schema:
+            type: string
+          required: true
+          description: ID голосования
+      security:
+        - JWTAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Допустимые обновления
+              properties:
+                name:
+                  type: string
+                state:
+                  type: string
+                  enum:
+                    - "freezed"
+                    - "ongoing"
+                    - "finished"
+      tags:
+        - Операции, доступные администратору
+      responses:
+        "401":
+          description: Ошибка авторизации
+        "200":
+          description: Данные обновлены
+        "404":
+          description: Нет такого голосования
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      summary: Удалить голосование
+      operationId: deleteElection
+      parameters:
+        - in: path
+          name: electionUid
+          schema:
+            type: string
+          required: true
+          description: ID голосования
+      security:
+        - JWTAuth: []
+      tags:
+        - Операции, доступные администратору
+      responses:
+        "401":
+          description: Ошибка авторизации
+        "200":
+          description: Данные удалены
+        "404":
+          description: Нет такого голосования
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /election/{electionUid}/vote/{voteUid}:
+    post:
+      summary: Проголосовать за опцию
+      operationId: makeVote
+      parameters:
+        - in: path
+          name: electionUid
+          schema:
+            type: string
+          required: true
+          description: ID голосования
+        - in: path
+          name: voteUid
+          schema:
+            type: string
+          required: true
+          description: ID опции голосования
+      security:
+        - JWTAuth: []
+      tags:
+        - Операции, доступные пользователю
+      responses:
+        "200":
+          description: Голос учтен
+        "401":
+          description: Ошибка авторизации
+        "403":
+          description: Голосование уже замороженно или вариант заблокированн
+        "404":
+          description: Нет такого голосования или варианта
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    patch:
+      summary: Изменить опцию
+      operationId: editOption
+      parameters:
+        - in: path
+          name: electionUid
+          schema:
+            type: string
+          required: true
+          description: ID голосования
+        - in: path
+          name: voteUid
+          schema:
+            type: string
+          required: true
+          description: ID опции голосования
+      security:
+        - JWTAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Допустимые обновления
+              properties:
+                name:
+                  type: string
+                singer:
+                  type: string
+                album:
+                  type: string
+                state:
+                  type: string
+                  enum:
+                    - normal
+                    - banned
+      tags:
+        - Операции, доступные администратору
+
+      responses:
+        "200":
+          description: Изменения приняты, возвращает новый обьект
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Topic"
+        "401":
+          description: Ошибка авторизации
+        "403":
+          description: Голосование уже замороженно
+        "404":
+          description: Нет такого голосования или варианта
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /election/new/:
+    post:
+      summary: Создать голосование
+      operationId: createElection
+      security:
+        - JWTAuth: []
+      tags:
+        - Операции, доступные администратору
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Поля
+              required:
+                - name
+                - type
+                - state
+              properties:
+                name:
+                  type: string
+                state:
+                  type: string
+                  enum:
+                    - "freezed"
+                    - "ongoing"
+                    - "finished"
+                type:
+                  type: string
+                  enum:
+                    - "Topic"
+                    - "Song"
+      responses:
+        "200":
+          description: Изменения приняты, возвращает новый обьект
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/ElectionInfo"
+        "401":
+          description: Ошибка авторизации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /election/find:
+    get:
+      summary: Получить данные о голосованиях
+      operationId: getElections
+      tags:
+        - Операции, доступные пользователю
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            default: 0
+          description: Number of ellections to skip before collecting
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          description: Number of ellections to return
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum:
+              - topic
+              - song
+              - any
+            default: any
+      responses:
+        "200":
+          description: Массив с карточками голосований
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ElectionInfo"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /election/{electionUid}/vote/new:
+    post:
+      summary: Добавить опцию голосования
+      operationId: addOption
+      tags:
+          - Операции, доступные пользователю
+      parameters:
+        - in: path
+          name: electionUid
+          schema:
+            type: string
+          required: true
+          description: ID голосования
+      responses:
+        "200":
+          description: Массив с карточками голосований
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Готовая тема или трек
+                $ref: "#/components/schemas/Topic" # TODO нужен метаобьект для обьеденения темы и трека
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    
+
+
+
+components:
+  securitySchemes:
+    JWTAuth:
+      type: apiKey
+      in: cookie
+      name: JWT
+  schemas:
+    Topic:
+      description: "Обьект для хранения данных о теме"
+      type: object
+      required:
+        - name
+        - votes
+        - id
+        - userAdded
+      properties:
+        name:
+          type: string
+
+        votes:
+          type: integer
+          format: int32
+
+        dateAdded:
+          type: string
+          format: date-time
+
+        userAdded:
+          description: "Mongo ObjectID of user"
+          type: string
+          format: uid
+
+        id:
+          description: "Mongo ObjectId of topic"
+          type: string
+          format: id
+
+    Track:
+      type: object
+      required:
+        - name
+        - singer
+        - votes
+        - id
+        - userAdded
+      properties:
+        name:
+          type: string
+
+        singer:
+          type: string
+
+        album:
+          type: string
+
+        cutCommentary:
+          description: "Данные о разбивке трека"
+          type: string
+
+        votes:
+          type: integer
+          format: int32
+
+        dateAdded:
+          type: string
+          format: date-time
+
+        userAdded:
+          description: "Mongo ObjectID of user"
+          type: string
+          format: uid
+
+        id:
+          description: "Mongo ObjectId of song"
+          type: string
+          format: id
+
+        serviceLink:
+          description: "Link to YaMuic/YouTube"
+          type: string
+          format: url
+
+    ElectionInfo:
+      type: object
+      required:
+        - name
+        - id
+        - type
+        - state
+      description: "Main information about election"
+      properties:
+        name:
+          type: string
+
+        id:
+          description: "ID of Election Collection"
+          type: string
+          format: id
+
+        type:
+          type: string
+          enum:
+            - "Topic"
+            - "Song"
+
+        state:
+          type: string
+          enum:
+            - "Ongoing"
+            - "Freezed"
+            - "Finished"
+
+    Election:
+      description: "Модель данных о выборах, с краткой информацией и участниками."
+      type: object
+      required:
+        - ElectionInfo
+        - normalObjects
+        - bannedObjects
+      properties:
+        ElectionInfo:
+          type: object
+          $ref: "#/components/schemas/ElectionInfo"
+
+        normalObjects:
+          description: "Обычные треки, не забанные и не победившие"
+          type: array
+          items:
+            oneOf:
+              - $ref: "#/components/schemas/Track"
+              - $ref: "#/components/schemas/Topic"
+
+        votedObjects:
+          description: "Победившние треки. Только если ElectionInfo.state == finished"
+          type: array
+          items:
+            oneOf:
+              - $ref: "#/components/schemas/Track"
+              - $ref: "#/components/schemas/Topic"
+
+        bannedObjects:
+          description: "Забаненные треки"
+          type: array
+          items:
+            oneOf:
+              - $ref: "#/components/schemas/Track"
+              - $ref: "#/components/schemas/Topic"
+
+    Error:
+      type: object
+      required:
+        - message
+        - code
+      properties:
+        message:
+          type: string
+        code:
+          type: number
