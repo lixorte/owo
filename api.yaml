@@ -1,7 +1,7 @@
 openapi: "3.0.0"
 security: []
 info:
-  version: 0.0.2
+  version: 0.0.3
   title: OWO Election Info
   license:
     name: Apache 2.0
@@ -41,7 +41,7 @@ paths:
   /election/{electionUid}:
     get:
       summary: Получить информацию о голосовании по его id
-      operationId: getElectionInfo
+      operationId: getelectionInfo
       parameters:
         - in: path
           name: electionUid
@@ -69,7 +69,7 @@ paths:
 
     patch:
       summary: Обновить информацию о голосовании по его id
-      operationId: updateElectionInfo
+      operationId: updateelectionInfo
       parameters:
         - in: path
           name: electionUid
@@ -277,7 +277,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: "#/components/schemas/ElectionInfo"
+                $ref: "#/components/schemas/electionInfo"
         "401":
           description: Ошибка авторизации
         default:
@@ -325,7 +325,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ElectionInfo"
+                  $ref: "#/components/schemas/electionInfo"
         default:
           description: unexpected error
           content:
@@ -389,7 +389,174 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /user:
+    post:
+      summary: Создать пользователя
+      operationId: addUser
+      tags:
+        - Операции, доступные пользователю
+        - Операции над пользователями
+      security:
+        - JWTAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Поля
+              required:
+                - login
+                - password
+                - ejlogin
+                - ejpassword
+              properties:
+                login:
+                  type: string
+                password:
+                  type: string
+                ejlogin:
+                  type: string
+                ejpassword:
+                  type: string
+      responses:
+        "200":
+          description: Юзер зарегестрирован
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      summary: Получить данные о пользователях
+      operationId: getUsers
+      tags:
+        - Операции, доступные администратору
+        - Операции над пользователями
+      security:
+        - JWTAuth: []
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            default: 0
+          description: Сколько отступов отступить до сбора данных
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          description: Количество данных для возвращения
+        - in: query
+          name: type
+          required: true
+          schema:
+            type: string
+            enum:
+              - admins
+              - users
+              - any
+      responses:
+        "200":
+          description: Изменения приняты, возвращает новый обьект
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "401":
+          description: Ошибка авторизации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
+  /user/{userUid}:
+    get:
+      summary: Получить данные о пользователе
+      operationId: getUser
+      tags:
+        - Операции, доступные администратору
+        - Операции над пользователями
+      security:
+        - JWTAuth: []
+      parameters:
+        - in: path
+          name: userUid
+          required: True
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Обьект пользователя
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Ошибка авторизации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Обновить данные о пользователе
+      operationId: updateUser
+      tags:
+        - Операции, доступные администратору
+        - Операции над пользователями
+      security:
+        - JWTAuth: []
+      parameters:
+        - in: path
+          name: userUid
+          required: True
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Поля
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - admin
+                    - normal
+                state:
+                  type: string
+                  enum:
+                    - ok
+                    - banned
+      responses:
+        "200":
+          description: Обьект пользователя
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Ошибка авторизации
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   securitySchemes:
     JWTAuth:
@@ -472,7 +639,7 @@ components:
           type: string
           format: url
 
-    ElectionInfo:
+    electionInfo:
       type: object
       required:
         - name
@@ -492,27 +659,27 @@ components:
         type:
           type: string
           enum:
-            - "Topic"
-            - "Song"
+            - "topic"
+            - "song"
 
         state:
           type: string
           enum:
-            - "Ongoing"
-            - "Freezed"
-            - "Finished"
+            - "ongoing"
+            - "freezed"
+            - "finished"
 
     Election:
       description: "Модель данных о выборах, с краткой информацией и участниками."
       type: object
       required:
-        - ElectionInfo
+        - electionInfo
         - normalObjects
         - bannedObjects
       properties:
-        ElectionInfo:
+        electionInfo:
           type: object
-          $ref: "#/components/schemas/ElectionInfo"
+          $ref: "#/components/schemas/electionInfo"
 
         normalObjects:
           description: "Обычные треки, не забанные и не победившие"
@@ -523,7 +690,7 @@ components:
               - $ref: "#/components/schemas/Topic"
 
         votedObjects:
-          description: "Победившние треки. Только если ElectionInfo.state == finished"
+          description: "Победившние треки. Только если electionInfo.state == finished"
           type: array
           items:
             oneOf:
@@ -537,6 +704,30 @@ components:
             oneOf:
               - $ref: "#/components/schemas/Track"
               - $ref: "#/components/schemas/Topic"
+
+    User:
+      description: Модель пользователя
+      type: object
+      required:
+        - name
+        - type
+        - state
+        - uid
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+            - "admin"
+            - "normal"
+        state:
+          type: string
+          enum:
+            - "ok"
+            - "banned"
+        uid:
+          type: string
 
     Error:
       type: object
