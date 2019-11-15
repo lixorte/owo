@@ -1,13 +1,13 @@
 openapi: "3.0.0"
 security: []
 info:
-  version: 0.0.1
+  version: 0.0.2
   title: OWO Election Info
   license:
     name: Apache 2.0
 servers:
   - url: "https://example.com/api"
-paths:  
+paths:
   /election/getlast/{type}:
     get:
       parameters:
@@ -268,8 +268,8 @@ paths:
                 type:
                   type: string
                   enum:
-                    - "Topic"
-                    - "Song"
+                    - "topic"
+                    - "song"
       responses:
         "200":
           description: Изменения приняты, возвращает новый обьект
@@ -310,13 +310,13 @@ paths:
           description: Количество данных для возвращения
         - in: query
           name: type
+          required: true
           schema:
             type: string
             enum:
               - topic
               - song
               - any
-            default: any
       responses:
         "200":
           description: Массив с карточками голосований
@@ -338,7 +338,9 @@ paths:
       summary: Добавить опцию голосования
       operationId: addOption
       tags:
-          - Операции, доступные пользователю
+        - Операции, доступные пользователю
+      security:
+        - JWTAuth: []
       parameters:
         - in: path
           name: electionUid
@@ -346,6 +348,32 @@ paths:
             type: string
           required: true
           description: ID голосования
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Поля
+              required:
+                - name
+                - type
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                    - "topic"
+                    - "song"
+                singer:
+                  type: string
+                cutCommentary:
+                  type: string
+                album:
+                  type: string
+                serviceLink:
+                  type: string
       responses:
         "200":
           description: Массив с карточками голосований
@@ -361,9 +389,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-    
-
-
 
 components:
   securitySchemes:
