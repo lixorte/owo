@@ -103,3 +103,33 @@ add_option = Schema(
         "serviceLink": str
     }
 )
+
+add_user = Schema(
+    {
+        "login": str,
+        "password": str,
+        "ejlogin": str,
+        "ejpassword": str
+    },
+    required=True
+)
+
+get_users = Schema(
+    {
+        "offset": All(int, Range(min=0)),
+        Required("limit"): All(int, Range(min=1, max=100)),
+        Required("type", default="any"): In(
+            [
+                "admins",
+                "users",
+                "any"
+            ]
+        )
+    }
+)
+
+get_user = Schema(
+    {
+        "userUid": str
+    }
+)
