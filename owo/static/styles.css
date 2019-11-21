@@ -1,0 +1,87 @@
+/* header */
+
+.header {
+	background-color: #fcc000;
+	height: 200px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.vote-title {
+	font: 800 45px "Alegreya Sans SC";
+	text-transform: uppercase;
+}
+
+@media (min-width: 576px) {
+	.vote-title {
+		font-size: 55px;
+	}
+}
+
+@media (min-width: 768px) {
+	.vote-title {
+		font-size: 65px;
+	}
+}
+
+/* search panel*/
+
+.search-panel {
+	display: flex;
+	justify-content: center;
+}
+
+.form-search {
+	display: inline-block;
+	margin-top: 40px;
+}
+
+.search {
+	height: 60px;
+	width: 70vw;
+	max-width: 500px;
+
+	border: 2px solid #fcc000;
+	border-radius: 3px;
+	box-shadow: 0 3px 3px 0 rgba(252, 192, 0, 0.5) inset;
+	font: 32px "Avenir Next";
+}
+
+.search:focus {
+	border: 3px solid #fcc000;
+	border-radius: 3px;
+	box-shadow: 0 4px 4px 0 rgba(252, 192, 0, 0.5) inset;
+}
+
+.search::placeholder {
+	color: #bbbbbb;
+}
+
+.add-song-btn {
+	background-color: #fcc000;
+	border-radius: 3px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 60px;
+	margin: 40px 0 0 20px;
+	width: 60px;
+}
+
+@media (max-width: 575.98px) {
+	.add-song-btn {
+		margin-left: 10px;
+	}
+}
+
+/* songs */
+
+.song {
+	background-color: #4270ff;
+
+	height: 90px;
+	width: calc(70vw + 80px);
+}
