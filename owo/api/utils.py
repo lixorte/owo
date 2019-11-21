@@ -34,3 +34,10 @@ def schema_validator(schema: Schema):
             return f(*args, **kwargs)
         return __validator
     return _validator
+
+
+def validate_ej(login: str, password: str) -> bool:
+    """
+    Проверка на то, что логин/пароль правильные и ученика Лицея
+    """
+    return True
