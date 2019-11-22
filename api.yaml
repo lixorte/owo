@@ -457,8 +457,8 @@ paths:
           schema:
             type: string
             enum:
-              - admins
-              - users
+              - admin
+              - normal
               - any
       responses:
         "200":
