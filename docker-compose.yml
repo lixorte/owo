@@ -5,7 +5,8 @@ services:
     container_name: app
     build: .
     environment:
-      - ELJUR_TOKEN=SECRET
+      - DEV_ID=SECRET
+      - DEV_KEY=SECRET
       - JWT_SECRET=SECRET
       - HASH_SECRET=SECRET
       - DEBUG=TRUE
