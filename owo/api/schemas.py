@@ -120,8 +120,8 @@ get_users = Schema(
         Required("limit"): All(int, Range(min=1, max=100)),
         Required("type", default="any"): In(
             [
-                "admins",
-                "users",
+                "admin",
+                "normal",
                 "any"
             ]
         )

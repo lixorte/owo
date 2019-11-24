@@ -15,13 +15,14 @@ RUN echo "**** install Python ****" && \
 RUN apk add --no-cache uwsgi-python3
 
 WORKDIR /app
-COPY ./owo .
+COPY . .
 
 RUN pip3 install --no-cache-dir -r requirements.txt
+
 CMD [ "uwsgi", "--socket", "0.0.0.0:3031", \
                "--uid", "uwsgi", \
                "--plugins", "python3", \
                "--protocol", "uwsgi", \
-               "--wsgi", "app:app", \
+               "--module", "owo.app:app", \
                "-p", "4", \
                "--enable-threads"]

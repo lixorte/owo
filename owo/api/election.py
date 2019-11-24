@@ -5,7 +5,8 @@ from owo.api.utils import schema_validator
 from owo.api.schemas import *
 
 
-logger.add("api_admin.log", colorize=True,
+logger.add("api_election.log", colorize=True,
            format="<green>{time}</green> <level>{message}</level>", rotation="1 day", backtrace=True, diagnose=True)
 
-client = MongoClient('mongodb://mongo:27017/')
+client = MongoClient('mongodb://mongo:27017/', connect=False)
+

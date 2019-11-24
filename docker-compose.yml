@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   app:
     restart: always
@@ -16,6 +16,8 @@ services:
     image: "mongo:latest"
     environment:
       - AUTH=no
+    volumes:
+      - "mongo:/data/db"
     container_name: mongo
   router:
     restart: always
@@ -27,3 +29,6 @@ services:
     ports:
       - "80:80"
     container_name: nginx
+
+volumes:
+  mongo:

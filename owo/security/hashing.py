@@ -2,7 +2,7 @@ import os
 import hashlib
 import hmac
 
-SALT = os.environ["HASH_SECRET"]
+SALT = os.environ["HASH_SECRET"].encode()
 
 
 def hash_new_password(password: str) -> bytes:
