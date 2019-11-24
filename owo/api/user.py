@@ -16,7 +16,8 @@ user = Blueprint('page', __name__)
 
 @user.route("/user", methods=["post"])
 @schema_validator(schemas.add_user)
-def add_user():
+def add_user(): # TODO Поправить методы логина в соответсвии с методами ЭЖ
+    raise NotImplementedError
     data = request.get_json()
     if not validate_ej(data["ejlogin"], data["ejpassword"]):
         return (
@@ -49,8 +50,7 @@ def add_user():
         {
             "login": data["login"],
             "hpassword": hash_new_password(data["password"]),
-            "ejlogin": data["ejlogin"],
-            "hejpassword": hash_new_password(data["ejpassword"]),
+            "ejtoken": None,
             "type": "ok",
             "state": "normal"
         }
@@ -83,8 +83,7 @@ def get_users():
                 or (utype == "normal" and data["state"] != "normal")):
             continue
         else:
-            del item["hpassword"]
-            del item["hejpassword"]
+            del item["ejtoken"]
             item["id"] = str(item["_id"])
             del item["_id"]
             

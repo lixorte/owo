@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html lang="ru">
 <head>
 	<meta charset="UTF-8">
@@ -10,10 +11,37 @@
 	<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:400,800&display=swap" rel="stylesheet">
 </head>
 <body>
+<aside>
+	<div class="sidebar" id="sb">
+		<button class="sidebar-toggle on-sidebar-btn" onclick="toggleSidebar()">
+			<span class="bar top on-sidebar"></span>
+			<span class="bar middle on-sidebar"></span>
+			<span class="bar bottom on-sidebar"></span>
+		</button>
+		<div class="sb-btn-container">
+			<a class="sidebar-btn" href="#">
+				Войти
+			</a>
+			<a class="sidebar-btn" href="#">
+				Прошлые голосования
+			</a>
+		</div>
+	</div>
+	<div class="darken">
+
+	</div>
+</aside>
 <header>
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-sm header">
+		<div class="row header">
+			<div class="col-1">
+				<button class="sidebar-toggle" id="sb-btn-head" onclick="toggleSidebar()">
+					<span class="bar top"></span>
+					<span class="bar middle"></span>
+					<span class="bar bottom"></span>
+				</button>
+			</div>
+			<div class="col title-container">
 				<h1 class="h1 vote-title text-center">Здесь будет название</h1>
 			</div>
 		</div>
