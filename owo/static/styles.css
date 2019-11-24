@@ -3,15 +3,19 @@
 .header {
 	background-color: #fcc000;
 	height: 200px;
+}
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.title-container {
+	position: relative;
+	display: grid;
+	z-index: 0;
 }
 
 .vote-title {
 	font: 800 45px "Alegreya Sans SC";
 	text-transform: uppercase;
+
+	margin: auto;
 }
 
 @media (min-width: 576px) {
@@ -84,4 +88,114 @@
 
 	height: 90px;
 	width: calc(70vw + 80px);
+}
+
+/* sidebar */
+
+@media (max-width: 575.98px) {
+	.header {
+		height: 300px;
+	}
+	.title-container {
+		margin-top: 50px;
+	}
+}
+
+.sidebar {
+	height: 100%;
+	width: 300px;
+	position: fixed;
+	z-index: 2;
+	top: 0;
+
+	background: #4270ff;
+	left: -300px;
+
+	transition: left .5s;
+}
+
+.col-1 {
+	padding: 0;
+}
+
+.sidebar-toggle {
+	height: 50px;
+	width: 60px;
+	padding: 0;
+	margin: 13px 0 0 13px;
+	position: relative;
+	z-index: 1;
+
+	border: none;
+	background: none;
+
+	display: block;
+}
+
+.bar {
+	display: block;
+	background-color: #00167d;
+	width: 60px;
+	height: 7px;
+	border-radius: 2px;
+	margin: 12px auto 0 12px;
+	padding: 0;
+}
+
+.on-sidebar-btn {
+	margin-right: 37px;
+	margin-left: auto;
+}
+
+.on-sidebar {
+	background-color: #ffffff;
+}
+
+.on-sidebar.top {
+	transform: translateY(19px) rotate(45deg);
+}
+
+.on-sidebar.bottom {
+	transform: translateY(-19px) rotate(-45deg);
+}
+
+.on-sidebar.middle {
+	width: 0;
+}
+
+.sb-btn-container {
+	margin-top: 35px;
+	border-top: #ffffff 2px solid;
+}
+
+.sidebar-btn {
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	font: 25px "Avenir Next";
+	color: #ffffff;
+	border-bottom: #ffffff 2px solid;
+}
+
+.sidebar-btn:hover {
+	background-color: #ffffff;
+	transition: background-color .4s, transform .4s ease-in, width .4s;
+
+	color: #4270ff;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.darken {
+	position: absolute;
+	height: 100vh;
+	width: 100vw;
+
+	display: none;
+
+	background-color: #262626;
+	opacity: 40%;
+	backdrop-filter: blur(10px);
 }
