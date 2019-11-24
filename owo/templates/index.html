@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html lang="ru">
 <head>
 	<meta charset="UTF-8">
@@ -10,41 +11,70 @@
 	<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:400,800&display=swap" rel="stylesheet">
 </head>
 <body>
-<header>
+<aside>
+	<div class="sidebar" id="sb">
+		<button class="sidebar-toggle on-sidebar-btn" onclick="toggleSidebar()">
+			<span class="bar top on-sidebar"></span>
+			<span class="bar middle on-sidebar"></span>
+			<span class="bar bottom on-sidebar"></span>
+		</button>
+		<div class="sb-btn-container">
+			<a class="sidebar-btn" href="#">
+				Войти
+			</a>
+			<a class="sidebar-btn" href="#">
+				Прошлые голосования
+			</a>
+		</div>
+	</div>
+	<div class="darken">
+
+	</div>
+</aside>
+<header id="header">
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-sm header">
+		<div class="row header">
+			<div class="col-1">
+				<button class="sidebar-toggle" id="sb-btn-head" onclick="toggleSidebar()">
+					<span class="bar top"></span>
+					<span class="bar middle"></span>
+					<span class="bar bottom"></span>
+				</button>
+			</div>
+			<div class="col title-container">
 				<h1 class="h1 vote-title text-center">Здесь будет название</h1>
 			</div>
 		</div>
 	</div>
 </header>
-<section class="text-center">
-	<div class="search-panel">
-		<form class="form-search">
-			<div class="form-group">
-				<input class="form-control search" type="search" placeholder="Найти песню">
-			</div>
-		</form>
-		<a class="add-song-btn" href="addsong.html" target="_blank">
-			<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg"
-			     xmlns:xlink="http://www.w3.org/1999/xlink">
-				<g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-					<g transform="translate(-1239.000000, -429.000000)" fill="#FFFFFF" id="Plus">
-						<path d="M1260,429 C1261.10457,429 1262,429.895431 1262,431 L1262,446 L1277,446 C1278.10457,446
+<main id="main">
+	<section class="text-center">
+		<div class="search-panel">
+			<form class="form-search">
+				<div class="form-group">
+					<input class="form-control search" type="search" placeholder="Найти песню">
+				</div>
+			</form>
+			<a class="add-song-btn" href="addsong.html" target="_blank">
+				<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg"
+				     xmlns:xlink="http://www.w3.org/1999/xlink">
+					<g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+						<g transform="translate(-1239.000000, -429.000000)" fill="#FFFFFF" id="Plus">
+							<path d="M1260,429 C1261.10457,429 1262,429.895431 1262,431 L1262,446 L1277,446 C1278.10457,446
             1279,446.895431 1279,448 L1279,450 C1279,451.104569 1278.10457,452 1277,452 L1262,452 L1262,467
             C1262,468.104569 1261.10457,469 1260,469 L1258,469 C1256.89543,469 1256,468.104569 1256,467 L1256,452
             L1241,452 C1239.89543,452 1239,451.104569 1239,450 L1239,448 C1239,446.895431 1239.89543,446 1241,446
             L1256,446 L1256,431 C1256,429.895431 1256.89543,429 1258,429 L1260,429 Z"/>
+						</g>
 					</g>
-				</g>
-			</svg>
-		</a>
-	</div>
-	<div id="songs-container">
+				</svg>
+			</a>
+		</div>
+		<div id="songs-container">
 
-	</div>
-</section>
+		</div>
+	</section>
+</main>
 <!-- Load React. -->
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
