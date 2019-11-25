@@ -10,6 +10,7 @@ services:
       - JWT_SECRET=SECRET
       - HASH_SECRET=SECRET
       - DEBUG=TRUE
+      - SCHOOL_DOMAIN=api-test
     depends_on:
       - mongodb
   mongodb:
