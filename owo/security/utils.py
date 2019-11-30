@@ -16,7 +16,7 @@ def get_token(code: str, redirect_uri: str) -> str:
     query = [
         ("devkey", DEV_KEY),
         ("grant_type", "authorization_code"),
-        ("client_id", DEV_ID),
+        ("clienta_id", DEV_ID),
         ("code", code),
         ("redirect_uri", redirect_uri)
     ]

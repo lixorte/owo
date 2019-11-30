@@ -1,7 +1,7 @@
 openapi: "3.0.0"
 security: []
 info:
-  version: 0.0.3
+  version: 0.0.4
   title: OWO Election Info
   license:
     name: Apache 2.0
@@ -390,44 +390,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
   /user:
-    post:
-      summary: Создать пользователя
-      operationId: addUser
-      tags:
-        - Операции, доступные пользователю
-        - Операции над пользователями
-      security:
-        - JWTAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              description: Поля
-              required:
-                - login
-                - password
-                - ejlogin
-                - ejpassword
-              properties:
-                login:
-                  type: string
-                password:
-                  type: string
-                ejlogin:
-                  type: string
-                ejpassword:
-                  type: string
-      responses:
-        "200":
-          description: Юзер зарегестрирован
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
     get:
       summary: Получить данные о пользователях
       operationId: getUsers
@@ -478,7 +440,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /user/{userUid}:
+  /user/{userName}:
     get:
       summary: Получить данные о пользователе
       operationId: getUser
@@ -519,7 +481,7 @@ paths:
         - JWTAuth: []
       parameters:
         - in: path
-          name: userUid
+          name: userName
           required: True
           schema:
             type: string
@@ -561,7 +523,7 @@ components:
   securitySchemes:
     JWTAuth:
       type: apiKey
-      in: cookie
+      in: header
       name: JWT
   schemas:
     Topic:
@@ -710,12 +672,13 @@ components:
       type: object
       required:
         - name
+        - title
         - type
         - state
-        - uid
       properties:
         name:
           type: string
+          description: ID пользователя
         type:
           type: string
           enum:
@@ -726,8 +689,9 @@ components:
           enum:
             - "ok"
             - "banned"
-        uid:
+        title:
           type: string
+          description: ФИО Юзера
 
     Error:
       type: object
