@@ -127,9 +127,3 @@ get_users = Schema(
         )
     }
 )
-
-get_user = Schema(
-    {
-        "userUid": str
-    }
-)
