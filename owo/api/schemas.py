@@ -2,7 +2,12 @@ from voluptuous import Schema, Required, In, All, Range
 
 get_last_election = Schema(
     {
-        "type": str
+        "type": In(
+            [
+                "song",
+                "theme"
+            ]
+        )
     },
     required=True
 )
@@ -59,8 +64,8 @@ create_election = Schema(
         "name": str,
         "state": In(
             [
-                "normal",
-                "banned"
+                "ongoing",
+                "finished"
             ]
         ),
         "type": In(

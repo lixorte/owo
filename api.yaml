@@ -608,6 +608,7 @@ components:
         - id
         - type
         - state
+        - datetime
       description: "Main information about election"
       properties:
         name:
@@ -630,6 +631,10 @@ components:
             - "ongoing"
             - "freezed"
             - "finished"
+
+        datetime:
+          type: string
+          format: date-time
 
     Election:
       description: "Модель данных о выборах, с краткой информацией и участниками."
