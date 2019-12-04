@@ -55,7 +55,7 @@ def oauth_handler():
     resp = make_response(render_template("index.html"))
 
     set_access_cookies(resp, access_token)
-    set_refresh_cookies(resp. refresh_token)
+    set_refresh_cookies(resp, refresh_token)
 
     return resp, 200
 
