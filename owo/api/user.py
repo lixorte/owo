@@ -12,7 +12,7 @@ logger.add("api_user.log", colorize=True,
            backtrace=True, diagnose=True)
 
 client = MongoClient('mongodb://mongo:27017/', connect=False)
-user = Blueprint('page', __name__)
+user = Blueprint('users', __name__)
 
 
 @user.route("/user", methods=["get"])
