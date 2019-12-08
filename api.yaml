@@ -139,30 +139,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /election/{electionUid}/finish:
-    post:
-      summary: Окончить голосование
-      operationId: endVote
-      security:
-        - JWTAuth: []
-      tags:
-        - Операции, доступные пользователю
-      responses:
-        "200":
-          description: Голосование остановленно
-        "401":
-          description: Ошибка авторизации
-        "403":
-          description: Голосование уже замороженно или вариант заблокированн
-        "404":
-          description: Нет такого голосования или варианта
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-
   /election/{electionUid}/vote/{voteUid}:
     post:
       summary: Проголосовать за опцию
