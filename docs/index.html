@@ -45,6 +45,11 @@
         </td>
                     </tr>
                     <tr>
+                        <td><a href="#operation--election--electionUid--finish-post">POST /election/{electionUid}/finish</a></td>
+                        <td><p>Окончить голосование</p>
+        </td>
+                    </tr>
+                    <tr>
                         <td><a href="#operation--election--electionUid--vote--voteUid--post">POST /election/{electionUid}/vote/{voteUid}</a></td>
                         <td><p>Проголосовать за опцию</p>
         </td>
@@ -774,6 +779,131 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <p>Нет такого голосования</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-default">
+                                        default 
+                                    
+                                    </dt>
+                                    <dd class="sw-response-default">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>unexpected error</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                            </dl>
+                        </section>
+                        <section class="sw-request-security">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="sw-request-security-schema"></th>
+                                    <th class="sw-request-security-scopes"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td><a href="#security-definition-JWTAuth">JWTAuth</a></td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                </div>
+            </div>
+        
+        <span id="path--election--electionUid--finish"></span>
+            <div id="operation--election--electionUid--finish-post" class="swagger--panel-operation-post panel">
+                <div class="panel-heading">
+                    <div class="operation-summary">&#x41E;&#x43A;&#x43E;&#x43D;&#x447;&#x438;&#x442;&#x44C; &#x433;&#x43E;&#x43B;&#x43E;&#x441;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x435;</div>
+                    <h3 class="panel-title"><span class="operation-name">POST</span> <strong>/election/{electionUid}/finish</strong></h3>
+                        Tags:
+                            <a href="#tag---------------------------------">Операции, доступные пользователю</a>
+                </div>
+                <div class="panel-body">
+                    <section class="sw-operation-description">
+                        
+                    </section>
+            
+                    
+                    
+                        <section class="sw-responses">
+                    
+                            <dl>
+                                    <dt class="sw-response-200">
+                                        200 OK
+                                    
+                                    </dt>
+                                    <dd class="sw-response-200">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Голосование остановленно</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-401">
+                                        401 Unauthorized
+                                    
+                                    </dt>
+                                    <dd class="sw-response-401">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Ошибка авторизации</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-403">
+                                        403 Forbidden
+                                    
+                                    </dt>
+                                    <dd class="sw-response-403">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Голосование уже замороженно или вариант заблокированн</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-404">
+                                        404 Not Found
+                                    
+                                    </dt>
+                                    <dd class="sw-response-404">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Нет такого голосования или варианта</p>
                                             
                                                 </div>
                                             </div>
