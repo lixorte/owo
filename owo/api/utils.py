@@ -1,11 +1,15 @@
 from voluptuous import Schema, MultipleInvalid
 import flask
+from pymongo import MongoClient
+from bson import ObjectId
 from loguru import logger
 import functools
 import itertools
 
+client = MongoClient('mongodb://mongo:27017/', connect=False)
 logger.add("api_utils.log", colorize=True,
-           format="<green>{time}</green> <level>{message}</level>", rotation="1 day", backtrace=True, diagnose=True)
+           format="<green>{time}</green> <level>{message}</level>",
+           rotation="1 day", backtrace=True, diagnose=True)
 
 
 def schema_validator(schema: Schema):
@@ -34,3 +38,33 @@ def schema_validator(schema: Schema):
             return f(*args, **kwargs)
         return __validator
     return _validator
+
+
+def normalize_id(to_normalize: dict) -> dict:
+    to_normalize["id"] = str(to_normalize["_id"])
+    del to_normalize["_id"]
+    return to_normalize
+
+
+def fetch_eleciton(election_id: str) -> dict:
+    election = client["elections"]["meta"].find_one(
+        {"_id": ObjectId(election_id)})
+
+    del election["_id"]
+    election["id"] = election_id
+
+    normal_objects = [normalize_id(el)
+                      for el in client["elections"]["normal"+election_id].find()]
+    voted_objects = [normalize_id(el)
+                     for el in client["elections"]["voted"+election_id].find()]
+    banned_objects = [normalize_id(el)
+                      for el in client["elections"]["banned"+election_id].find()]
+
+    responce = {
+        "electionInfo": election,
+        "normalObjects": normal_objects,
+        "votedObjects": voted_objects,
+        "bannedObjects": banned_objects
+    }
+
+    return responce
