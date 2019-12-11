@@ -582,10 +582,6 @@ components:
           type: integer
           format: int32
 
-        dateAdded:
-          type: string
-          format: date-time
-
         userAdded:
           description: "Mongo ObjectID of user"
           type: string
