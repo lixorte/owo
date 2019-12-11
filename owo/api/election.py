@@ -3,7 +3,7 @@ from bson import ObjectId
 from loguru import logger
 from flask import Blueprint, request, jsonify
 from datetime import datetime
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from owo.api.utils import schema_validator, fetch_eleciton
 from owo.api.schemas import *
 
@@ -101,3 +101,48 @@ def del_election(election_id):
         f"Election {election_id} with name {election['name']} was deleted")
 
     return 200
+
+
+@election.route("/election/{string:election_id}/vote/new", methods=["POST"])
+@jwt_required
+@schema_validator(add_option)
+def add_opt(election_id):
+    election_exists = client["elections"]["meta"].count_documents(
+        {"_id": ObjectId(election_id)})
+
+    if election_exists == 0:
+        logger.info("Add vote request to unknown election " + election_id)
+        return 404
+
+    election = client["elections"]["meta"].find_one(
+        {"_id": ObjectId(election_id)})
+
+    data = request.get_json()
+
+    if data["type"] != election["type"]:
+        logger.info("Wrong vote type on new vote")
+        return 400
+
+    if data["type"] == "topic":
+        new_vote = {
+            "name": data["name"],
+            "voters": [get_jwt_identity()["name"]],
+            "userAdded": get_jwt_identity()["name"]
+        }
+
+    else:
+        new_vote = {
+            "name": data["name"],
+            "voters": [get_jwt_identity()["name"]],
+            "userAdded": get_jwt_identity()["name"],
+            "serviceLink": data["serviceLink"],
+            "cutCommentary": data["cutCommentary"],
+            "album": data["album"],
+            "singer": data["singer"]
+        }
+
+    new_id = client["elections"]["normal"+election_id].insert_one(new_vote)
+
+    new_vote["id"] = str(new_id)
+
+    return jsonify(new_vote), 200  # TODO Test
