@@ -94,7 +94,7 @@
 
 @media (max-width: 575.98px) {
 	.header {
-		height: 300px;
+		height: 250px;
 	}
 	.title-container {
 		margin-top: 50px;
@@ -198,4 +198,76 @@
 	background-color: #262626;
 	opacity: 40%;
 	backdrop-filter: blur(10px);
+}
+
+/* add-song */
+
+.add-song {
+	display: inline-block;
+	margin-top: 40px;
+}
+
+.add-song-input-container {
+	width: 80vw;
+	max-width: 600px;
+	margin-bottom: 20px;
+}
+
+@media (max-width: 575.98px) {
+	.add-song-input-container {
+		width: 90vw;
+	}
+}
+
+.add-song-input {
+	height: 60px;
+	border: none;
+	border-bottom: 3px solid #fcc000;
+	border-radius: 3px;
+
+	font: 25px "Avenir Next";
+}
+
+.add-song-input:focus {
+	border: none;
+	border-bottom: 3px solid #fcc000;
+	border-radius: 3px;
+	box-shadow: none;
+}
+
+.add-song-input:placeholder-shown {
+	opacity: 50%;
+}
+
+.add-song-input:invalid {
+	box-shadow: none;
+	border: none;
+	border-bottom: 3px solid #fc0100;
+	border-radius: 3px;
+}
+
+.add-item-submit {
+	height: 40px;
+	width: 100px;
+	margin: 10px auto;
+
+	font: 18px "Alegreya Sans SC";
+
+	background-color: #fcc000;
+	border: none;
+	border-radius: 3px;
+}
+
+.required-alert {
+	display: none;
+
+	color: #fc0100;
+	font: 18px "Avenir Next";
+}
+
+.song {
+	background-color: #4270ff;
+
+	height: 90px;
+	width: calc(70vw + 80px);
 }

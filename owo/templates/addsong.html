@@ -47,11 +47,35 @@
 		</div>
 	</div>
 </header>
-<section class="text-center">
-	<form class="add-song">
+<main>
+	<section class="text-center">
+		<form class="add-song">
+			<div class="form-label-group add-song-input-container">
+				<input type="text" id="input-song-title" class="form-control add-song-input"
+				       name="title" placeholder="Название песни" required autofocus>
+				<!--<label class="add-song-label bmd-label-floating" for="input-song-title">Название песни</label>-->
+			</div>
 
-	</form>
-</section>
+			<div class="form-label-group add-song-input-container">
+				<input type="text" id="input-song-author" class="form-control add-song-input"
+				       name="author" placeholder="Исполнитель" required>
+				<!--<label class="add-song-label" for="input-song-author">Исполнитель</label>-->
+			</div>
+
+			<div class="form-label-group add-song-input-container">
+				<input type="text" class="form-control add-song-input" name="link" placeholder="Яндекс.Музыка, YouTube и т.п.">
+			</div>
+
+			<div class="form-label-group add-song-input-container">
+				<input type="text" class="form-control add-song-input" name="cut" placeholder="Обрезка трека">
+			</div>
+			<button type="button" class="add-item-submit" onclick="sendData()">Добавить</button>
+		</form>
+		<div class="required-alert" id="required-alert">
+			Пожалуйста, заполните поля названия и исполнителя
+		</div>
+	</section>
+</main>
 <!-- Load React. -->
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
