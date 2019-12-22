@@ -1,64 +1,18 @@
 from pymongo import MongoClient
 from loguru import logger
-from flask import Blueprint, request, Response, jsonify
-from owo.api.utils import schema_validator, validate_ej
-from owo.security.hashing import hash_new_password
+from flask import Blueprint, request, jsonify
+from owo.api.utils import schema_validator
 import owo.api.schemas as schemas
+from flask_jwt_extended import jwt_required
 
 
 logger.add("api_user.log", colorize=True,
-           format="<green>{time}</green> <level>{message}</level>", rotation="1 day",
+           format="<green>{time}</green> <level>{message}</level>",
+           rotation="1 day",
            backtrace=True, diagnose=True)
 
 client = MongoClient('mongodb://mongo:27017/', connect=False)
-user = Blueprint('page', __name__)
-
-
-@user.route("/user", methods=["post"])
-@schema_validator(schemas.add_user)
-def add_user():
-    data = request.get_json()
-    if not validate_ej(data["ejlogin"], data["ejpassword"]):
-        return (
-            {
-                "message": "Wrong EJ login/pass",
-                "code": 400
-            },
-            400
-        )
-
-    if client["meta"]["users"].count_documents({"login": data["login"]}):
-        return (
-            {
-                "message": "User with such login exists",
-                "code": 400
-            },
-            400
-        )
-
-    if client["meta"]["users"].count_documents({"ejlogin": data["ejlogin"]}):
-        return (
-            {
-                "message": "User with such ejlogin exists",
-                "code": 400
-            },
-            400
-        )
-
-    client["meta"]["users"].insert_one(
-        {
-            "login": data["login"],
-            "hpassword": hash_new_password(data["password"]),
-            "ejlogin": data["ejlogin"],
-            "hejpassword": hash_new_password(data["ejpassword"]),
-            "type": "ok",
-            "state": "normal"
-        }
-    )
-
-    return Response(
-        status=200
-    )
+user = Blueprint('users', __name__)
 
 
 @user.route("/user", methods=["get"])
@@ -83,11 +37,52 @@ def get_users():
                 or (utype == "normal" and data["state"] != "normal")):
             continue
         else:
-            del item["hpassword"]
-            del item["hejpassword"]
+            del item["ejtoken"]
             item["id"] = str(item["_id"])
             del item["_id"]
-            
+
             out.append(item)
 
     return (jsonify(out), 200)
+
+
+@user.route("/user/{string:user_id}", methods=["GET"])
+@jwt_required
+def get_user(user_id):
+    user = client["meta"]["users"].find_one({"name": user_id})
+
+    if user is None:
+        return ({
+            "message": "No such user",
+            "code": 404
+        }, 404)
+
+    del user["_id"]
+
+    return (jsonify(user), 200)  # TODO Test with JWT
+
+
+@user.route("/user/{string:user_id}", methods=["POST"])
+@jwt_required
+def edit_user(user_id):
+    data = request.get_json()
+    user = client["meta"]["users"].find_one({"name": user_id})
+
+    if user is None:
+        return ({
+            "message": "No such user",
+            "code": 404
+        }, 404)
+
+    user_type = data["type"] or user["type"]
+    state = data["state"] or user["state"]
+
+    client["meta"]["users"].update_one(
+        {"name": user_id}, {"type": user_type, "state": state})
+
+    user["type"] = user_type
+    user["state"] = state
+
+    del user["_id"]
+
+    return jsonify(user), 200 # TODO Test with JWT

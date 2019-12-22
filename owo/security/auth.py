@@ -1,36 +1,23 @@
 import pymongo
-from bson.objectid import ObjectId
-
-from owo.security.hashing import is_correct_password
+from owo.security.utils import get_rules
 
 client = pymongo.MongoClient("mongo", 27017, connect=False)
 
 
-class DummyJWT:
-    def __init__(self, id):
-        super().__init__()
-        self.id = id
+def get_identity(code: str, redirect_uri: str) -> dict:
+    return get_rules(code, redirect_uri)
 
 
-def authenticate(username: str, password: str):
-    user = client["meta"]["users"].find_one({"login": username})
+def user_exists(name: str) -> bool:
+    return bool(client["meta"]["users"].count({"name": name}))
 
-    if user is None:
-        return False
 
-    if not is_correct_password(user["hpassword"], password):
-        return False
-
-    out = DummyJWT(
-        str(user["_id"])
+def create_user(name: str, title: str):
+    client["meta"]["users"].insert_one(
+        {
+            "name": name, # id
+            "titile": title, # RL name
+            "type": "ok",
+            "state": "normal"
+        }
     )
-
-    return out
-
-
-def identity(payload):
-    user = client["meta"]["users"].find_one(
-        {"_id": ObjectId(payload["identity"])}
-    )
-    user["id"] = user["_id"]
-    return user
