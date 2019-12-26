@@ -50,6 +50,11 @@
         </td>
                     </tr>
                     <tr>
+                        <td><a href="#operation--election--electionUid--voted-get">GET /election/{electionUid}/voted</a></td>
+                        <td><p>Получить данные о вариантах, за которые юзер проголосовал</p>
+        </td>
+                    </tr>
+                    <tr>
                         <td><a href="#operation--election-find-get">GET /election/find</a></td>
                         <td><p>Получить данные о голосованиях</p>
         </td>
@@ -878,7 +883,7 @@
                                     <dd class="sw-response-200">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <p>Массив с карточками голосований</p>
+                                                    <p>Готовая тема или трек</p>
                                             
                                                 </div>
                                             </div>
@@ -1238,6 +1243,94 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <p>unexpected error</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                            </dl>
+                        </section>
+                        <section class="sw-request-security">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="sw-request-security-schema"></th>
+                                    <th class="sw-request-security-scopes"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td><a href="#security-definition-JWTAuth">JWTAuth</a></td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                </div>
+            </div>
+        
+        <span id="path--election--electionUid--voted"></span>
+            <div id="operation--election--electionUid--voted-get" class="swagger--panel-operation-get panel">
+                <div class="panel-heading">
+                    <div class="operation-summary">&#x41F;&#x43E;&#x43B;&#x443;&#x447;&#x438;&#x442;&#x44C; &#x434;&#x430;&#x43D;&#x43D;&#x44B;&#x435; &#x43E; &#x432;&#x430;&#x440;&#x438;&#x430;&#x43D;&#x442;&#x430;&#x445;, &#x437;&#x430; &#x43A;&#x43E;&#x442;&#x43E;&#x440;&#x44B;&#x435; &#x44E;&#x437;&#x435;&#x440; &#x43F;&#x440;&#x43E;&#x433;&#x43E;&#x43B;&#x43E;&#x441;&#x43E;&#x432;&#x430;&#x43B;</div>
+                    <h3 class="panel-title"><span class="operation-name">GET</span> <strong>/election/{electionUid}/voted</strong></h3>
+                        Tags:
+                            <a href="#tag---------------------------------">Операции, доступные пользователю</a>
+                </div>
+                <div class="panel-body">
+                    <section class="sw-operation-description">
+                        
+                    </section>
+            
+                    
+                        <section class="sw-request-params">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="sw-param-name"></th>
+                                    <th class="sw-param-description"></th>
+                                    <th class="sw-param-type"></th>
+                                    <th class="sw-param-data-type"></th>
+                                    <th class="sw-param-annotation"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td>
+                                                electionUid
+                                            </td>
+                                            <td><p>ID голосования</p>
+                                        </td>
+                                            <td>path</td>
+                                            <td>
+                                        <span class="json-property-type">object</span>
+                                        <span class="json-property-range" title="Value limits"></span>
+                                        
+                                            </td>
+                                            <td>
+                                                    <span class="json-property-required"></span>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    
+                        <section class="sw-responses">
+                    
+                            <dl>
+                                    <dt class="sw-response-200">
+                                        200 OK
+                                    
+                                    </dt>
+                                    <dd class="sw-response-200">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>IDs</p>
                                             
                                                 </div>
                                             </div>
