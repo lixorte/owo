@@ -27,7 +27,7 @@ def get_token(code: str, redirect_uri: str) -> str:
             f"Got {req.status_code} with" +
             f"error {req.json()['response']['error']}"
         )
-        return ValueError
+        raise ValueError
 
     return req.json()["acess_token"]
 
@@ -50,6 +50,6 @@ def get_rules(code: str, redirect_uri: str) -> dict:
             f"Got {req.status_code} with" +
             f"error {req.json()['response']['error']}"
         )
-        return ValueError
+        raise ValueError
 
     return req.json()["response"]["result"]

@@ -4,7 +4,6 @@ from pymongo import MongoClient
 from bson import ObjectId
 from loguru import logger
 import functools
-import itertools
 
 client = MongoClient('mongodb://mongo:27017/', connect=False)
 logger.add("api_utils.log", colorize=True,
@@ -46,7 +45,7 @@ def normalize_id(to_normalize: dict) -> dict:
     return to_normalize
 
 
-def fetch_eleciton(election_id: str) -> dict:
+def fetch_election(election_id: str) -> dict:
     election = client["elections"]["meta"].find_one(
         {"_id": ObjectId(election_id)})
 
@@ -60,11 +59,11 @@ def fetch_eleciton(election_id: str) -> dict:
     banned_objects = [normalize_id(el)
                       for el in client["elections"]["banned"+election_id].find()]
 
-    responce = {
+    response = {
         "electionInfo": election,
         "normalObjects": normal_objects,
         "votedObjects": voted_objects,
         "bannedObjects": banned_objects
     }
 
-    return responce
+    return response

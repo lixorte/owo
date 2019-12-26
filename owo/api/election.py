@@ -4,7 +4,7 @@ from loguru import logger
 from flask import Blueprint, request, jsonify
 from datetime import datetime
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from owo.api.utils import schema_validator, fetch_eleciton
+from owo.api.utils import schema_validator, fetch_election
 from owo.api.schemas import *
 
 
@@ -55,7 +55,7 @@ def get_el_info(election_id):
         logger.info("Get request to unknown election " + election_id)
         return 404
 
-    return jsonify(fetch_eleciton(election_id)), 200  # TODO Test
+    return jsonify(fetch_election(election_id)), 200  # TODO Test
 
 
 @election.route("/election/{string:election_id}", methods=["PATCH"])
@@ -88,7 +88,7 @@ def del_election(election_id):
         logger.info("Delete request to unknown election " + election_id)
         return 404
 
-    election = client["elections"]["meta"].find_one(
+    election_to_delete = client["elections"]["meta"].find_one(
         {"_id": ObjectId(election_id)})
 
     client["elections"]["meta"].delete_one({"_id": ObjectId(election_id)})
@@ -98,7 +98,7 @@ def del_election(election_id):
     client["elections"]["normal"+election_id].drop()
 
     logger.info(
-        f"Election {election_id} with name {election['name']} was deleted")
+        f"Election {election_id} with name {election_to_delete['name']} was deleted")
 
     return 200
 

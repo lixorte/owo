@@ -46,11 +46,11 @@ def oauth_handler():
     if not user_exists(user_rules["name"]):
         create_user(user_rules["name"], user_rules["title"])
 
-    user = client["meta"]["users"].get_one({"name": user_rules["name"]})
-    del user["_id"]
+    session_user = client["meta"]["users"].get_one({"name": user_rules["name"]})
+    del session_user["_id"]
 
-    access_token = create_access_token(identity=user)
-    refresh_token = create_refresh_token(identity=user)
+    access_token = create_access_token(identity=session_user)
+    refresh_token = create_refresh_token(identity=session_user)
 
     resp = make_response(render_template("index.html"))
 
