@@ -236,6 +236,34 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  /election/{electionUid}/voted:
+    get:
+      summary: Получить данные о вариантах, за которые юзер проголосовал
+      operationId: getVoted
+      security:
+        - JWTAuth: []
+      parameters:
+        - in: path
+          name: electionUid
+          schema:
+            type: string
+          required: true
+          description: ID голосования
+      tags:
+        - Операции, доступные пользователю
+      responses:
+        "200":
+          description: "IDs"
+          content:
+            application/json:
+              schema:
+                properties:
+                  ids:
+                    type: array
+                    items:
+                      type: string
+
+
   /election/new/:
     post:
       summary: Создать голосование
@@ -385,6 +413,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
   /user:
     get:
       summary: Получить данные о пользователях
@@ -513,6 +542,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
 components:
   securitySchemes:
     JWTAuth:
