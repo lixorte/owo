@@ -222,7 +222,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: "#/components/schemas/Topic"
         "401":
           description: Ошибка авторизации
@@ -276,7 +275,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: "#/components/schemas/electionInfo"
         "401":
           description: Ошибка авторизации
@@ -376,12 +374,10 @@ paths:
                   type: string
       responses:
         "200":
-          description: Массив с карточками голосований
+          description: "Готовая тема или трек"
           content:
             application/json:
               schema:
-                type: object
-                description: Готовая тема или трек
                 $ref: "#/components/schemas/Topic" # TODO нужен метаобьект для обьеденения темы и трека
         default:
           description: unexpected error
@@ -461,7 +457,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: "#/components/schemas/User"
         "401":
           description: Ошибка авторизации
@@ -509,7 +504,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: "#/components/schemas/User"
         "401":
           description: Ошибка авторизации
@@ -641,7 +635,6 @@ components:
         - bannedObjects
       properties:
         electionInfo:
-          type: object
           $ref: "#/components/schemas/electionInfo"
 
         normalObjects:
