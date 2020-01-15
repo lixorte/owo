@@ -37,7 +37,7 @@ def new_election():
     new_el["id"] = new_id
 
     client["elections"].create_collection("banned"+new_id)
-    client["elections"].create_collection("voted"+new_id)
+    client["elections"].create_collection("voted"+new_id)  # Ones which won
     client["elections"].create_collection("normal"+new_id)
 
     logger.info(f"Created ellection with name {name}")
@@ -146,3 +146,43 @@ def add_opt(election_id):
     new_vote["id"] = str(new_id)
 
     return jsonify(new_vote), 200  # TODO Test
+
+
+@election.route("/election/{string:election_id}/vote/{string:vote_id}", methods=["POST"])
+@jwt_required
+def add_vote(election_id: str, vote_id: str):
+    election_exists = client["elections"]["meta"].count_documents(
+        {"_id": ObjectId(election_id)})
+
+    if election_exists == 0:
+        logger.info("Add vote request to unknown election " + election_id)
+        return 404
+
+    normal_object = client["elections"]["normal"+election_id].find_one(
+        {"_id": vote_id}
+    )
+
+    if not normal_object:
+        banned_object_exists = client["elections"]["banned"+election_id].find_one(
+            {"_id": vote_id}
+        )
+
+        if banned_object_exists:
+            logger.info("Vote request to banned option " +
+                        vote_id + " in election " + election_id)
+            return 403
+
+        logger.info("Vote request to unknown option " +
+                    vote_id + " in election " + election_id)
+        return 404
+
+    if get_jwt_identity()["name"] in normal_object["voters"]:
+        logger.info("Add vote request to already voted resource" + vote_id)
+        return 409  # Уже проголосовал
+
+    client["elections"]["normal"+election_id].update_one(
+        {"_id": ObjectId(vote_id)},
+        {"$push": {"voters": get_jwt_identity()["name"]}}
+    )
+
+    return 200 # TODO Test

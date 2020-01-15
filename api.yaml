@@ -169,6 +169,8 @@ paths:
           description: Голосование уже замороженно или вариант заблокированн
         "404":
           description: Нет такого голосования или варианта
+        "409":
+          description: Юзер уже проголосовал за опцию
         default:
           description: unexpected error
           content:
