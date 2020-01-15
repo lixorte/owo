@@ -2,11 +2,6 @@ import requests
 import os
 from loguru import logger
 
-logger.add("security_utils.log", colorize=True,
-           format="<green>{time}</green> <level>{message}</level>",
-           rotation="1 day",
-           backtrace=True, diagnose=True)
-
 DEV_ID = os.environ["DEV_ID"]
 DEV_KEY = os.environ["DEV_KEY"]
 SCHOOL_DOMAIN = os.environ["SCHOOL_DOMAIN"]

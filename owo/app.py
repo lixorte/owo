@@ -1,7 +1,7 @@
 from owo.security.auth import get_identity, user_exists, create_user
 from owo.api.user import user
+from loguru import logging
 import os
-
 import pymongo
 from flask import Flask, request, jsonify, make_response, render_template
 from flask_jwt_extended import (JWTManager, create_access_token,
@@ -16,6 +16,9 @@ DOMAIN = os.environ["DOMAIN"]
 jwt = JWTManager(app)
 client = pymongo.MongoClient("mongo", 27017, connect=False)
 
+logger.add(__name__, colorize=True,
+           format="<green>{time}</green> <level>{message}</level>", rotation="1 day",
+           backtrace=True, diagnose=True)
 
 app.register_blueprint(user)
 
@@ -46,7 +49,8 @@ def oauth_handler():
     if not user_exists(user_rules["name"]):
         create_user(user_rules["name"], user_rules["title"])
 
-    session_user = client["meta"]["users"].get_one({"name": user_rules["name"]})
+    session_user = client["meta"]["users"].get_one(
+        {"name": user_rules["name"]})
     del session_user["_id"]
 
     access_token = create_access_token(identity=session_user)

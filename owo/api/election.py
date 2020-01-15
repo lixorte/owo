@@ -8,10 +8,6 @@ from owo.api.utils import schema_validator, fetch_election
 from owo.api.schemas import *
 
 
-logger.add("api_election.log", colorize=True,
-           format="<green>{time}</green> <level>{message}</level>",
-           rotation="1 day", backtrace=True, diagnose=True)
-
 client = MongoClient('mongodb://mongo:27017/', connect=False)
 election = Blueprint('elections', __name__)
 

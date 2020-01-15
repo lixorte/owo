@@ -6,11 +6,6 @@ import owo.api.schemas as schemas
 from flask_jwt_extended import jwt_required
 
 
-logger.add("api_user.log", colorize=True,
-           format="<green>{time}</green> <level>{message}</level>",
-           rotation="1 day",
-           backtrace=True, diagnose=True)
-
 client = MongoClient('mongodb://mongo:27017/', connect=False)
 user = Blueprint('users', __name__)
 
@@ -85,4 +80,4 @@ def edit_user(user_id):
 
     del user["_id"]
 
-    return jsonify(user), 200 # TODO Test with JWT
+    return jsonify(user), 200  # TODO Test with JWT

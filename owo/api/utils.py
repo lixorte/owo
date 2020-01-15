@@ -6,9 +6,6 @@ from loguru import logger
 import functools
 
 client = MongoClient('mongodb://mongo:27017/', connect=False)
-logger.add("api_utils.log", colorize=True,
-           format="<green>{time}</green> <level>{message}</level>",
-           rotation="1 day", backtrace=True, diagnose=True)
 
 
 def schema_validator(schema: Schema):
