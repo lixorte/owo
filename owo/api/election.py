@@ -9,10 +9,10 @@ from owo.api.schemas import *
 
 
 client = MongoClient('mongodb://mongo:27017/', connect=False)
-election = Blueprint('elections', __name__)
+election_blueprint = Blueprint('elections', __name__)
 
 
-@election.route("/election/new", methods=["POST"])  # TODO Test
+@election_blueprint.route("/election/new", methods=["POST"])  # TODO Test
 @jwt_required
 @schema_validator(create_election)
 def new_election():
@@ -41,20 +41,20 @@ def new_election():
     return jsonify(new_el), 200
 
 
-@election.route("/election/{string:election_id}", methods=["GET"])
+@election_blueprint.route("/election/{string:election_id}", methods=["GET"])
 @schema_validator(get_election_info)
 def get_el_info(election_id):
     election_exists = client["elections"]["meta"].count_documents(
         {"_id": ObjectId(election_id)})
 
     if election_exists == 0:
-        logger.info("Get request to unknown election " + election_id)
+        logger.info(f"Get request to unknown election {election_id}")
         return 404
 
     return jsonify(fetch_election(election_id)), 200  # TODO Test
 
 
-@election.route("/election/{string:election_id}", methods=["PATCH"])
+@election_blueprint.route("/election/{string:election_id}", methods=["PATCH"])
 @jwt_required
 @schema_validator(update_election_info)
 def patch_el_info(election_id):
@@ -62,7 +62,7 @@ def patch_el_info(election_id):
         {"_id": ObjectId(election_id)})
 
     if election_exists == 0:
-        logger.info("Patch request to unknown election " + election_id)
+        logger.info(f"Patch request to unknown election {election_id}")
         return 404
 
     client["elections"]["meta"].find_one_and_update(
@@ -73,19 +73,16 @@ def patch_el_info(election_id):
     return 200
 
 
-@election.route("/election/{string:election_id}", methods=["DELETE"])
+@election_blueprint.route("/election/{string:election_id}", methods=["DELETE"])
 @jwt_required
 @schema_validator(delete_election)
 def del_election(election_id):
-    election_exists = client["elections"]["meta"].count_documents(
-        {"_id": ObjectId(election_id)})
-
-    if election_exists == 0:
-        logger.info("Delete request to unknown election " + election_id)
-        return 404
-
     election_to_delete = client["elections"]["meta"].find_one(
         {"_id": ObjectId(election_id)})
+
+    if not election_to_delete:
+        logger.info("Delete request to unknown election " + election_id)
+        return 404
 
     client["elections"]["meta"].delete_one({"_id": ObjectId(election_id)})
 
@@ -99,19 +96,21 @@ def del_election(election_id):
     return 200
 
 
-@election.route("/election/{string:election_id}/vote/new", methods=["POST"])
+@election_blueprint.route("/election/{string:election_id}/vote/new", methods=["POST"])
 @jwt_required
 @schema_validator(add_option)
 def add_opt(election_id):
-    election_exists = client["elections"]["meta"].count_documents(
-        {"_id": ObjectId(election_id)})
-
-    if election_exists == 0:
-        logger.info("Add vote request to unknown election " + election_id)
-        return 404
-
     election = client["elections"]["meta"].find_one(
         {"_id": ObjectId(election_id)})
+
+    if not election:
+        logger.info(f"Add vote request to unknown election {election_id}")
+        return 404
+
+    if election["state"] != "ongoing":
+        logger.info(
+            f"Add vote request to election {election_id} with state {election['state']}")
+        return 403
 
     data = request.get_json()
 
@@ -131,10 +130,10 @@ def add_opt(election_id):
             "name": data["name"],
             "voters": [get_jwt_identity()["name"]],
             "userAdded": get_jwt_identity()["name"],
-            "serviceLink": data["serviceLink"],
-            "cutCommentary": data["cutCommentary"],
-            "album": data["album"],
-            "singer": data["singer"]
+            "serviceLink": data.get("serviceLink", ""),
+            "cutCommentary": data.get("cutCommentary", ""),
+            "album": data.get("album", ""),
+            "singer": data.get("singer", "")
         }
 
     new_id = client["elections"]["normal"+election_id].insert_one(new_vote)
@@ -144,15 +143,20 @@ def add_opt(election_id):
     return jsonify(new_vote), 200  # TODO Test
 
 
-@election.route("/election/{string:election_id}/vote/{string:vote_id}", methods=["POST"])
+@election_blueprint.route("/election/{string:election_id}/vote/{string:vote_id}", methods=["POST"])
 @jwt_required
 def add_vote(election_id: str, vote_id: str):
-    election_exists = client["elections"]["meta"].count_documents(
+    election = client["elections"]["meta"].count_documents(
         {"_id": ObjectId(election_id)})
 
-    if election_exists == 0:
-        logger.info("Add vote request to unknown election " + election_id)
+    if election == 0:
+        logger.info(f"Add vote request to unknown election {election_id}")
         return 404
+
+    if election["state"] != "ongoing":
+        logger.info(
+            f"Add vote request to election {election_id} with state {election['state']}")
+        return 403
 
     normal_object = client["elections"]["normal"+election_id].find_one(
         {"_id": vote_id}
@@ -164,17 +168,17 @@ def add_vote(election_id: str, vote_id: str):
         )
 
         if banned_object_exists:
-            logger.info("Vote request to banned option " +
-                        vote_id + " in election " + election_id)
+            logger.info(
+                f"Vote request to banned option { vote_id}in election {election_id}")
             return 403
 
-        logger.info("Vote request to unknown option " +
-                    vote_id + " in election " + election_id)
+        logger.info(
+            f"Vote request to unknown option {vote_id} in election {election_id}")
         return 404
 
     if get_jwt_identity()["name"] in normal_object["voters"]:
-        logger.info("Add vote request to already voted resource" + vote_id)
-        return 409  # Уже проголосовал
+        logger.info(f"Add vote request to already voted resource {vote_id}")
+        return 409
 
     client["elections"]["normal"+election_id].update_one(
         {"_id": ObjectId(vote_id)},
@@ -184,14 +188,14 @@ def add_vote(election_id: str, vote_id: str):
     return 200  # TODO Test
 
 
-@election.route("/election/{string:election_id}/unvote/{string:vote_id}", methods=["POST"])
+@election_blueprint.route("/election/{string:election_id}/unvote/{string:vote_id}", methods=["POST"])
 @jwt_required
 def remove_vote(election_id: str, vote_id: str):
     election_exists = client["elections"]["meta"].count_documents(
         {"_id": ObjectId(election_id)})
 
     if election_exists == 0:
-        logger.info("Remove vote request to unknown election " + election_id)
+        logger.info(f"Remove vote request to unknown election {election_id}")
         return 404
 
     normal_object = client["elections"]["normal"+election_id].find_one(
@@ -213,7 +217,7 @@ def remove_vote(election_id: str, vote_id: str):
         return 404
 
     if get_jwt_identity()["name"] not in normal_object["voters"]:
-        logger.info("Remove vote request to not voted resource" + vote_id)
+        logger.info(f"Remove vote request to not voted resource {vote_id}")
         return 409
 
     client["elections"]["normal"+election_id].update_one(

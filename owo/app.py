@@ -1,6 +1,7 @@
 from owo.security.auth import get_identity, user_exists, create_user
 from owo.api.user import user
-from loguru import logging
+from owo.api.election import election_blueprint
+from loguru import logger
 import os
 import pymongo
 from flask import Flask, request, jsonify, make_response, render_template
@@ -21,6 +22,7 @@ logger.add(__name__, colorize=True,
            backtrace=True, diagnose=True)
 
 app.register_blueprint(user)
+app.register_blueprint(election_blueprint)
 
 
 @app.route(OAUTH_REDIRECT, methods=["GET"])
