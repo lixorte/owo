@@ -138,6 +138,44 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /election/{electionUid}/unvote/{voteUid}:
+    post:
+      summary: Убрать голос за опцию
+      operationId: removeVote
+      parameters:
+        - in: path
+          name: electionUid
+          schema:
+            type: string
+          required: true
+          description: ID голосования
+        - in: path
+          name: voteUid
+          schema:
+            type: string
+          required: true
+          description: ID опции голосования
+      security:
+        - JWTAuth: []
+      tags:
+        - Операции, доступные пользователю
+      responses:
+        "200":
+          description: Голос убран
+        "401":
+          description: Ошибка авторизации
+        "403":
+          description: Голосование уже замороженно или вариант заблокированн
+        "404":
+          description: Нет такого голосования или варианта
+        "409":
+          description: Юзер не голосовал за опцию
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /election/{electionUid}/vote/{voteUid}:
     post:
