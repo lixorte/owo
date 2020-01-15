@@ -185,4 +185,44 @@ def add_vote(election_id: str, vote_id: str):
         {"$push": {"voters": get_jwt_identity()["name"]}}
     )
 
-    return 200 # TODO Test
+    return 200  # TODO Test
+
+
+@election.route("/election/{string:election_id}/unvote/{string:vote_id}", methods=["POST"])
+@jwt_required
+def remove_vote(election_id: str, vote_id: str):
+    election_exists = client["elections"]["meta"].count_documents(
+        {"_id": ObjectId(election_id)})
+
+    if election_exists == 0:
+        logger.info("Remove vote request to unknown election " + election_id)
+        return 404
+
+    normal_object = client["elections"]["normal"+election_id].find_one(
+        {"_id": vote_id}
+    )
+
+    if not normal_object:
+        banned_object_exists = client["elections"]["banned"+election_id].find_one(
+            {"_id": vote_id}
+        )
+
+        if banned_object_exists:
+            logger.info("Remove vote request to banned option " +
+                        vote_id + " in election " + election_id)
+            return 403
+
+        logger.info("Remove vote request to unknown option " +
+                    vote_id + " in election " + election_id)
+        return 404
+
+    if get_jwt_identity()["name"] not in normal_object["voters"]:
+        logger.info("Remove vote request to not voted resource" + vote_id)
+        return 409
+
+    client["elections"]["normal"+election_id].update_one(
+        {"_id": ObjectId(vote_id)},
+        {"$pull": {"voters": get_jwt_identity()["name"]}}
+    )
+
+    return 200  # TODO Test
