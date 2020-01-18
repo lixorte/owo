@@ -11,20 +11,20 @@ def get_token(code: str, redirect_uri: str) -> str:
     query = [
         ("devkey", DEV_KEY),
         ("grant_type", "authorization_code"),
-        ("clienta_id", DEV_ID),
+        ("client_id", DEV_ID),
         ("code", code),
         ("redirect_uri", redirect_uri)
     ]
     req = requests.get("https://auth.eljur.ru/oauthtoken", params=query)
 
-    if req.status_code != 200 or "access_token" not in req.json():
+    if not req.ok:
         logger.info(
-            f"Got {req.status_code} with" +
-            f"error {req.json()['response']['error']}"
+            f"Got {req.status_code} with " +
+            f"response {req.json()}"
         )
         raise ValueError
 
-    return req.json()["acess_token"]
+    return req.json()["access_token"]
 
 
 def get_rules(code: str, redirect_uri: str) -> dict:
@@ -40,9 +40,9 @@ def get_rules(code: str, redirect_uri: str) -> dict:
         params=query
     )
 
-    if req.status_code != 200:
+    if not req.ok:
         logger.info(
-            f"Got {req.status_code} with" +
+            f"Got {req.status_code} with " +
             f"error {req.json()['response']['error']}"
         )
         raise ValueError
