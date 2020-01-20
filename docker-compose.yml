@@ -6,7 +6,7 @@ services:
     build: .
     environment:
       - DEV_ID=hselyceum_ring
-      - DEV_KEY=6c0eadf2dd4d0b5d75177951bbc11a2e
+      - DEV_KEY=SECRET
       - JWT_SECRET=SECRET
       - HASH_SECRET=SECRET
       - DEBUG=TRUE
