@@ -15,7 +15,7 @@ def get_token(code: str, redirect_uri: str) -> str:
         ("code", code),
         ("redirect_uri", redirect_uri)
     ]
-    req = requests.get("https://auth.eljur.ru/oauthtoken", params=query)
+    req = requests.get("http://auth.eljur.ru/oauthtoken", params=query)
 
     if not req.ok:
         logger.info(
