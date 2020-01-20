@@ -4,6 +4,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 from loguru import logger
 import functools
+from flask_jwt_extended import get_jwt_identity
 
 client = MongoClient('mongodb://mongo:27017/', connect=False)
 
@@ -64,3 +65,24 @@ def fetch_election(election_id: str) -> dict:
     }
 
     return response
+
+
+def prefs_validator(prefs: dict):
+    """
+    Validates that request's author cookie has certain prefs
+    """
+    def _validator(f):
+        @functools.wraps(f)
+        def __validator(*args, **kwargs):
+            user_data = get_jwt_identity()
+            for key, item in prefs.items():
+                if user_data.get(key, "") != item:
+                    return flask.jsonify(
+                    {
+                        "message": "Invalid JWT prefs",
+                        "code": 403
+                    }
+                ), 403
+            return f(*args, **kwargs)
+        return __validator
+    return _validator
