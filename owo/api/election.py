@@ -226,3 +226,23 @@ def remove_vote(election_id: str, vote_id: str):
     )
 
     return 200  # TODO Test
+
+
+@election_blueprint.route("/election/{string:election_id}/voted")
+@jwt_required
+def list_voted(election_id: str):
+    election_exists = client["elections"]["meta"].count_documents(
+        {"_id": ObjectId(election_id)})
+
+    if election_exists == 0:
+        logger.info(f"List vote request to unknown election {election_id}")
+        return 404
+
+    votes = []
+    user_id = get_jwt_identity()["name"]
+
+    for cl_var in ["normal", "banned", "voted"]:
+        for obj in client["elections"][cl_var+election_id].find({"voters": {"$in": user_id}}):
+            votes.append(str(obj["_id"]))
+
+    return jsonify(votes), 200
