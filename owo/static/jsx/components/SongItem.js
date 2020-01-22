@@ -57,6 +57,7 @@ class SongItem extends Component {
             mode: 'no-cors'
         }).catch(error => console.log(error));
         document.getElementById(id).src = unfilledLike;
+        document.getElementById(id).nextElementSibling.innerText = parseInt(document.getElementById(id).nextElementSibling.innerText) - 1;
     }
 
     vote(id) {
@@ -66,6 +67,7 @@ class SongItem extends Component {
             mode: 'no-cors'
         }).catch(error => console.log(error));
         document.getElementById(id).src = filledLike;
+        document.getElementById(id).nextElementSibling.innerText = parseInt(document.getElementById(id).nextElementSibling.innerText) + 1;
     }
 
     handleClick(id) {
@@ -99,6 +101,7 @@ class SongItem extends Component {
                                 </div>
                                 <img src={unfilledLike} alt="icon" className="like-button" id={item["id"]}
                                      onClick={(e) => this.handleClick(item["id"], e)}/> {this.color(item['id'])}
+                                     <div className="votes-count" id={item["id"] + "kek"}>{item["votes"]}</div>
                             </div>
                         )}
                     </div>)
