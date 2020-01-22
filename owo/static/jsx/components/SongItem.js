@@ -101,7 +101,7 @@ class SongItem extends Component {
                                 </div>
                                 <img src={unfilledLike} alt="icon" className="like-button" id={item["id"]}
                                      onClick={(e) => this.handleClick(item["id"], e)}/> {this.color(item['id'])}
-                                     <div className="votes-count" id={item["id"] + "kek"}>{item["votes"]}</div>
+                                     <div className="votes-count">{item["votes"]}</div>
                             </div>
                         )}
                     </div>)
@@ -114,14 +114,8 @@ class SongItem extends Component {
                                     <div className="songitem-title"> {item["name"]} </div>
                                     <div className="songitem-singer"> {item["singer"]} </div>
                                 </div>
-                                <img src={unfilledLike} alt="icon" className="like-button" id={item["id"]}
-                                     onClick={function () {
-                                         if (document.getElementById(item["id"]).src === unfilledLike) {
-                                             document.getElementById(item["id"]).src = filledLike;
-                                         } else {
-                                             document.getElementById(item["id"]).src = unfilledLike;
-                                         }
-                                     }}/>
+                                <img src={unfilledLike} alt="icon" className="like-button" id={item["id"]}/>
+                                <div className="votes-count">{item["votes"]}</div>
                             </div>
                         )}
                     </div>
