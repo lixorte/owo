@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM alpine:edge
 
 ENV PYTHONUNBUFFERED=1
 
@@ -12,18 +12,10 @@ RUN echo "**** install Python ****" && \
     pip3 install --no-cache --upgrade pip setuptools wheel && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
 
-RUN apk add --no-cache uwsgi-python3
-
 WORKDIR /app
 
 COPY ./requirements.txt .
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-CMD [ "uwsgi", "--socket", "0.0.0.0:80", \
-               # "--uid", "uwsgi", \
-               "--plugins", "python3", \
-               "--protocol", "http", \
-               "--module", "owo.app:app", \
-               "-p", "4", \
-               "--enable-threads"]
+CMD ["gunicorn", "--workers=2", "--bind", "0.0.0.0:80", "owo.app:app"]
