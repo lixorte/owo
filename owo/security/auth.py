@@ -15,8 +15,8 @@ def user_exists(name: str) -> bool:
 def create_user(name: str, title: str):
     client["meta"]["users"].insert_one(
         {
-            "name": name, # id
-            "titile": title, # RL name
+            "name": name,  # id
+            "title": title,  # RL name
             "type": "ok",
             "state": "normal"
         }

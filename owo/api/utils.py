@@ -4,12 +4,9 @@ from pymongo import MongoClient
 from bson import ObjectId
 from loguru import logger
 import functools
-import itertools
+from flask_jwt_extended import get_jwt_identity
 
 client = MongoClient('mongodb://mongo:27017/', connect=False)
-logger.add("api_utils.log", colorize=True,
-           format="<green>{time}</green> <level>{message}</level>",
-           rotation="1 day", backtrace=True, diagnose=True)
 
 
 def schema_validator(schema: Schema):
@@ -46,7 +43,7 @@ def normalize_id(to_normalize: dict) -> dict:
     return to_normalize
 
 
-def fetch_eleciton(election_id: str) -> dict:
+def fetch_election(election_id: str) -> dict:
     election = client["elections"]["meta"].find_one(
         {"_id": ObjectId(election_id)})
 
@@ -60,11 +57,32 @@ def fetch_eleciton(election_id: str) -> dict:
     banned_objects = [normalize_id(el)
                       for el in client["elections"]["banned"+election_id].find()]
 
-    responce = {
+    response = {
         "electionInfo": election,
         "normalObjects": normal_objects,
         "votedObjects": voted_objects,
         "bannedObjects": banned_objects
     }
 
-    return responce
+    return response
+
+
+def prefs_validator(prefs: dict):
+    """
+    Validates that request's author cookie has certain prefs
+    """
+    def _validator(f):
+        @functools.wraps(f)
+        def __validator(*args, **kwargs):
+            user_data = get_jwt_identity()
+            for key, item in prefs.items():
+                if user_data.get(key, "") != item:
+                    return flask.jsonify(
+                    {
+                        "message": "Invalid JWT prefs",
+                        "code": 403
+                    }
+                ), 403
+            return f(*args, **kwargs)
+        return __validator
+    return _validator

@@ -138,6 +138,44 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /election/{electionUid}/unvote/{voteUid}:
+    post:
+      summary: Убрать голос за опцию
+      operationId: removeVote
+      parameters:
+        - in: path
+          name: electionUid
+          schema:
+            type: string
+          required: true
+          description: ID голосования
+        - in: path
+          name: voteUid
+          schema:
+            type: string
+          required: true
+          description: ID опции голосования
+      security:
+        - JWTAuth: []
+      tags:
+        - Операции, доступные пользователю
+      responses:
+        "200":
+          description: Голос убран
+        "401":
+          description: Ошибка авторизации
+        "403":
+          description: Голосование уже замороженно или вариант заблокированн
+        "404":
+          description: Нет такого голосования или варианта
+        "409":
+          description: Юзер не голосовал за опцию
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /election/{electionUid}/vote/{voteUid}:
     post:
@@ -169,6 +207,8 @@ paths:
           description: Голосование уже замороженно или вариант заблокированн
         "404":
           description: Нет такого голосования или варианта
+        "409":
+          description: Юзер уже проголосовал за опцию
         default:
           description: unexpected error
           content:
@@ -222,7 +262,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: "#/components/schemas/Topic"
         "401":
           description: Ошибка авторизации
@@ -236,6 +275,34 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
+  /election/{electionUid}/voted:
+    get:
+      summary: Получить данные о вариантах, за которые юзер проголосовал
+      operationId: getVoted
+      security:
+        - JWTAuth: []
+      parameters:
+        - in: path
+          name: electionUid
+          schema:
+            type: string
+          required: true
+          description: ID голосования
+      tags:
+        - Операции, доступные пользователю
+      responses:
+        "200":
+          description: "IDs"
+          content:
+            application/json:
+              schema:
+                properties:
+                  ids:
+                    type: array
+                    items:
+                      type: string
+
 
   /election/new/:
     post:
@@ -276,7 +343,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: "#/components/schemas/electionInfo"
         "401":
           description: Ошибка авторизации
@@ -376,12 +442,10 @@ paths:
                   type: string
       responses:
         "200":
-          description: Массив с карточками голосований
+          description: "Готовая тема или трек"
           content:
             application/json:
               schema:
-                type: object
-                description: Готовая тема или трек
                 $ref: "#/components/schemas/Topic" # TODO нужен метаобьект для обьеденения темы и трека
         default:
           description: unexpected error
@@ -389,6 +453,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
   /user:
     get:
       summary: Получить данные о пользователях
@@ -461,7 +526,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: "#/components/schemas/User"
         "401":
           description: Ошибка авторизации
@@ -509,7 +573,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: "#/components/schemas/User"
         "401":
           description: Ошибка авторизации
@@ -519,6 +582,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
 components:
   securitySchemes:
     JWTAuth:
@@ -641,7 +705,6 @@ components:
         - bannedObjects
       properties:
         electionInfo:
-          type: object
           $ref: "#/components/schemas/electionInfo"
 
         normalObjects:

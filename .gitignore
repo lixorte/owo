@@ -103,6 +103,10 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+.idea/*
+.vscode/*
+*.gz
+mongo/*
 .idea
 .vscode
 

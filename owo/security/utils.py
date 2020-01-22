@@ -2,11 +2,6 @@ import requests
 import os
 from loguru import logger
 
-logger.add("security_utils.log", colorize=True,
-           format="<green>{time}</green> <level>{message}</level>",
-           rotation="1 day",
-           backtrace=True, diagnose=True)
-
 DEV_ID = os.environ["DEV_ID"]
 DEV_KEY = os.environ["DEV_KEY"]
 SCHOOL_DOMAIN = os.environ["SCHOOL_DOMAIN"]
@@ -16,20 +11,20 @@ def get_token(code: str, redirect_uri: str) -> str:
     query = [
         ("devkey", DEV_KEY),
         ("grant_type", "authorization_code"),
-        ("clienta_id", DEV_ID),
+        ("client_id", DEV_ID),
         ("code", code),
         ("redirect_uri", redirect_uri)
     ]
-    req = requests.get("https://auth.eljur.ru/oauthtoken", params=query)
+    req = requests.get("http://auth.eljur.ru/oauthtoken", params=query)
 
-    if req.status_code != 200 or "access_token" not in req.json():
+    if not req.ok:
         logger.info(
-            f"Got {req.status_code} with" +
-            f"error {req.json()['response']['error']}"
+            f"Got {req.status_code} with " +
+            f"response {req.json()}"
         )
-        return ValueError
+        raise ValueError
 
-    return req.json()["acess_token"]
+    return req.json()["access_token"]
 
 
 def get_rules(code: str, redirect_uri: str) -> dict:
@@ -45,11 +40,11 @@ def get_rules(code: str, redirect_uri: str) -> dict:
         params=query
     )
 
-    if req.status_code != 200:
+    if not req.ok:
         logger.info(
-            f"Got {req.status_code} with" +
+            f"Got {req.status_code} with " +
             f"error {req.json()['response']['error']}"
         )
-        return ValueError
+        raise ValueError
 
     return req.json()["response"]["result"]
