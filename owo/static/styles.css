@@ -338,7 +338,17 @@
 
 	background: none;
 
-	margin: 20px 20px 0 0;
+	margin: 10px 20px 0 0;
 	height: 50px;
+	width: 50px;
+}
+
+.votes-count {
+	font-family: 'Avenir Next', sans-serif;
+	font-weight: 600;
+	color: #ffffff;
+
+	margin: auto 20px 5px auto;
+	height: 20px;
 	width: 50px;
 }
