@@ -352,3 +352,7 @@
 	height: 20px;
 	width: 50px;
 }
+
+.search-theme {
+	width: calc(70vw + 80px)
+}
