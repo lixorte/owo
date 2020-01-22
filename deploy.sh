@@ -1,3 +1,2 @@
 find . -type f -name '*.gz' -delete
-gzip -r -k -f ./owo/static/
-docker-compose up --build
+find ./owo/static -type f ! -name '*.gz' -exec gzip -k -f "{}" \;

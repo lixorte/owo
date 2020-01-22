@@ -1,3 +1,15 @@
+from node:alpine AS build
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install --production
+
+RUN npm run build
+
+RUN ./deploy.sh
+
 FROM alpine:edge
 
 ENV PYTHONUNBUFFERED=1
@@ -17,5 +29,7 @@ WORKDIR /app
 COPY ./requirements.txt .
 
 RUN pip3 install --no-cache-dir -r requirements.txt
+
+COPY --from=build /app/owo/ /app/owo/
 
 CMD ["gunicorn", "--workers=2", "--bind", "0.0.0.0:80", "owo.app:app"]
