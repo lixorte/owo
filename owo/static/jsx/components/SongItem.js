@@ -50,23 +50,32 @@ class SongItem extends Component {
         }
     }
 
+    unvote(id) {
+        fetch(address + "/election/" + this.state.elId + "/unvote/" + id, {
+            method: "POST",
+            credentials: "include",
+            mode: 'no-cors'
+        }).catch(error => console.log(error));
+        document.getElementById(id).src = unfilledLike;
+    }
+
     vote(id) {
         fetch(address + "/election/" + this.state.elId + "/vote/" + id, {
             method: "POST",
             credentials: "include",
             mode: 'no-cors'
         }).catch(error => console.log(error));
-        if (document.getElementById(id) !== null) {
-            if (document.getElementById(id).src === unfilledLike) {
-                document.getElementById(id).src = filledLike;
-            } else {
-                document.getElementById(id).src = unfilledLike;
-            }
-        }
+        document.getElementById(id).src = filledLike;
     }
 
     handleClick(id) {
-        this.vote(id);
+        if (document.getElementById(id) !== null) {
+            if (document.getElementById(id).src === unfilledLike) {
+                this.vote(id);
+            } else {
+                this.unvote(id);
+            }
+        }
     }
 
     render() {
