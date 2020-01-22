@@ -1,9 +1,31 @@
-/* header */
-
 .header {
 	background-color: #fcc000;
 	height: 200px;
 }
+
+@font-face {
+	font-family: "Avenir Next";
+	src: url('../src/avenirnext-regular-08.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Avenir Next";
+	src: url('../src/avenirnext-medium-06.ttf') format('truetype');
+	font-weight: 600;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Avenir Next";
+	src: url('../src/avenirnext-italic-05.ttf') format('truetype');
+	font-weight: 400;
+	font-style: italic;
+}
+
+/* header */
+
 
 .title-container {
 	position: relative;
@@ -81,15 +103,6 @@
 	}
 }
 
-/* songs */
-
-.song {
-	background-color: #4270ff;
-
-	height: 90px;
-	width: calc(70vw + 80px);
-}
-
 /* sidebar */
 
 @media (max-width: 575.98px) {
@@ -110,6 +123,7 @@
 
 	background: #4270ff;
 	left: -300px;
+	box-shadow: none;
 
 	transition: left .5s;
 }
@@ -188,15 +202,16 @@
 	text-decoration: none;
 }
 
-.darken {
+#darken {
 	position: absolute;
 	height: 100vh;
 	width: 100vw;
+	z-index: -1;
 
-	display: none;
+	transition: opacity 0.5s;
 
-	background-color: #262626;
-	opacity: 40%;
+	background-color: #000000;
+	opacity: 0;
 	backdrop-filter: blur(10px);
 }
 
@@ -265,9 +280,65 @@
 	font: 18px "Avenir Next";
 }
 
-.song {
-	background-color: #4270ff;
+/* song cards */
 
+.songitems-container {
+	margin-top: 0;
+}
+
+.songitem {
+	/*background-color: #4270ff;*/
+	background-color: #4270FF;
+	/*background-color: #ac4f00;*/
+	border-radius: 3px;
+
+	margin: 6px auto;
 	height: 90px;
+	max-width: 580px;
 	width: calc(70vw + 80px);
+}
+
+.songitem-info {
+	display: inline-block;
+	float: left;
+
+	font-family: "Avenir Next", sans-serif;
+	white-space: nowrap;
+	width: 75%;
+	overflow: auto;
+	color: #ffffff;
+}
+
+.songitem-title {
+	/*position: absolute;*/
+	padding: 5px 0 0 10px;
+
+	text-align: left;
+	font-size: 30px;
+}
+
+.songitem-singer {
+	/*position: absolute;*/
+	padding: 5px 0 0 10px;
+
+	text-align: left;
+	font-style: italic;
+	font-size: 20px;
+}
+
+@media (max-width: 575.98px) {
+	.songitem {
+		width: calc(70vw + 70px);
+	}
+}
+
+.like-button {
+	display: inline-block;
+	float: right;
+
+	background: none;
+
+	margin: 20px 20px 0 0;
+	height: 50px;
+	width: 50px;
 }

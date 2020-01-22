@@ -7,7 +7,7 @@
 	<title>Звонки</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" href="../static/styles.css">
+	<link rel="stylesheet" type="text/css" href="../static/styles.css">
 	<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:400,800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -19,15 +19,15 @@
 			<span class="bar bottom on-sidebar"></span>
 		</button>
 		<div class="sb-btn-container">
-			<a class="sidebar-btn" href="#">
+			<a class="sidebar-btn" href="" onclick="auth()">
 				Войти
 			</a>
-			<a class="sidebar-btn" href="#">
+			<a class="sidebar-btn" href="oldvoting.html">
 				Прошлые голосования
 			</a>
 		</div>
 	</div>
-	<div class="darken">
+	<div id="darken">
 
 	</div>
 </aside>
@@ -52,7 +52,7 @@
 		<div class="search-panel">
 			<form class="form-search">
 				<div class="form-group">
-					<input class="form-control search" type="search" placeholder="Найти песню">
+					<input class="form-control search" type="search" onkeyup="search()" id="search1" placeholder="Найти песню">
 				</div>
 			</form>
 			<a class="add-song-btn" href="addsong.html" target="_blank">
@@ -71,10 +71,27 @@
 			</a>
 		</div>
 		<div id="songs-container">
-
+			Something has gone wrong
 		</div>
 	</section>
 </main>
+<script>
+    function search() {
+        let filter = document.getElementById("search1").value.toLowerCase();
+        let items = document.getElementsByClassName("songitem");
+        for (let i = 0; i < items.length; ++i) {
+            let singer = items[i].getElementsByClassName("songitem-singer")[0].textContent || items[i].getElementsByClassName("songitem-singer")[0].innerHTML;
+            let title = items[i].getElementsByClassName("songitem-title")[0].textContent || items[i].getElementsByClassName("songitem-title")[0].innerHTML;
+            if (singer.toLowerCase().indexOf(filter) > -1 || title.toLowerCase().indexOf(filter) > -1) {
+                items[i].style.display = "";
+            } else {
+                items[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<script src="../static/main.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- Load React. -->
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
@@ -82,10 +99,10 @@
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
 
 <!-- Load our React component. -->
-<script src="../static/index.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+<script type="module" src="../static/js/bundle.js"></script>
+<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-</script>
+</script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
 </script>
