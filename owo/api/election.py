@@ -280,7 +280,7 @@ def get_specific_last(election_type: str):
 @schema_validator(edit_option)
 @jwt_required
 def update_option(election_id: string, vote_id: str):
-     election = client["elections"]["meta"].count_documents(
+    election = client["elections"]["meta"].count_documents(
         {"_id": ObjectId(election_id)})
 
     if election == 0:
