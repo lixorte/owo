@@ -25,7 +25,9 @@ logger.add(__name__, colorize=True,
 
 app.register_blueprint(user)
 app.register_blueprint(election_blueprint)
-app.register_blueprint(tesing_blueprint)
+
+if os.environ["DEBUG"] == "TRUE":
+    app.register_blueprint(tesing_blueprint)
 
 
 @app.route(OAUTH_REDIRECT, methods=["GET"])
