@@ -4,7 +4,7 @@ from loguru import logger
 from flask import Blueprint, request, jsonify
 from datetime import datetime
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from owo.api.utils import schema_validator, fetch_election
+from owo.api.utils import schema_validator, fetch_election, normalize_id
 from owo.api.schemas import *
 
 
@@ -29,7 +29,7 @@ def new_election():
         "datetime": datetime.now()
     }
 
-    new_id = str(client["elections"]["meta"].insert_one(new_el))
+    new_id = str(client["elections"]["meta"].insert_one(new_el).inserted_id)
     new_el["id"] = new_id
 
     client["elections"].create_collection("banned"+new_id)
@@ -136,7 +136,8 @@ def add_opt(election_id):
             "singer": data.get("singer", "")
         }
 
-    new_id = client["elections"]["normal"+election_id].insert_one(new_vote)
+    new_id = client["elections"]["normal" +
+        election_id].insert_one(new_vote).inserted_id
 
     new_vote["id"] = str(new_id)
 
@@ -159,17 +160,17 @@ def add_vote(election_id: str, vote_id: str):
         return "Error", 403
 
     normal_object = client["elections"]["normal"+election_id].find_one(
-        {"_id": vote_id}
+        {"_id": ObjectId(vote_id)}
     )
 
     if not normal_object:
         banned_object_exists = client["elections"]["banned"+election_id].find_one(
-            {"_id": vote_id}
+            {"_id": ObjectId(vote_id)}
         )
 
         if banned_object_exists:
             logger.info(
-                f"Vote request to banned option { vote_id}in election {election_id}")
+                f"Vote request to banned option {vote_id} in election {election_id}")
             return "Error", 403
 
         logger.info(
@@ -199,12 +200,12 @@ def remove_vote(election_id: str, vote_id: str):
         return "Error", 404
 
     normal_object = client["elections"]["normal"+election_id].find_one(
-        {"_id": vote_id}
+        {"_id": ObjectId(vote_id)}
     )
 
     if not normal_object:
         banned_object_exists = client["elections"]["banned"+election_id].find_one(
-            {"_id": vote_id}
+            {"_id": ObjectId(vote_id)}
         )
 
         if banned_object_exists:
@@ -249,7 +250,7 @@ def list_voted(election_id: str):
 
 
 @election_blueprint.route("/election/getlast/")
-def get_last(): # ОНО ТЕБЯ СОЖРЕТ Функции нет в документации, считайте, что тут ее тоже нет.
+def get_last():  # ОНО ТЕБЯ СОЖРЕТ Функции нет в документации, считайте, что тут ее тоже нет.
     number_of_elections = client["elections"]["meta"].count()
 
     if number_of_elections == 0:
@@ -273,3 +274,55 @@ def get_specific_last(election_type: str):
         {"state": "ongoing", "type": election_type})
 
     return fetch_election(str(election["_id"]))
+
+
+@election_blueprint("/election/{string:election_id}/vote/{string:vote_id}", methods=["PATCH"])
+@schema_validator(edit_option)
+@jwt_required
+def update_option(election_id: string, vote_id: str):
+     election = client["elections"]["meta"].count_documents(
+        {"_id": ObjectId(election_id)})
+
+    if election == 0:
+        logger.info(f"Update vote request to unknown election {election_id}")
+        return "Error", 404
+
+    if election["state"] != "ongoing":
+        logger.info(
+            f"Update vote request to election {election_id} with state {election['state']}")
+        return "Error", 403
+
+    normal_object = client["elections"]["normal"+election_id].find_one(
+        {"_id": ObjectId(vote_id)}
+    )
+
+    if not normal_object:
+        banned_object_exists = client["elections"]["banned"+election_id].find_one(
+            {"_id": ObjectId(vote_id)}
+        )
+
+        if banned_object_exists:
+            logger.info(
+                f"Update request to banned option {vote_id} in election {election_id}")
+            return "Error", 403
+
+        logger.info(
+            f"Update request to unknown option {vote_id} in election {election_id}")
+        return "Error", 404
+
+    if get_jwt_identity()["name"] in normal_object["voters"]:
+        logger.info(f"Update vote request to already voted resource {vote_id}")
+        return "Error", 409
+
+    client["elections"]["normal"+election_id].update_one(
+        {"_id": ObjectId(vote_id)},
+        {"$set": {request.json()}}
+    )
+
+    return jsonify(
+        normalize_id(
+             client["elections"]["normal"+election_id].find_one(
+                 {"_id": ObjectId(vote_id)}
+             )
+        )
+    ), 200
