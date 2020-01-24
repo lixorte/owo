@@ -1,4 +1,4 @@
-from node:alpine AS build
+FROM node:alpine AS build
 
 WORKDIR /app
 
@@ -12,23 +12,21 @@ RUN ./deploy.sh
 
 FROM alpine:edge
 
-ENV PYTHONUNBUFFERED=1
-
-RUN echo "**** install Python ****" && \
-    apk add --no-cache python3 && \
-    if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi && \
-    \
-    echo "**** install pip ****" && \
-    python3 -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
-    pip3 install --no-cache --upgrade pip setuptools wheel && \
-    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
-
 WORKDIR /app
 
-COPY ./requirements.txt .
+ENV PIP_DISABLE_PIP_VERSION_CHECK=on
+ENV PYTHONUNBUFFERED=1
+ENV POETRY_VIRTUALENVS_CREATE=false
 
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN apk add --no-cache python3 curl && \
+    if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi
+
+RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+ENV PATH = "${PATH}:/root/.poetry/bin"
+
+COPY pyproject.toml poetry.lock ./
+
+RUN poetry install --no-dev
 
 COPY --from=build /app/owo/ /app/owo/
 
