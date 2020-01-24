@@ -111,3 +111,4 @@ mongo/*
 .vscode
 
 ./owo/static/js
+*.egg-info
