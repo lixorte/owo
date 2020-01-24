@@ -279,7 +279,7 @@ def get_specific_last(election_type: str):
 @election_blueprint.route("/election/{string:election_id}/vote/{string:vote_id}", methods=["PATCH"])
 @schema_validator(edit_option)
 @jwt_required
-def update_option(election_id: string, vote_id: str):
+def update_option(election_id: str, vote_id: str):
     election = client["elections"]["meta"].count_documents(
         {"_id": ObjectId(election_id)})
 
