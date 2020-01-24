@@ -137,7 +137,7 @@ def add_opt(election_id):
         }
 
     new_id = client["elections"]["normal" +
-        election_id].insert_one(new_vote).inserted_id
+                                 election_id].insert_one(new_vote).inserted_id
 
     new_vote["id"] = str(new_id)
 
@@ -261,7 +261,7 @@ def get_last():  # ОНО ТЕБЯ СОЖРЕТ Функции нет в док�
     return fetch_election(str(election["_id"]))
 
 
-@election_blueprint("/eleciton/getlast/{string:type}")
+@election_blueprint.route("/eleciton/getlast/{string:type}")
 @schema_validator(get_last_election)
 def get_specific_last(election_type: str):
     number_of_elections = client["elections"]["meta"].count_documents(
@@ -276,7 +276,7 @@ def get_specific_last(election_type: str):
     return fetch_election(str(election["_id"]))
 
 
-@election_blueprint("/election/{string:election_id}/vote/{string:vote_id}", methods=["PATCH"])
+@election_blueprint.route("/election/{string:election_id}/vote/{string:vote_id}", methods=["PATCH"])
 @schema_validator(edit_option)
 @jwt_required
 def update_option(election_id: string, vote_id: str):
@@ -321,8 +321,8 @@ def update_option(election_id: string, vote_id: str):
 
     return jsonify(
         normalize_id(
-             client["elections"]["normal"+election_id].find_one(
-                 {"_id": ObjectId(vote_id)}
-             )
+            client["elections"]["normal"+election_id].find_one(
+                {"_id": ObjectId(vote_id)}
+            )
         )
     ), 200
