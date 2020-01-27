@@ -1,4 +1,5 @@
 from owo.api.user import user
+from owo import JWT_SECRET_KEY, DOMAIN
 from owo.api.election import election_blueprint
 from owo.api.testing import tesing_blueprint
 from owo.front.main import front_blueprint
@@ -14,9 +15,9 @@ logger.add(__name__, colorize=True,
 
 app = Flask(__name__)
 
-app.config["JWT_SECRET_KEY"] = os.environ["JWT_SECRET"]
+app.config["JWT_SECRET_KEY"] = JWT_SECRET_KEY
 app.config["JWT_TOKEN_LOCATION"] = ('cookies', 'headers')
-app.config["DOMAIN"] = "http://" + os.environ["DOMAIN"]
+app.config["DOMAIN"] = "http://" + DOMAIN
 
 jwt = JWTManager(app)
 CORS(app)

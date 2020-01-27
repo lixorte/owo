@@ -112,3 +112,4 @@ mongo/*
 
 ./owo/static/js
 *.egg-info
+owo/__init__.py

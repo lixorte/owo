@@ -7,13 +7,7 @@ services:
     volumes: 
       - static:/app/owo/static/
     environment:
-      - DEV_ID=hselyceum_ring
-      - DEV_KEY=SECRET
-      - JWT_SECRET=SECRET
-      - HASH_SECRET=SECRET
       - DEBUG=TRUE
-      - DOMAIN=localhost
-      - SCHOOL_DOMAIN=api-test
     depends_on:
       - mongodb
   mongodb:

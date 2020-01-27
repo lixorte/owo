@@ -1,10 +1,6 @@
 import requests
-import os
 from loguru import logger
-
-DEV_ID = os.environ["DEV_ID"]
-DEV_KEY = os.environ["DEV_KEY"]
-SCHOOL_DOMAIN = os.environ["SCHOOL_DOMAIN"]
+from owo import DEV_ID, DEV_KEY, SCHOOL_DOMAIN
 
 
 def get_token(code: str, redirect_uri: str) -> str:
