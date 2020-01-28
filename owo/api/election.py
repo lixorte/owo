@@ -4,7 +4,7 @@ from loguru import logger
 from flask import Blueprint, request, jsonify
 from datetime import datetime
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from owo.api.utils import schema_validator, fetch_election, normalize_id
+from owo.api.utils import schema_validator, fetch_election, normalize_id, fetch_election_by_meta
 from owo.api.schemas import *
 
 
@@ -12,7 +12,7 @@ client = MongoClient('mongodb://mongo:27017/', connect=False)
 election_blueprint = Blueprint('elections', __name__)
 
 
-@election_blueprint.route("/election/new", methods=["POST"])  # TODO Test
+@election_blueprint.route("/new", methods=["POST"])  # TODO Test
 @jwt_required
 @schema_validator(create_election)
 def new_election():
@@ -41,7 +41,7 @@ def new_election():
     return jsonify(new_el), 200
 
 
-@election_blueprint.route("/election/{string:election_id}", methods=["GET"])
+@election_blueprint.route("/{string:election_id}", methods=["GET"])
 @schema_validator(get_election_info)
 def get_el_info(election_id):
     election_exists = client["elections"]["meta"].count_documents(
@@ -54,7 +54,7 @@ def get_el_info(election_id):
     return jsonify(fetch_election(election_id)), 200  # TODO Test
 
 
-@election_blueprint.route("/election/{string:election_id}", methods=["PATCH"])
+@election_blueprint.route("/{string:election_id}", methods=["PATCH"])
 @jwt_required
 @schema_validator(update_election_info)
 def patch_el_info(election_id):
@@ -73,7 +73,7 @@ def patch_el_info(election_id):
     return "OK", 200
 
 
-@election_blueprint.route("/election/{string:election_id}", methods=["DELETE"])
+@election_blueprint.route("/{string:election_id}", methods=["DELETE"])
 @jwt_required
 @schema_validator(delete_election)
 def del_election(election_id):
@@ -96,7 +96,7 @@ def del_election(election_id):
     return "OK", 200
 
 
-@election_blueprint.route("/election/{string:election_id}/vote/new", methods=["POST"])
+@election_blueprint.route("/{string:election_id}/vote/new", methods=["POST"])
 @jwt_required
 @schema_validator(add_option)
 def add_opt(election_id):
@@ -144,7 +144,7 @@ def add_opt(election_id):
     return jsonify(new_vote), 200  # TODO Test
 
 
-@election_blueprint.route("/election/{string:election_id}/vote/{string:vote_id}", methods=["POST"])
+@election_blueprint.route("/{string:election_id}/vote/{string:vote_id}", methods=["POST"])
 @jwt_required
 def add_vote(election_id: str, vote_id: str):
     election = client["elections"]["meta"].count_documents(
@@ -189,7 +189,7 @@ def add_vote(election_id: str, vote_id: str):
     return "OK", 200  # TODO Test
 
 
-@election_blueprint.route("/election/{string:election_id}/unvote/{string:vote_id}", methods=["POST"])
+@election_blueprint.route("/{string:election_id}/unvote/{string:vote_id}", methods=["POST"])
 @jwt_required
 def remove_vote(election_id: str, vote_id: str):
     election_exists = client["elections"]["meta"].count_documents(
@@ -229,7 +229,7 @@ def remove_vote(election_id: str, vote_id: str):
     return "OK", 200  # TODO Test
 
 
-@election_blueprint.route("/election/{string:election_id}/voted")
+@election_blueprint.route("/{string:election_id}/voted")
 @jwt_required
 def list_voted(election_id: str):
     election_exists = client["elections"]["meta"].count_documents(
@@ -249,7 +249,7 @@ def list_voted(election_id: str):
     return jsonify(votes), 200
 
 
-@election_blueprint.route("/election/getlast/")
+@election_blueprint.route("/getlast/")
 def get_last():  # ОНО ТЕБЯ СОЖРЕТ Функции нет в документации, считайте, что тут ее тоже нет.
     number_of_elections = client["elections"]["meta"].count()
 
@@ -258,7 +258,7 @@ def get_last():  # ОНО ТЕБЯ СОЖРЕТ Функции нет в док�
 
     election = client["elections"]["meta"].find_one({"state": "ongoing"})
 
-    return fetch_election(str(election["_id"]))
+    return fetch_election_by_meta(election)
 
 
 @election_blueprint.route("/eleciton/getlast/{string:type}")
@@ -273,10 +273,10 @@ def get_specific_last(election_type: str):
     election = client["elections"]["meta"].find_one(
         {"state": "ongoing", "type": election_type})
 
-    return fetch_election(str(election["_id"]))
+    return fetch_election_by_meta(election)
 
 
-@election_blueprint.route("/election/{string:election_id}/vote/{string:vote_id}", methods=["PATCH"])
+@election_blueprint.route("/{string:election_id}/vote/{string:vote_id}", methods=["PATCH"])
 @schema_validator(edit_option)
 @jwt_required
 def update_option(election_id: str, vote_id: str):
@@ -328,10 +328,10 @@ def update_option(election_id: str, vote_id: str):
     ), 200
 
 
-@user.route("/election/find", methods=["GET"])
+@user.route("/find", methods=["GET"])
 @schema_validator(get_elections)
 def get_elections():
-    data = request.get_json()
+    data = request.args
 
     offset = data.get("offset", None) or 0
     limit = data.get("limit")

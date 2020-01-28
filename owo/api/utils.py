@@ -67,6 +67,28 @@ def fetch_election(election_id: str) -> dict:
     return response
 
 
+def fetch_election_by_meta(election: dict) -> dict:
+    election_id = str(election["_id"])
+    del election["_id"]
+    election["id"] = election_id
+
+    normal_objects = [normalize_id(el)
+                      for el in client["elections"]["normal"+election_id].find()]
+    voted_objects = [normalize_id(el)
+                     for el in client["elections"]["voted"+election_id].find()]
+    banned_objects = [normalize_id(el)
+                      for el in client["elections"]["banned"+election_id].find()]
+
+    response = {
+        "electionInfo": election,
+        "normalObjects": normal_objects,
+        "votedObjects": voted_objects,
+        "bannedObjects": banned_objects
+    }
+
+    return response
+
+
 def prefs_validator(prefs: dict):
     """
     Validates that request's author cookie has certain prefs
@@ -78,11 +100,11 @@ def prefs_validator(prefs: dict):
             for key, item in prefs.items():
                 if user_data.get(key, "") != item:
                     return flask.jsonify(
-                    {
-                        "message": "Invalid JWT prefs",
-                        "code": 403
-                    }
-                ), 403
+                        {
+                            "message": "Invalid JWT prefs",
+                            "code": 403
+                            }
+                        ), 403
             return f(*args, **kwargs)
         return __validator
     return _validator

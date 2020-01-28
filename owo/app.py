@@ -22,8 +22,8 @@ app.config["DOMAIN"] = "http://" + DOMAIN
 jwt = JWTManager(app)
 CORS(app)
 
-app.register_blueprint(user)
-app.register_blueprint(election_blueprint)
+app.register_blueprint(user, url_prefix="/user")
+app.register_blueprint(election_blueprint, url_prefix="/election")
 app.register_blueprint(front_blueprint)
 
 if os.environ["DEBUG"] == "TRUE":
