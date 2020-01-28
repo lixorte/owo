@@ -326,3 +326,32 @@ def update_option(election_id: str, vote_id: str):
             )
         )
     ), 200
+
+
+@user.route("/election/find", methods=["GET"])
+@schema_validator(get_elections)
+def get_elections():
+    data = request.get_json()
+
+    offset = data.get("offset", None) or 0
+    limit = data.get("limit")
+    utype = data.get("type")
+
+    out = list()
+
+    for idx, item in enumerate(
+        client["elections"]["meta"].find().sort("login")
+    ):
+        if idx < offset:
+            continue
+        if idx > offset + limit:
+            break
+        if utype != 'any' and utype != item["type"]:
+            continue
+        else:
+            item["id"] = str(item["_id"])
+            del item["_id"]
+
+            out.append(item)
+
+    return (jsonify(out), 200)
