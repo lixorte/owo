@@ -1,7 +1,5 @@
 from pymongo import MongoClient
 from flask import Blueprint, request, jsonify
-from owo.api.utils import schema_validator
-import owo.api.schemas as schemas
 from flask_jwt_extended import jwt_required
 
 
@@ -10,31 +8,13 @@ user = Blueprint('users', __name__)
 
 
 @user.route("/", methods=["GET"])
-@schema_validator(schemas.get_users)
 def get_users():
-    data = request.args
+    out = []
 
-    offset = data.get("offset", None) or 0
-    limit = data.get("limit")
-    utype = data.get("type")
+    for user in client["meta"]["users"].find().sort("login"):
+        out.append(user)
 
-    out = list()
-
-    for idx, item in enumerate(
-            client["meta"]["users"].find().sort("login")):
-        if idx < offset:
-            continue
-        if idx > offset + limit:
-            break
-        if utype != "any" and utype != item["type"]:
-            continue
-        else:
-            item["id"] = str(item["_id"])
-            del item["_id"]
-
-            out.append(item)
-
-    return (jsonify(out), 200)
+    return jsonify(out)
 
 
 @user.route("/{string:user_id}", methods=["GET"])
