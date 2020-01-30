@@ -6,7 +6,7 @@ import filledLike from "../../../src/like_filled.png";
 
 const address = "http://0.0.0.0";
 
-class SongItem extends Component {
+class ThemeItem extends Component {
     constructor() {
         super();
         this.state = {
@@ -25,7 +25,7 @@ class SongItem extends Component {
     }
 
     getData() {
-        fetch(address + "/election/getlast/song")
+        fetch(address + "/election/getlast/theme")
             .then(response =>
                 response.json()
             )
@@ -96,12 +96,11 @@ class SongItem extends Component {
                         {this.state.data["normalObjects"].map(item =>
                             <div className="songitem">
                                 <div className="songitem-info">
-                                    <div className="songitem-title"> {item["name"]} </div>
-                                    <div className="songitem-singer"> {item["singer"]} </div>
+                                    <div className="theme-title"> {item["name"]} </div>
                                 </div>
                                 <img src={unfilledLike} alt="icon" className="like-button" id={item["id"]}
                                      onClick={(e) => this.handleClick(item["id"], e)}/> {this.color(item['id'])}
-                                     <div className="votes-count">{item["votes"]}</div>
+                                <div className="votes-count">{item["votes"]}</div>
                             </div>
                         )}
                     </div>)
@@ -111,8 +110,7 @@ class SongItem extends Component {
                         {this.state.data["normalObjects"].map(item =>
                             <div className="songitem">
                                 <div className="songitem-info">
-                                    <div className="songitem-title"> {item["name"]} </div>
-                                    <div className="songitem-singer"> {item["singer"]} </div>
+                                    <div className="theme-title"> {item["name"]} </div>
                                 </div>
                                 <img src={unfilledLike} alt="icon" className="like-button" id={item["id"]}/>
                                 <div className="votes-count">{item["votes"]}</div>
@@ -122,11 +120,11 @@ class SongItem extends Component {
                 );
             }
         } else {
-            return <div> Something has gone wrong (data) </div>;
+            return <div> Something has gone wrong </div>;
         }
     }
 }
 
-export default SongItem;
-const wrapper = document.getElementById("songs-container");
-ReactDOM.render(<SongItem/>, wrapper);
+export default ThemeItem;
+const wrapper = document.getElementById("themes-container");
+ReactDOM.render(<ThemeItem/>, wrapper);

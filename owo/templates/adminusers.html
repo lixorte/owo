@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<!--suppress ALL -->
 <html lang="ru">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Добавить песню</title>
+	<title>Звонки</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="../static/styles.css">
@@ -22,14 +21,11 @@
 			<a class="sidebar-btn" href="#" onclick="auth()" id="auth">
 				Войти
 			</a>
-			<a class="sidebar-btn" href="themevoting.html">
-				Голосование за темы
-			</a>
 			<a class="sidebar-btn" href="index.html">
 				Голосование за песни
 			</a>
-			<a class="sidebar-btn" href="oldvoting.html">
-				Прошлые голосования
+			<a class="sidebar-btn" href="themevoting.html">
+				Голосование за темы
 			</a>
 		</div>
 	</div>
@@ -37,7 +33,7 @@
 
 	</div>
 </aside>
-<header>
+<header id="header">
 	<div class="container-fluid">
 		<div class="row header">
 			<div class="col-1">
@@ -54,34 +50,13 @@
 	</div>
 </header>
 <main>
-	<section class="text-center">
-		<form class="add-song">
-			<div class="form-label-group add-song-input-container">
-				<input type="text" id="input-song-title" class="form-control add-song-input"
-				       name="title" placeholder="Название песни" required autofocus>
-				<!--<label class="add-song-label bmd-label-floating" for="input-song-title">Название песни</label>-->
-			</div>
-
-			<div class="form-label-group add-song-input-container">
-				<input type="text" id="input-song-author" class="form-control add-song-input"
-				       name="author" placeholder="Исполнитель" required>
-				<!--<label class="add-song-label" for="input-song-author">Исполнитель</label>-->
-			</div>
-
-			<div class="form-label-group add-song-input-container">
-				<input type="text" class="form-control add-song-input" name="link" placeholder="Яндекс.Музыка, YouTube и т.п.">
-			</div>
-
-			<div class="form-label-group add-song-input-container">
-				<input type="text" class="form-control add-song-input" name="cut" placeholder="Обрезка трека">
-			</div>
-			<button type="button" class="add-item-submit" onclick="sendData()">Добавить</button>
-		</form>
-		<div class="required-alert" id="required-alert">
-			Пожалуйста, заполните поля названия и исполнителя
-		</div>
-	</section>
+<section class="text-center">
+	<div id="users-container">
+		ajajdjodfj
+	</div>
+</section>
 </main>
+<script src="../static/main.js"></script>
 <!-- Load React. -->
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
@@ -89,7 +64,8 @@
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
 
 <!-- Load our React component. -->
-<script src="../static/main.js"></script>
+<script type="module" src="../static/js/user.bundle.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
 </script>

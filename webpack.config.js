@@ -3,7 +3,9 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        index: __dirname + '/owo/static/index.js'
+        index: __dirname + '/owo/static/index.js',
+        theme: __dirname + "/owo/static/theme.js",
+        user: __dirname + "/owo/static/jsx/components/User.js"
     },
     module: {
         rules: [
@@ -58,7 +60,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname + '/owo/static/js'),
-        filename: 'bundle.js'
+        filename: '[name].bundle.js'
     },
     plugins: [
         new HtmlWebPackPlugin({
@@ -68,6 +70,10 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: __dirname + "/owo/templates/addsong.html",
             filename: "./addsong.html"
+        }),
+        new HtmlWebPackPlugin({
+            template: __dirname + "/owo/templates/themevoting.html",
+            filename: "./themevoting.html"
         })
     ],
     devServer: {
