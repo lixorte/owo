@@ -328,7 +328,7 @@ def update_option(election_id: str, vote_id: str):
     ), 200
 
 
-@user.route("/find", methods=["GET"])
+@election_blueprint.route("/find", methods=["GET"])
 def get_elections():
     out = []
 

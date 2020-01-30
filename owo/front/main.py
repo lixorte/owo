@@ -12,6 +12,11 @@ def main_page():
     return render_template("index.html")
 
 
+@front_blueprint.route("/addsong.html")
+def addsong():
+    return render_template("addsong.html")
+
+
 @front_blueprint.route("/auth", methods=["GET"])
 def oauth_handler():
     code = request.args.get("code")
