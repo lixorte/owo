@@ -4,7 +4,7 @@ import "./../../styles.css";
 import unfilledLike from "../../../src/like_unfilled.png";
 import filledLike from "../../../src/like_filled.png";
 
-const address = "http://0.0.0.0";
+const address = "keddad.wtf";
 
 class ThemeItem extends Component {
     constructor() {

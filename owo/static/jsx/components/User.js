@@ -2,8 +2,7 @@ import React, {Component} from "react";
 import ReactDOM from "react-dom";
 import "./../../styles.css";
 
-const address = "http://0.0.0.0";
-let last_data = [], items = [];
+const address = "keddad.wtf";
 
 function min(a, b) {
     if (a < b) {
