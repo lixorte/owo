@@ -1,5 +1,8 @@
 function toggleSidebar() {
     if (window.getComputedStyle(document.getElementById("sb"), null).getPropertyValue("left") === "-300px") {
+        if (document.cookie.hasOwnProperty("access_token_cookie")) {
+            document.getElementById("auth").innerText = "Выйти";
+        }
         document.getElementById("sb").style.left = "0";
         document.getElementById("darken").style.opacity = "60%";
         document.getElementById("darken").style.zIndex = "1";

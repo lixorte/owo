@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--suppress ALL -->
 <html lang="ru">
 <head>
 	<meta charset="UTF-8">
@@ -7,7 +6,7 @@
 	<title>Звонки</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="../static/styles.css">
+	<link rel="stylesheet" href="../static/styles.css">
 	<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:400,800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -19,11 +18,11 @@
 			<span class="bar bottom on-sidebar"></span>
 		</button>
 		<div class="sb-btn-container">
-			<a class="sidebar-btn" href="" onclick="auth()" id="auth">
+			<a class="sidebar-btn" href="#" onclick="auth()" id="auth">
 				Войти
 			</a>
-			<a class="sidebar-btn" href="themevoting.html">
-				Голосование за темы
+			<a class="sidebar-btn" href="index.html">
+				Голосование за песни
 			</a>
 			<a class="sidebar-btn" href="oldvoting.html">
 				Прошлые голосования
@@ -53,31 +52,17 @@
 		</div>
 	</div>
 </header>
-<main id="main">
+<main>
 	<section class="text-center">
 		<div class="search-panel">
 			<form class="form-search">
 				<div class="form-group">
-					<input class="form-control search" type="search" onkeyup="search()" id="search1" placeholder="Найти песню">
+					<input class="form-control search search-theme" type="search" onkeyup="search()" id="search1" placeholder="Найти тему">
 				</div>
 			</form>
-			<a class="add-song-btn" href="addsong.html" target="_blank">
-				<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg"
-				     xmlns:xlink="http://www.w3.org/1999/xlink">
-					<g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-						<g transform="translate(-1239.000000, -429.000000)" fill="#FFFFFF" id="Plus">
-							<path d="M1260,429 C1261.10457,429 1262,429.895431 1262,431 L1262,446 L1277,446 C1278.10457,446
-            1279,446.895431 1279,448 L1279,450 C1279,451.104569 1278.10457,452 1277,452 L1262,452 L1262,467
-            C1262,468.104569 1261.10457,469 1260,469 L1258,469 C1256.89543,469 1256,468.104569 1256,467 L1256,452
-            L1241,452 C1239.89543,452 1239,451.104569 1239,450 L1239,448 C1239,446.895431 1239.89543,446 1241,446
-            L1256,446 L1256,431 C1256,429.895431 1256.89543,429 1258,429 L1260,429 Z"/>
-						</g>
-					</g>
-				</svg>
-			</a>
 		</div>
-		<div id="songs-container">
-			Something has gone wrong
+		<div id="themes-container">
+			soskofifj
 		</div>
 	</section>
 </main>
@@ -86,9 +71,8 @@
         let filter = document.getElementById("search1").value.toLowerCase();
         let items = document.getElementsByClassName("songitem");
         for (let i = 0; i < items.length; ++i) {
-            let singer = items[i].getElementsByClassName("songitem-singer")[0].textContent || items[i].getElementsByClassName("songitem-singer")[0].innerHTML;
-            let title = items[i].getElementsByClassName("songitem-title")[0].textContent || items[i].getElementsByClassName("songitem-title")[0].innerHTML;
-            if (singer.toLowerCase().indexOf(filter) > -1 || title.toLowerCase().indexOf(filter) > -1) {
+            let title = items[i].getElementsByClassName("theme-title")[0].textContent || items[i].getElementsByClassName("theme-title")[0].innerHTML;
+            if (title.toLowerCase().indexOf(filter) > -1) {
                 items[i].style.display = "";
             } else {
                 items[i].style.display = "none";
@@ -97,7 +81,6 @@
     }
 </script>
 <script src="../static/main.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- Load React. -->
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
@@ -105,7 +88,11 @@
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
 
 <!-- Load our React component. -->
-<script type="module" src="../static/js/index.bundle.js"></script>
+<script src="../static/js/theme.bundle.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
 </script>
