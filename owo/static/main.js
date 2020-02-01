@@ -26,14 +26,14 @@ function sendData() {
         document.getElementById("required-alert").style.display = "none";
     }
 
-    let electionUid = "";
+    /*let electionUid = "";
     let cookies = document.cookie;
     let jwt = cookies["JWT"];
     let addItemData = JSON.stringify($(".add-song").serializeArray());
 
     XMLHttpRequest.open("POST", "/election/" + electionUid + "/vote/new");
     XMLHttpRequest.setRequestHeader("Authorization", "Bearer " + jwt);
-    XMLHttpRequest.send(addItemData);
+    XMLHttpRequest.send(addItemData);*/
 }
 
 function auth() {
