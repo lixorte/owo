@@ -17,6 +17,21 @@ def addsong():
     return render_template("addsong.html")
 
 
+@front_blueprint.route("/adminusers.html")
+def adminusers():
+    return render_template("adminusers.html")
+
+
+@front_blueprint.route("/adminvotings.html")
+def adminvoting():
+    return render_template("adminvotings.html")
+
+
+@front_blueprint.route("/themevoting.html")
+def themevoting():
+    return render_template("themevoting.html")
+
+
 @front_blueprint.route("/auth", methods=["GET"])
 def oauth_handler():
     code = request.args.get("code")
@@ -54,5 +69,6 @@ def oauth_handler():
 
     set_access_cookies(resp, access_token)
     set_refresh_cookies(resp, refresh_token)
+    resp.set_cookie("isAdmin", "true" if session_user["state"] == "admin" else "false")
 
     return resp, 200
