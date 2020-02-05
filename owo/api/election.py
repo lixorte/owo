@@ -328,11 +328,11 @@ def update_option(election_id: str, vote_id: str):
     ), 200
 
 
-@election_blueprint.route("/find", methods=["GET"])
-def get_elections():
+@election_blueprint.route("/find/{string: type}", methods=["GET"])
+def get_elections(el_type):
     out = []
 
-    for item in client["elections"]["meta"].find().sort("datetime"):
+    for item in client["elections"]["meta"].find({"type": el_type}).sort("datetime"):
         out.append(item)
 
     return jsonify(out)
