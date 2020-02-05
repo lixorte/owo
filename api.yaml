@@ -17,7 +17,7 @@ paths:
             type: string
             enum:
               - "song"
-              - "theme"
+              - "topic"
           required: true
           description: Тип голосования
       summary: Результаты последнего голосования
