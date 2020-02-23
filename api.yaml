@@ -111,7 +111,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-    delete:
+  /election/{electionUid}/delete:
+    post:
       summary: Удалить голосование
       operationId: deleteElection
       parameters:
