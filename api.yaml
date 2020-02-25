@@ -67,7 +67,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-    patch:
+  /election/{electionUid}/patch:
+    post:
       summary: Обновить информацию о голосовании по его id
       operationId: updateelectionInfo
       parameters:
@@ -217,7 +218,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-    patch:
+  /election/{electionUid}/vote/{voteUid}/patch:
+    post:
       summary: Изменить опцию
       operationId: editOption
       parameters:
