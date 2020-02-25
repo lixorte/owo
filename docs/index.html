@@ -84,7 +84,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a href="#operation--election--electionUid--patch">PATCH /election/{electionUid}</a></td>
+                        <td><a href="#operation--election--electionUid--patch-post">POST /election/{electionUid}/patch</a></td>
                         <td><p>Обновить информацию о голосовании по его id</p>
         </td>
                     </tr>
@@ -94,7 +94,7 @@
         </td>
                     </tr>
                     <tr>
-                        <td><a href="#operation--election--electionUid--vote--voteUid--patch">PATCH /election/{electionUid}/vote/{voteUid}</a></td>
+                        <td><a href="#operation--election--electionUid--vote--voteUid--patch-post">POST /election/{electionUid}/vote/{voteUid}/patch</a></td>
                         <td><p>Изменить опцию</p>
         </td>
                     </tr>
@@ -557,10 +557,12 @@
                         </section>
                 </div>
             </div>
-            <div id="operation--election--electionUid--patch" class="swagger--panel-operation-patch panel">
+        
+        <span id="path--election--electionUid--delete"></span>
+            <div id="operation--election--electionUid--delete-post" class="swagger--panel-operation-post panel">
                 <div class="panel-heading">
-                    <div class="operation-summary">&#x41E;&#x431;&#x43D;&#x43E;&#x432;&#x438;&#x442;&#x44C; &#x438;&#x43D;&#x444;&#x43E;&#x440;&#x43C;&#x430;&#x446;&#x438;&#x44E; &#x43E; &#x433;&#x43E;&#x43B;&#x43E;&#x441;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x438; &#x43F;&#x43E; &#x435;&#x433;&#x43E; id</div>
-                    <h3 class="panel-title"><span class="operation-name">PATCH</span> <strong>/election/{electionUid}</strong></h3>
+                    <div class="operation-summary">&#x423;&#x434;&#x430;&#x43B;&#x438;&#x442;&#x44C; &#x433;&#x43E;&#x43B;&#x43E;&#x441;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x435;</div>
+                    <h3 class="panel-title"><span class="operation-name">POST</span> <strong>/election/{electionUid}/delete</strong></h3>
                         Tags:
                             <a href="#tag-----------------------------------">Операции, доступные администратору</a>
                 </div>
@@ -612,7 +614,7 @@
                                     <dd class="sw-response-200">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <p>Данные обновлены</p>
+                                                    <p>Данные удалены</p>
                                             
                                                 </div>
                                             </div>
@@ -695,11 +697,11 @@
                 </div>
             </div>
         
-        <span id="path--election--electionUid--delete"></span>
-            <div id="operation--election--electionUid--delete-post" class="swagger--panel-operation-post panel">
+        <span id="path--election--electionUid--patch"></span>
+            <div id="operation--election--electionUid--patch-post" class="swagger--panel-operation-post panel">
                 <div class="panel-heading">
-                    <div class="operation-summary">&#x423;&#x434;&#x430;&#x43B;&#x438;&#x442;&#x44C; &#x433;&#x43E;&#x43B;&#x43E;&#x441;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x435;</div>
-                    <h3 class="panel-title"><span class="operation-name">POST</span> <strong>/election/{electionUid}/delete</strong></h3>
+                    <div class="operation-summary">&#x41E;&#x431;&#x43D;&#x43E;&#x432;&#x438;&#x442;&#x44C; &#x438;&#x43D;&#x444;&#x43E;&#x440;&#x43C;&#x430;&#x446;&#x438;&#x44E; &#x43E; &#x433;&#x43E;&#x43B;&#x43E;&#x441;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x438; &#x43F;&#x43E; &#x435;&#x433;&#x43E; id</div>
+                    <h3 class="panel-title"><span class="operation-name">POST</span> <strong>/election/{electionUid}/patch</strong></h3>
                         Tags:
                             <a href="#tag-----------------------------------">Операции, доступные администратору</a>
                 </div>
@@ -751,7 +753,7 @@
                                     <dd class="sw-response-200">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <p>Данные удалены</p>
+                                                    <p>Данные обновлены</p>
                                             
                                                 </div>
                                             </div>
@@ -1129,176 +1131,6 @@
             </div>
         
         <span id="path--election--electionUid--vote--voteUid-"></span>
-            <div id="operation--election--electionUid--vote--voteUid--patch" class="swagger--panel-operation-patch panel">
-                <div class="panel-heading">
-                    <div class="operation-summary">&#x418;&#x437;&#x43C;&#x435;&#x43D;&#x438;&#x442;&#x44C; &#x43E;&#x43F;&#x446;&#x438;&#x44E;</div>
-                    <h3 class="panel-title"><span class="operation-name">PATCH</span> <strong>/election/{electionUid}/vote/{voteUid}</strong></h3>
-                        Tags:
-                            <a href="#tag-----------------------------------">Операции, доступные администратору</a>
-                </div>
-                <div class="panel-body">
-                    <section class="sw-operation-description">
-                        
-                    </section>
-            
-                    
-                        <section class="sw-request-params">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th class="sw-param-name"></th>
-                                    <th class="sw-param-description"></th>
-                                    <th class="sw-param-type"></th>
-                                    <th class="sw-param-data-type"></th>
-                                    <th class="sw-param-annotation"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                        <tr>
-                                            <td>
-                                                electionUid
-                                            </td>
-                                            <td><p>ID голосования</p>
-                                        </td>
-                                            <td>path</td>
-                                            <td>
-                                        <span class="json-property-type">object</span>
-                                        <span class="json-property-range" title="Value limits"></span>
-                                        
-                                            </td>
-                                            <td>
-                                                    <span class="json-property-required"></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                voteUid
-                                            </td>
-                                            <td><p>ID опции голосования</p>
-                                        </td>
-                                            <td>path</td>
-                                            <td>
-                                        <span class="json-property-type">object</span>
-                                        <span class="json-property-range" title="Value limits"></span>
-                                        
-                                            </td>
-                                            <td>
-                                                    <span class="json-property-required"></span>
-                                            </td>
-                                        </tr>
-                                </tbody>
-                            </table>
-                        </section>
-                    
-                        <section class="sw-responses">
-                    
-                            <dl>
-                                    <dt class="sw-response-200">
-                                        200 OK
-                                    
-                                    </dt>
-                                    <dd class="sw-response-200">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <p>Изменения приняты, возвращает новый обьект</p>
-                                            
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                
-                                                <div class="col-md-6 sw-response-model">
-                                            </div>
-                                            
-                                            </div>                </dd>
-                                    <dt class="sw-response-401">
-                                        401 Unauthorized
-                                    
-                                    </dt>
-                                    <dd class="sw-response-401">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <p>Ошибка авторизации</p>
-                                            
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                
-                                                <div class="col-md-6 sw-response-model">
-                                            </div>
-                                            
-                                            </div>                </dd>
-                                    <dt class="sw-response-403">
-                                        403 Forbidden
-                                    
-                                    </dt>
-                                    <dd class="sw-response-403">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <p>Голосование уже замороженно</p>
-                                            
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                
-                                                <div class="col-md-6 sw-response-model">
-                                            </div>
-                                            
-                                            </div>                </dd>
-                                    <dt class="sw-response-404">
-                                        404 Not Found
-                                    
-                                    </dt>
-                                    <dd class="sw-response-404">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <p>Нет такого голосования или варианта</p>
-                                            
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                
-                                                <div class="col-md-6 sw-response-model">
-                                            </div>
-                                            
-                                            </div>                </dd>
-                                    <dt class="sw-response-default">
-                                        default 
-                                    
-                                    </dt>
-                                    <dd class="sw-response-default">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <p>unexpected error</p>
-                                            
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                
-                                                <div class="col-md-6 sw-response-model">
-                                            </div>
-                                            
-                                            </div>                </dd>
-                            </dl>
-                        </section>
-                        <section class="sw-request-security">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th class="sw-request-security-schema"></th>
-                                    <th class="sw-request-security-scopes"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                        <tr>
-                                            <td><a href="#security-definition-JWTAuth">JWTAuth</a></td>
-                                            <td>
-                                            </td>
-                                        </tr>
-                                </tbody>
-                            </table>
-                        </section>
-                </div>
-            </div>
             <div id="operation--election--electionUid--vote--voteUid--post" class="swagger--panel-operation-post panel">
                 <div class="panel-heading">
                     <div class="operation-summary">&#x41F;&#x440;&#x43E;&#x433;&#x43E;&#x43B;&#x43E;&#x441;&#x43E;&#x432;&#x430;&#x442;&#x44C; &#x437;&#x430; &#x43E;&#x43F;&#x446;&#x438;&#x44E;</div>
@@ -1439,6 +1271,178 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <p>Юзер уже проголосовал за опцию</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-default">
+                                        default 
+                                    
+                                    </dt>
+                                    <dd class="sw-response-default">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>unexpected error</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                            </dl>
+                        </section>
+                        <section class="sw-request-security">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="sw-request-security-schema"></th>
+                                    <th class="sw-request-security-scopes"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td><a href="#security-definition-JWTAuth">JWTAuth</a></td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                </div>
+            </div>
+        
+        <span id="path--election--electionUid--vote--voteUid--patch"></span>
+            <div id="operation--election--electionUid--vote--voteUid--patch-post" class="swagger--panel-operation-post panel">
+                <div class="panel-heading">
+                    <div class="operation-summary">&#x418;&#x437;&#x43C;&#x435;&#x43D;&#x438;&#x442;&#x44C; &#x43E;&#x43F;&#x446;&#x438;&#x44E;</div>
+                    <h3 class="panel-title"><span class="operation-name">POST</span> <strong>/election/{electionUid}/vote/{voteUid}/patch</strong></h3>
+                        Tags:
+                            <a href="#tag-----------------------------------">Операции, доступные администратору</a>
+                </div>
+                <div class="panel-body">
+                    <section class="sw-operation-description">
+                        
+                    </section>
+            
+                    
+                        <section class="sw-request-params">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="sw-param-name"></th>
+                                    <th class="sw-param-description"></th>
+                                    <th class="sw-param-type"></th>
+                                    <th class="sw-param-data-type"></th>
+                                    <th class="sw-param-annotation"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td>
+                                                electionUid
+                                            </td>
+                                            <td><p>ID голосования</p>
+                                        </td>
+                                            <td>path</td>
+                                            <td>
+                                        <span class="json-property-type">object</span>
+                                        <span class="json-property-range" title="Value limits"></span>
+                                        
+                                            </td>
+                                            <td>
+                                                    <span class="json-property-required"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                voteUid
+                                            </td>
+                                            <td><p>ID опции голосования</p>
+                                        </td>
+                                            <td>path</td>
+                                            <td>
+                                        <span class="json-property-type">object</span>
+                                        <span class="json-property-range" title="Value limits"></span>
+                                        
+                                            </td>
+                                            <td>
+                                                    <span class="json-property-required"></span>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    
+                        <section class="sw-responses">
+                    
+                            <dl>
+                                    <dt class="sw-response-200">
+                                        200 OK
+                                    
+                                    </dt>
+                                    <dd class="sw-response-200">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Изменения приняты, возвращает новый обьект</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-401">
+                                        401 Unauthorized
+                                    
+                                    </dt>
+                                    <dd class="sw-response-401">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Ошибка авторизации</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-403">
+                                        403 Forbidden
+                                    
+                                    </dt>
+                                    <dd class="sw-response-403">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Голосование уже замороженно</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-404">
+                                        404 Not Found
+                                    
+                                    </dt>
+                                    <dd class="sw-response-404">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Нет такого голосования или варианта</p>
                                             
                                                 </div>
                                             </div>
