@@ -5,7 +5,7 @@ get_last_election = Schema(
         "type": In(
             [
                 "song",
-                "theme"
+                "topic"
             ]
         )
     },

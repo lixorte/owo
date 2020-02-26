@@ -17,7 +17,7 @@ paths:
             type: string
             enum:
               - "song"
-              - "theme"
+              - "topic"
           required: true
           description: Тип голосования
       summary: Результаты последнего голосования
@@ -67,7 +67,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-    patch:
+  /election/{electionUid}/patch:
+    post:
       summary: Обновить информацию о голосовании по его id
       operationId: updateelectionInfo
       parameters:
@@ -111,7 +112,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-    delete:
+  /election/{electionUid}/delete:
+    post:
       summary: Удалить голосование
       operationId: deleteElection
       parameters:
@@ -216,7 +218,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-    patch:
+  /election/{electionUid}/vote/{voteUid}/patch:
+    post:
       summary: Изменить опцию
       operationId: editOption
       parameters:
