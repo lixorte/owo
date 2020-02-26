@@ -4,7 +4,7 @@ import "./../../styles.css";
 import unfilledLike from "../../../src/like_unfilled.png";
 import filledLike from "../../../src/like_filled.png";
 
-const address = "keddad.wtf";
+const address = "http://keddad.me";
 
 class SongItem extends Component {
     constructor() {
@@ -101,7 +101,7 @@ class SongItem extends Component {
                                 </div>
                                 <img src={unfilledLike} alt="icon" className="like-button" id={item["id"]}
                                      onClick={(e) => this.handleClick(item["id"], e)}/> {this.color(item['id'])}
-                                     <div className="votes-count">{item["votes"]}</div>
+                                <div className="votes-count">{item["votes"]}</div>
                             </div>
                         )}
                     </div>)
@@ -130,3 +130,14 @@ class SongItem extends Component {
 export default SongItem;
 const wrapper = document.getElementById("songs-container");
 ReactDOM.render(<SongItem/>, wrapper);
+
+/*<!--<div className="dropdown">
+                                    <button className="dropdown-button" onClick={(e) => this.handleClickEdit(item["id"], e)}> Edit </button>
+                                    <div className="dropdown-content">
+                                        <form>
+                                            <input type="text"/> Название <br/>
+                                            <input type="text"/> Исполнитель <br/>
+                                            <input type="checkbox"/> ban
+                                        </form>
+                                    </div>
+                                </div>-->*/

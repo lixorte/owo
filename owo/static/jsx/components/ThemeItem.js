@@ -4,7 +4,7 @@ import "./../../styles.css";
 import unfilledLike from "../../../src/like_unfilled.png";
 import filledLike from "../../../src/like_filled.png";
 
-const address = "keddad.wtf";
+const address = "http://keddad.me";
 
 class ThemeItem extends Component {
     constructor() {
@@ -25,7 +25,7 @@ class ThemeItem extends Component {
     }
 
     getData() {
-        fetch(address + "/election/getlast/theme")
+        fetch(address + "/election/getlast/topic")
             .then(response =>
                 response.json()
             )

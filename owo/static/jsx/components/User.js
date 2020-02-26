@@ -1,8 +1,10 @@
 import React, {Component} from "react";
 import ReactDOM from "react-dom";
 import "./../../styles.css";
+import rightArrow from "../../../src/arrow_right.png";
+import leftArrow from "../../../src/arrow_left.png";
 
-const address = "keddad.wtf";
+const address = "http://keddad.me";
 
 function min(a, b) {
     if (a < b) {
@@ -65,7 +67,7 @@ class User extends Component {
     updateUser(user, upd, id, e) {
         if (upd === "type") {
             let type = user["type"] === "admin" ? "normal" : "admin";
-            if (type === "admin") {
+            if (document.getElementById(id).innerText === "Повысить") {
                 document.getElementById(id).innerText = "Понизить";
             } else {
                 document.getElementById(id).innerText = "Повысить";
@@ -82,7 +84,7 @@ class User extends Component {
         }
         if (upd === "state") {
             let state = user["state"] === "ok" ? "banned" : "ok";
-            if (state === "banned") {
+            if (document.getElementById(id).nextElementSibling.innerText === "Забанить") {
                 document.getElementById(id).nextElementSibling.innerText = "Разбанить";
             } else {
                 document.getElementById(id).nextElementSibling.innerText = "Забанить";
@@ -96,6 +98,22 @@ class User extends Component {
                     "state": state
                 }
             }).catch(error => console.log(error));
+        }
+    }
+
+    isAdmin(type) {
+        if (type === "admin") {
+            return "Понизить";
+        } else {
+            return "Повысить";
+        }
+    }
+
+    isBanned(state) {
+        if (state === "normal") {
+            return "Забанить";
+        } else {
+            return "Разбанить";
         }
     }
 
@@ -117,16 +135,16 @@ class User extends Component {
                                 </div>
                             </div>
                             <button className="user-promote" id={item["id"]}
-                                 onClick={(e) => this.updateUser(item, "type", item["id"], e)}> Повысить
+                                 onClick={(e) => this.updateUser(item, "type", item["id"], e)}> {this.isAdmin(item["type"])}
                             </button>
                             <button className="user-ban"
-                                 onClick={(e) => this.updateUser(item, "state", item["id"], e)}> Забанить
+                                 onClick={(e) => this.updateUser(item, "state", item["id"], e)}> {this.isBanned(item["type"])}
                             </button>
                         </div>
                     )}
                     <div className="user-buttons-container">
-                        <img className="user-button-left" alt="left" onClick={(e) => this.handleClickLeft(e)}/>
-                        <img className="user-button-right" alt="right" onClick={(e) => this.handleClickRight(e)}/>
+                        <img src={leftArrow} className="user-button-left user-button" alt="left" onClick={(e) => this.handleClickLeft(e)}/>
+                        <img src={rightArrow} className="user-button-right user-button" alt="right" onClick={(e) => this.handleClickRight(e)}/>
                     </div>
                 </div>
             )

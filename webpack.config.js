@@ -5,7 +5,8 @@ module.exports = {
     entry: {
         index: __dirname + '/owo/static/index.js',
         theme: __dirname + "/owo/static/theme.js",
-        user: __dirname + "/owo/static/jsx/components/User.js"
+        user: __dirname + "/owo/static/jsx/components/User.js",
+        voting: __dirname + "/owo/static/jsx/components/Voting.js"
     },
     module: {
         rules: [

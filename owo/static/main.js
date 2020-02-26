@@ -1,3 +1,5 @@
+const address = "http://keddad.me";
+
 function toggleSidebar() {
     if (window.getComputedStyle(document.getElementById("sb"), null).getPropertyValue("left") === "-300px") {
         if (document.cookie.hasOwnProperty("access_token_cookie")) {
@@ -26,14 +28,21 @@ function sendData() {
         document.getElementById("required-alert").style.display = "none";
     }
 
-    /*let electionUid = "";
-    let cookies = document.cookie;
-    let jwt = cookies["JWT"];
+    fetch(address + "/election/getlast/song")
+        .then(response => response.json())
+        .then(dataa => dataa)
+        .catch(error => console.log(error));
+    console.log(data);
+    let electionUid = data["electionInfo"]["id"];
     let addItemData = JSON.stringify($(".add-song").serializeArray());
-
-    XMLHttpRequest.open("POST", "/election/" + electionUid + "/vote/new");
-    XMLHttpRequest.setRequestHeader("Authorization", "Bearer " + jwt);
-    XMLHttpRequest.send(addItemData);*/
+    fetch(address + "/election/" + electionUid + "/vote/new", {
+        method: "POST",
+        credentials: "include",
+        mode: 'no-cors',
+        body: {
+            addItemData
+        }
+    }).catch(error => console.log(error))
 }
 
 function auth() {
@@ -42,7 +51,7 @@ function auth() {
     window.open(link);
 }
 
-function color (element) {
+function color(element) {
     if (document.getElementById(element.id).style.backgroundColor === "#ffffff") {
         document.getElementById(element.id).style.backgroundColor = "#000000";
     } else {

@@ -109,6 +109,7 @@
 	.header {
 		height: 250px;
 	}
+
 	.title-container {
 		margin-top: 50px;
 	}
@@ -330,6 +331,14 @@
 	.songitem {
 		width: calc(70vw + 70px);
 	}
+
+	.songitem-title {
+		font-size: 25px;
+	}
+
+	.songitem-singer {
+		font-size: 20px;
+	}
 }
 
 .like-button {
@@ -362,6 +371,12 @@
 
 	text-align: left;
 	font-size: 40px;
+}
+
+@media (max-width: 575.98px) {
+	.theme-title {
+		font-size: 30px;
+	}
 }
 
 /* users */
@@ -404,6 +419,24 @@
 	color: #ffffff;
 }
 
+.user-buttons-container {
+	max-width: 580px;
+	width: calc(70vw + 80px);
+	margin: 0 auto;
+}
+
+.user-button {
+	height: 50px;
+}
+
+.user-button-left {
+	float: left;
+}
+
+.user-button-right {
+	float: right;
+}
+
 .user-ban, .user-promote {
 	display: inline-block;
 	width: calc(35vw + 35px);
@@ -419,7 +452,7 @@
 	color: #ffffff;
 }
 
-.user-ban:focus, .user-promote:focus {
+.user-ban:focus, .user-promote:focus, .sidebar-toggle:focus, .bar:focus, .add-item-submit:focus {
 	outline: 0;
 	border: none;
 	box-shadow: none;
@@ -434,4 +467,136 @@
 	.user-name, .user-promote, .user-ban {
 		font-size: 20px;
 	}
+}
+
+/* votings */
+
+.new-voting {
+	margin-bottom: 10px;
+
+	background-color: #4270ff;
+	color: #ffffff;
+	border-radius: 3px;
+
+	height: 50px;
+	width: 200px;
+	font: 18px "Avenir Next";
+}
+
+.new-voting:focus {
+	outline: 0;
+	border: none;
+	box-shadow: none;
+}
+
+.new-voting-input-text {
+	height: 50px;
+	border: none;
+	border-bottom: 3px solid #4270ff;
+	border-radius: 3px;
+
+	font: 22px "Avenir Next";
+}
+
+.new-voting-input-text:focus {
+	border: none;
+	border-bottom: 3px solid #4270ff;
+	border-radius: 3px;
+	box-shadow: none;
+}
+
+.new-voting-input-text:placeholder-shown {
+	opacity: 50%;
+}
+
+.new-voting-input-text:invalid {
+	box-shadow: none;
+	border: none;
+	border-bottom: 3px solid #4270ff;
+	border-radius: 3px;
+}
+
+.voting-radio {
+	background-color: #4270ff;
+}
+
+.new-voting-show {
+	height: 60px;
+	width: 300px;
+}
+
+.voting-item {
+	background-color: #4270ff;
+	border-radius: 3px;
+
+	margin: 6px auto;
+	height: 80px;
+	max-width: 580px;
+	width: calc(70vw + 80px);
+}
+
+.voting-info {
+	display: inline-block;
+	float: left;
+	text-align: left;
+
+	font-family: "Avenir Next", sans-serif;
+	white-space: nowrap;
+	width: 75%;
+	overflow: auto;
+	color: #ffffff;
+}
+
+.voting-title {
+	font-size: 25px;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+.voting-status {
+	margin-left: 10px;
+	font-size: 18px;
+	font-style: italic;
+}
+
+@media (max-width: 575.98px) {
+	.voting-title {
+		font-size: 22px;
+	}
+
+	.voting-status {
+		font-size: 15px;
+	}
+}
+
+.delete_button {
+	height: 30px;
+	width: 50px;
+}
+
+.edit-option {
+	display: none;
+	position: fixed;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	padding-top: 20%;
+}
+
+.edit-button {
+	color: #ffffff;
+}
+
+.close-button {
+	float: right;
+	margin-right: 10px;
+	margin-top: -25px;
+}
+
+.edit-input {
+	width: 80%;
+	margin: 0 auto;
 }
