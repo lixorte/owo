@@ -4,7 +4,7 @@ import "./../../styles.css";
 import unfilledLike from "../../../src/like_unfilled.png";
 import filledLike from "../../../src/like_filled.png";
 
-const address = "http://keddad.me";
+const address = "http://keddad.wtf";
 
 class SongItem extends Component {
     constructor() {

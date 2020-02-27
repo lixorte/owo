@@ -1,4 +1,4 @@
-const address = "http://keddad.me";
+const address = "http://keddad.wtf";
 
 function toggleSidebar() {
     if (window.getComputedStyle(document.getElementById("sb"), null).getPropertyValue("left") === "-300px") {

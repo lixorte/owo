@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./../../styles.css";
 import unfilledLike from "../../../src/like_unfilled.png";
 
-const address = "http://keddad.me";
+const address = "http://keddad.wtf";
 
 class Voting extends Component {
     constructor() {

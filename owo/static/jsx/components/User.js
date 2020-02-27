@@ -4,7 +4,7 @@ import "./../../styles.css";
 import rightArrow from "../../../src/arrow_right.png";
 import leftArrow from "../../../src/arrow_left.png";
 
-const address = "http://keddad.me";
+const address = "http://keddad.wtf";
 
 function min(a, b) {
     if (a < b) {
