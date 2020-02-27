@@ -4,7 +4,7 @@ import "./../../styles.css";
 import unfilledLike from "../../../src/like_unfilled.png";
 import filledLike from "../../../src/like_filled.png";
 
-const address = "http://keddad.me";
+const address = "http://keddad.wtf";
 
 class ThemeItem extends Component {
     constructor() {
@@ -19,7 +19,7 @@ class ThemeItem extends Component {
 
     componentDidMount() {
         this.getData();
-        if (document.cookie.hasOwnProperty("access_token_cookie") || 1) {
+        if (document.cookie.hasOwnProperty("access_token_cookie")) {
             this.setState({loggedIn: true});
         }
     }
