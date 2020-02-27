@@ -35,12 +35,10 @@ def only_banned():
 def create_admin():
     user = {
         "name": uuid.uuid4().hex,  # id
-        "title": "TEST ADMIN",  # RL name
+        "title": "TEST USER",  # RL name
         "type": "ok",
         "state": "admin"
         }
-
-    client["meta"]["users"].insert_one(user)
 
     access_token = create_access_token(identity=user)
     refresh_token = create_refresh_token(identity=user)
@@ -49,6 +47,9 @@ def create_admin():
 
     set_access_cookies(resp, access_token)
     set_refresh_cookies(resp, refresh_token)
+    resp.set_cookie("isAdmin", "true" if user["state"] == "admin" else "false")
+
+    client["meta"]["users"].insert_one(user)
 
     return resp, 200
 
@@ -62,8 +63,6 @@ def create_user():
         "state": "normal"
         }
 
-    client["meta"]["users"].insert_one(user)
-
     access_token = create_access_token(identity=user)
     refresh_token = create_refresh_token(identity=user)
 
@@ -71,6 +70,9 @@ def create_user():
 
     set_access_cookies(resp, access_token)
     set_refresh_cookies(resp, refresh_token)
+    resp.set_cookie("isAdmin", "true" if user["state"] == "admin" else "false")
+
+    client["meta"]["users"].insert_one(user)
 
     return resp, 200
 

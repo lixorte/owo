@@ -6,7 +6,7 @@ from owo.front.main import front_blueprint
 from loguru import logger
 import os
 from flask_cors import CORS
-from flask import Flask
+from flask import Flask, redirect
 from flask_jwt_extended import JWTManager
 
 logger.add(__name__, colorize=True,
@@ -28,6 +28,11 @@ app.register_blueprint(front_blueprint)
 
 if os.environ["DEBUG"] == "TRUE":
     app.register_blueprint(tesing_blueprint)
+
+
+@app.route("/index.html")
+def index_redir():
+    return redirect("/")
 
 
 if __name__ == "__main__":

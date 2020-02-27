@@ -10,7 +10,7 @@ RUN npm run build
 
 RUN ./deploy.sh
 
-FROM alpine:edge
+FROM python:3.7.6-buster
 
 WORKDIR /app
 
@@ -18,12 +18,7 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=on
 ENV PYTHONUNBUFFERED=1
 ENV POETRY_VIRTUALENVS_CREATE=false
 
-RUN apk add --no-cache python3 curl && \
-    if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi
-
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-ENV PATH = "${PATH}:/root/.poetry/bin"
-
+RUN pip install poetry
 COPY pyproject.toml poetry.lock ./
 
 RUN poetry install --no-dev

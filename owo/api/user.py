@@ -2,7 +2,6 @@ from pymongo import MongoClient
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 
-
 client = MongoClient('mongodb://mongo:27017/', connect=False)
 user = Blueprint('users', __name__)
 
@@ -24,13 +23,13 @@ def get_user(user_id):
 
     if user is None:
         return ({
-            "message": "No such user",
-            "code": 404
-        }, 404)
+                    "message": "No such user",
+                    "code": 404
+                }, 404)
 
     del user["_id"]
 
-    return (jsonify(user), 200)  # TODO Test with JWT
+    return jsonify(user), 200  # TODO Test with JWT
 
 
 @user.route("/{string:user_id}", methods=["POST"])
@@ -41,9 +40,9 @@ def edit_user(user_id):
 
     if user is None:
         return ({
-            "message": "No such user",
-            "code": 404
-        }, 404)
+                    "message": "No such user",
+                    "code": 404
+                }, 404)
 
     user_type = data["type"] or user["type"]
     state = data["state"] or user["state"]
