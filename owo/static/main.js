@@ -51,7 +51,7 @@ function sendData() {
 }
 
 function auth() {
-    let link = "https://auth.eljur.ru/auth/hselyceum_ring?client_id=hselyceum_ring&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%2Fauth&state="
+    let link = "https://auth.eljur.ru/auth/hselyceum_ring?client_id=hselyceum_ring&response_type=code&redirect_uri=http%3A%2F%2Fkeddad.wtf%2Fauth&state="
         + encodeURIComponent(window.location.pathname);
     window.open(link);
 }
