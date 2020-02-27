@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./../../styles.css";
 import unfilledLike from "../../../src/like_unfilled.png";
 
-const address = "http://keddad.wtf";
+const address = "http://0.0.0.0";
 
 class Voting extends Component {
     constructor() {
@@ -54,14 +54,18 @@ class Voting extends Component {
     }
 
     getSongData() {
-        fetch(address + "/election/find/song")
+        fetch(address + "/election/find/song", {
+            mode: 'no-cors'
+        })
             .then(response => response.json())
             .then(data => this.setState({songdata: data}))
             .catch(error => console.log(error))
     }
 
     getTopicData() {
-        fetch(address + "/election/find/topic")
+        fetch(address + "/election/find/topic", {
+            mode: 'no-cors'
+        })
             .then(response => response.json())
             .then(data => this.setState({topicdata: data}))
             .catch(error => console.log(error))
