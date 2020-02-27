@@ -20,8 +20,8 @@ class Voting extends Component {
     }
 
     newVoting(e) {
-        if (document.getElementById("voting-text").checkValidity() === false || document.getElementsByName("state")[0] === false ||
-            document.getElementsByName("state")[1] === false || document.getElementsByName("type")[0] === false ||
+        if (document.getElementById("voting-text").checkValidity() === false || document.getElementsByName("state")[0] === false &&
+            document.getElementsByName("state")[1] === false || document.getElementsByName("type")[0] === false &&
             document.getElementsByName("type")[1] === false) {
             document.getElementById("required-alert-vote").style.display = "block";
             return;
