@@ -2,6 +2,8 @@ FROM node:alpine AS build
 
 WORKDIR /app
 
+RUN rm -rf /app/owo/static/
+
 COPY . .
 
 RUN npm install --production
