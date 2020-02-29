@@ -5,7 +5,6 @@ from owo.api.testing import tesing_blueprint
 from owo.front.main import front_blueprint
 from loguru import logger
 import os
-from flask_cors import CORS
 from flask import Flask, redirect
 from flask_jwt_extended import JWTManager
 
@@ -20,7 +19,6 @@ app.config["JWT_TOKEN_LOCATION"] = ('cookies', 'headers')
 app.config["DOMAIN"] = "http://" + DOMAIN
 
 jwt = JWTManager(app)
-CORS(app)
 
 app.register_blueprint(user, url_prefix="/user")
 app.register_blueprint(election_blueprint, url_prefix="/election")

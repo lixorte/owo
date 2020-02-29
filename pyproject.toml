@@ -42,7 +42,6 @@ wcwidth = "^0.1.7"
 werkzeug = "^0.16.0"
 wrapt = "^1.11.2"
 zipp = "^0.6.0"
-flask-cors = "^3.0.8"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.4.4"

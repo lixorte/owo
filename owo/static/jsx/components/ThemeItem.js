@@ -4,8 +4,6 @@ import "./../../styles.css";
 import unfilledLike from "../../../src/like_unfilled.png";
 import filledLike from "../../../src/like_filled.png";
 
-const address = "http://keddad.wtf";
-
 class ThemeItem extends Component {
     constructor() {
         super();
@@ -25,7 +23,7 @@ class ThemeItem extends Component {
     }
 
     getData() {
-        fetch(address + "/election/getlast/topic")
+        fetch("/election/getlast/topic")
             .then(response =>
                 response.json()
             )
@@ -35,7 +33,7 @@ class ThemeItem extends Component {
 
     getVoted() {
         if (this.state.loggedIn && this.state.elId !== "" && this.state.voted.length === 0) {
-            fetch(address + "/election/" + this.state.elId + "/voted")
+            fetch("/election/" + this.state.elId + "/voted")
                 .then(response =>
                     response.json()
                 )
@@ -51,20 +49,18 @@ class ThemeItem extends Component {
     }
 
     unvote(id) {
-        fetch(address + "/election/" + this.state.elId + "/unvote/" + id, {
+        fetch("/election/" + this.state.elId + "/unvote/" + id, {
             method: "POST",
             credentials: "include",
-            mode: 'no-cors'
         }).catch(error => console.log(error));
         document.getElementById(id).src = unfilledLike;
         document.getElementById(id).nextElementSibling.innerText = parseInt(document.getElementById(id).nextElementSibling.innerText) - 1;
     }
 
     vote(id) {
-        fetch(address + "/election/" + this.state.elId + "/vote/" + id, {
+        fetch("/election/" + this.state.elId + "/vote/" + id, {
             method: "POST",
             credentials: "include",
-            mode: 'no-cors'
         }).catch(error => console.log(error));
         document.getElementById(id).src = filledLike;
         document.getElementById(id).nextElementSibling.innerText = parseInt(document.getElementById(id).nextElementSibling.innerText) + 1;

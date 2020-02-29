@@ -2,8 +2,6 @@ FROM node:alpine AS build
 
 WORKDIR /app
 
-RUN rm -rf /app/owo/static/
-
 COPY . .
 
 RUN npm install --production
@@ -21,10 +19,9 @@ ENV PYTHONUNBUFFERED=1
 ENV POETRY_VIRTUALENVS_CREATE=false
 
 RUN pip install poetry
-COPY pyproject.toml poetry.lock ./
+
+COPY . .
 
 RUN poetry install --no-dev
-
-COPY --from=build /app/owo/ /app/owo/
 
 CMD ["gunicorn", "--workers=2", "--bind", "0.0.0.0:80", "owo.app:app"]

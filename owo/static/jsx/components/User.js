@@ -4,7 +4,6 @@ import "./../../styles.css";
 import rightArrow from "../../../src/arrow_right.png";
 import leftArrow from "../../../src/arrow_left.png";
 
-const address = "http://keddad.wtf";
 
 function min(a, b) {
     if (a < b) {
@@ -39,7 +38,7 @@ class User extends Component {
     }
 
     getData() {
-        fetch(address + "/user")
+        fetch("/user")
             .then(response => response.json())
             .then(data => this.setState({data: data}))
             .catch(error => console.log(error));
@@ -72,10 +71,9 @@ class User extends Component {
             } else {
                 document.getElementById(id).innerText = "Повысить";
             }
-            fetch(address + "/user/" + user["name"], {
+            fetch("/user/" + user["name"], {
                 method: "POST",
                 credentials: "include",
-                mode: 'no-cors',
                 body: {
                     "type": type,
                     "state": user["state"]
@@ -89,10 +87,9 @@ class User extends Component {
             } else {
                 document.getElementById(id).nextElementSibling.innerText = "Забанить";
             }
-            fetch(address + "/user/" + user["name"], {
+            fetch("/user/" + user["name"], {
                 method: "POST",
                 credentials: "include",
-                mode: 'no-cors',
                 body: {
                     "type": user["type"],
                     "state": state

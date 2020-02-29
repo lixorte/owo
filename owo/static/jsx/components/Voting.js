@@ -3,8 +3,6 @@ import ReactDOM from "react-dom";
 import "./../../styles.css";
 import unfilledLike from "../../../src/like_unfilled.png";
 
-const address = "http://keddad.wtf";
-
 class Voting extends Component {
     constructor() {
         super();
@@ -41,10 +39,9 @@ class Voting extends Component {
                 type = types[i].value;
             }
         }
-        fetch(address + "/election/new", {
+        fetch("/election/new", {
             method: "POST",
             credentials: "include",
-            mode: "no-cors",
             body: {
                 "name": name,
                 "state": state,
@@ -54,8 +51,7 @@ class Voting extends Component {
     }
 
     getSongData() {
-        fetch(address + "/election/find/song", {
-            mode: 'no-cors'
+        fetch("/election/find/song", {
         })
             .then(response => response.json())
             .then(data => this.setState({songdata: data}))
@@ -63,8 +59,7 @@ class Voting extends Component {
     }
 
     getTopicData() {
-        fetch(address + "/election/find/topic", {
-            mode: 'no-cors'
+        fetch("/election/find/topic", {
         })
             .then(response => response.json())
             .then(data => this.setState({topicdata: data}))
@@ -102,15 +97,14 @@ class Voting extends Component {
     }
 
     handleClickDelete(id, e) {
-        fetch(address + "/election/" + id + "/delete", {
+        fetch("/election/" + id + "/delete", {
             method: "POST",
             credentials: "include",
-            mode: 'no-cors'
         }).catch(error => console.log(error))
     }
 
     handleClickOpen(id, e) {
-        fetch(address + "/election/" + id)
+        fetch("/election/" + id)
             .then(response =>
                 response.json()
             )
@@ -144,10 +138,9 @@ class Voting extends Component {
             ban = "banned";
         }
         console.log(title, singer, ban);
-        fetch(address + "/election/" + this.state.elId + "/vote/" + this.state.itemId, {
+        fetch("/election/" + this.state.elId + "/vote/" + this.state.itemId, {
             method: "POST",
             credentials: "include",
-            mode: 'no-cors',
             body: {
                 name: title,
                 singer: singer,

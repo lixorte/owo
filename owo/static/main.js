@@ -1,5 +1,3 @@
-const address = "http://keddad.wtf";
-
 function toggleSidebar() {
     if (!document.cookie.hasOwnProperty("isAdmin")) {
         console.log("pidoras");
@@ -33,17 +31,16 @@ function sendData() {
         document.getElementById("required-alert").style.display = "none";
     }
 
-    fetch(address + "/election/getlast/song")
+    fetch("/election/getlast/song")
         .then(response => response.json())
         .then(dataa => dataa)
         .catch(error => console.log(error));
     console.log(data);
     let electionUid = data["electionInfo"]["id"];
     let addItemData = JSON.stringify($(".add-song").serializeArray());
-    fetch(address + "/election/" + electionUid + "/vote/new", {
+    fetch("/election/" + electionUid + "/vote/new", {
         method: "POST",
         credentials: "include",
-        mode: 'no-cors',
         body: {
             addItemData
         }
@@ -51,7 +48,7 @@ function sendData() {
 }
 
 function auth() {
-    let link = "https://auth.eljur.ru/auth/hselyceum_ring?client_id=hselyceum_ring&response_type=code&redirect_uri=http%3A%2F%2Fkeddad.wtf%2Fauth&state="
+    let link = "https://auth.eljur.ru/auth/hselyceum_ring?client_id=hselyceum_ring&response_type=code&redirect_uri=" + encodeURIComponent(window.location.hostname + "/auth") + "&state="
         + encodeURIComponent(window.location.pathname);
     window.open(link);
 }
