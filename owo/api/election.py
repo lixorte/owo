@@ -38,11 +38,10 @@ def new_election():
 
     logger.info(f"Created ellection with name {name}")
 
-    return jsonify(new_el), 200
+    return jsonify(normalize_id(new_el)), 200
 
 
 @election_blueprint.route("/<string:election_id>", methods=["GET"])
-@schema_validator(get_election_info)
 def get_el_info(election_id):
     election_exists = client["elections"]["meta"].count_documents(
         {"_id": ObjectId(election_id)})
@@ -332,6 +331,6 @@ def get_elections(el_type):
     out = []
 
     for item in client["elections"]["meta"].find({"type": el_type}).sort("datetime"):
-        out.append(item)
+        out.append(normalize_id(item))
 
     return jsonify(out)
