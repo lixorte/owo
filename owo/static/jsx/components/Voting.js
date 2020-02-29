@@ -42,11 +42,14 @@ class Voting extends Component {
         fetch("/election/new", {
             method: "POST",
             credentials: "include",
-            body: {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
                 "name": name,
                 "state": state,
                 "type": type
-            }
+            })
         }).catch(error => console.log(error));
     }
 
@@ -141,6 +144,9 @@ class Voting extends Component {
         fetch("/election/" + this.state.elId + "/vote/" + this.state.itemId, {
             method: "POST",
             credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
                 name: title,
                 singer: singer,
