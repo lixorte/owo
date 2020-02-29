@@ -73,7 +73,7 @@ def patch_el_info(election_id):
     return "OK", 200
 
 
-@election_blueprint.route("<{string:election_id>/delete", methods=["POST"])
+@election_blueprint.route("<string:election_id>/delete", methods=["POST"])
 @jwt_required
 @schema_validator(delete_election)
 def del_election(election_id):
