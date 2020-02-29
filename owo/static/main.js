@@ -33,6 +33,13 @@ function toggleSidebar() {
     }
 }
 
+function getData() {
+    return fetch("/election/getlast/song")
+        .then(response => response.json())
+        .then(result => result)
+        .catch(error => console.log(error));
+}
+
 function sendData() {
     if (document.getElementById("input-song-title").checkValidity() === false ||
         document.getElementById("input-song-author").checkValidity() === false) {
@@ -41,20 +48,18 @@ function sendData() {
     } else {
         document.getElementById("required-alert").style.display = "none";
     }
-
-    fetch("/election/getlast/song")
-        .then(response => response.json())
-        .then(dataa => dataa)
-        .catch(error => console.log(error));
-    console.log(data);
-    let electionUid = data["electionInfo"]["id"];
+    let jsondata;
+    getData().then(result => jsondata = result);
+    console.log(jsondata);
+    let electionUid = jsondata["electionInfo"]["id"];
     let addItemData = JSON.stringify($(".add-song").serializeArray());
     fetch("/election/" + electionUid + "/vote/new", {
         method: "POST",
         credentials: "include",
-        body: {
-            addItemData
-        }
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: addItemData
     }).catch(error => console.log(error))
 }
 

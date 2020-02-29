@@ -74,10 +74,13 @@ class User extends Component {
             fetch("/user/" + user["name"], {
                 method: "POST",
                 credentials: "include",
-                body: {
-                    "type": type,
-                    "state": user["state"]
-                }
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: type,
+                    state: user["state"]
+                })
             }).catch(error => console.log(error));
         }
         if (upd === "state") {
@@ -90,10 +93,13 @@ class User extends Component {
             fetch("/user/" + user["name"], {
                 method: "POST",
                 credentials: "include",
-                body: {
-                    "type": user["type"],
-                    "state": state
-                }
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: user["type"],
+                    state: state
+                })
             }).catch(error => console.log(error));
         }
     }
