@@ -41,7 +41,7 @@ def new_election():
     return jsonify(new_el), 200
 
 
-@election_blueprint.route("/{string:election_id}", methods=["GET"])
+@election_blueprint.route("/<string:election_id>", methods=["GET"])
 @schema_validator(get_election_info)
 def get_el_info(election_id):
     election_exists = client["elections"]["meta"].count_documents(
@@ -54,7 +54,7 @@ def get_el_info(election_id):
     return jsonify(fetch_election(election_id)), 200  # TODO Test
 
 
-@election_blueprint.route("/{string:election_id}/patch", methods=["POST"])
+@election_blueprint.route("<{string:election_id>/patch", methods=["POST"])
 @jwt_required
 @schema_validator(update_election_info)
 def patch_el_info(election_id):
@@ -73,7 +73,7 @@ def patch_el_info(election_id):
     return "OK", 200
 
 
-@election_blueprint.route("/{string:election_id}/delete", methods=["POST"])
+@election_blueprint.route("<{string:election_id>/delete", methods=["POST"])
 @jwt_required
 @schema_validator(delete_election)
 def del_election(election_id):
@@ -96,7 +96,7 @@ def del_election(election_id):
     return "OK", 200
 
 
-@election_blueprint.route("/{string:election_id}/vote/new", methods=["POST"])
+@election_blueprint.route("/<string:election_id>/vote/new", methods=["POST"])
 @jwt_required
 @schema_validator(add_option)
 def add_opt(election_id):
@@ -144,7 +144,7 @@ def add_opt(election_id):
     return jsonify(new_vote), 200  # TODO Test
 
 
-@election_blueprint.route("/{string:election_id}/vote/{string:vote_id}", methods=["POST"])
+@election_blueprint.route("/<string:election_id>/vote/<string:vote_id>", methods=["POST"])
 @jwt_required
 def add_vote(election_id: str, vote_id: str):
     election = client["elections"]["meta"].count_documents(
@@ -189,7 +189,7 @@ def add_vote(election_id: str, vote_id: str):
     return "OK", 200  # TODO Test
 
 
-@election_blueprint.route("/{string:election_id}/unvote/{string:vote_id}", methods=["POST"])
+@election_blueprint.route("/<string:election_id>/unvote/<string:vote_id>", methods=["POST"])
 @jwt_required
 def remove_vote(election_id: str, vote_id: str):
     election_exists = client["elections"]["meta"].count_documents(
@@ -229,7 +229,7 @@ def remove_vote(election_id: str, vote_id: str):
     return "OK", 200  # TODO Test
 
 
-@election_blueprint.route("/{string:election_id}/voted")
+@election_blueprint.route("/<string:election_id>/voted")
 @jwt_required
 def list_voted(election_id: str):
     election_exists = client["elections"]["meta"].count_documents(
@@ -261,7 +261,7 @@ def get_last():  # ОНО ТЕБЯ СОЖРЕТ Функции нет в док�
     return fetch_election_by_meta(election)
 
 
-@election_blueprint.route("/getlast/{string:type}")
+@election_blueprint.route("/getlast/<string:election_type>")
 @schema_validator(get_last_election)
 def get_specific_last(election_type: str):
     number_of_elections = client["elections"]["meta"].count_documents(
@@ -276,7 +276,7 @@ def get_specific_last(election_type: str):
     return fetch_election_by_meta(election)
 
 
-@election_blueprint.route("/{string:election_id}/vote/{string:vote_id}/patch", methods=["POST"])
+@election_blueprint.route("/<string:election_id>/vote/<string:vote_id>/patch", methods=["POST"])
 @schema_validator(edit_option)
 @jwt_required
 def update_option(election_id: str, vote_id: str):
@@ -328,7 +328,7 @@ def update_option(election_id: str, vote_id: str):
     ), 200
 
 
-@election_blueprint.route("/find/{string: type}", methods=["GET"])
+@election_blueprint.route("/find/<string:el_type>", methods=["GET"])
 def get_elections(el_type):
     out = []
 

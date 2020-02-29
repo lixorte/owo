@@ -16,7 +16,7 @@ def get_users():
     return jsonify(out)
 
 
-@user.route("/{string:user_id}", methods=["GET"])
+@user.route("/<string:user_id>", methods=["GET"])
 @jwt_required
 def get_user(user_id):
     user = client["meta"]["users"].find_one({"name": user_id})
@@ -32,7 +32,7 @@ def get_user(user_id):
     return jsonify(user), 200  # TODO Test with JWT
 
 
-@user.route("/{string:user_id}", methods=["POST"])
+@user.route("/<string:user_id>", methods=["POST"])
 @jwt_required
 def edit_user(user_id):
     data = request.get_json()
