@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from loguru import logger
+import datetime
 from .utils import prefs_validator
 import uuid
 from flask import Blueprint, make_response
@@ -40,7 +41,7 @@ def create_admin():
         "state": "admin"
     }
 
-    access_token = create_access_token(identity=user, expires_delta=False)
+    access_token = create_access_token(identity=user, expires_delta=datetime.timedelta(days=365))
 
     resp = make_response("OK")
 
@@ -61,7 +62,7 @@ def create_user():
         "state": "normal"
     }
 
-    access_token = create_access_token(identity=user, expires_delta=False)
+    access_token = create_access_token(identity=user, expires_delta=datetime.timedelta(days=365))
 
     resp = make_response("OK")
 

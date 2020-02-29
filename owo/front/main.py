@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, make_response, jsonify, request, c
 from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies
 from owo.security.auth import get_identity, user_exists, create_user
 import pymongo
+import datetime
 
 front_blueprint = Blueprint('front', __name__)
 client = pymongo.MongoClient("mongo", 27017, connect=False)
@@ -62,7 +63,7 @@ def oauth_handler():
         {"name": user_rules["name"]})
     del session_user["_id"]
 
-    access_token = create_access_token(identity=session_user, expires_delta=False)
+    access_token = create_access_token(identity=session_user, expires_delta=datetime.timedelta(days=365))
 
     resp = make_response(redirect(state))
 

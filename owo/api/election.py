@@ -7,9 +7,20 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from owo.api.utils import schema_validator, fetch_election, normalize_id, fetch_election_by_meta
 from owo.api.schemas import *
 
-
 client = MongoClient('mongodb://mongo:27017/', connect=False)
 election_blueprint = Blueprint('elections', __name__)
+
+
+@election_blueprint.route("/<string:election_id>", methods=["GET"])
+def get_el_info(election_id):
+    election_exists = client["elections"]["meta"].count_documents(
+        {"_id": ObjectId(election_id)})
+
+    if election_exists == 0:
+        logger.info(f"Get request to unknown election {election_id}")
+        return "Error", 404
+
+    return jsonify(fetch_election(election_id)), 200  # TODO Test
 
 
 @election_blueprint.route("/new", methods=["POST"])  # TODO Test
@@ -36,21 +47,9 @@ def new_election():
     client["elections"].create_collection("voted" + new_id)  # Ones which won
     client["elections"].create_collection("normal" + new_id)
 
-    logger.info(f"Created ellection with name {name}")
+    logger.info(f"Created election with name {name}")
 
     return jsonify(normalize_id(new_el)), 200
-
-
-@election_blueprint.route("/<string:election_id>", methods=["GET"])
-def get_el_info(election_id):
-    election_exists = client["elections"]["meta"].count_documents(
-        {"_id": ObjectId(election_id)})
-
-    if election_exists == 0:
-        logger.info(f"Get request to unknown election {election_id}")
-        return "Error", 404
-
-    return jsonify(fetch_election(election_id)), 200  # TODO Test
 
 
 @election_blueprint.route("<string:election_id>/patch", methods=["POST"])
