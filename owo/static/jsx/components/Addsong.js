@@ -22,14 +22,22 @@ class AddSong extends Component {
             this.getData();
         }
         let electionUid = this.state.data["electionInfo"]["id"];
-        let addItemData = JSON.stringify($(".add-song").serializeArray());
+        let name = document.getElementById("input-song-title").value;
+        let singer = document.getElementById("input-song-author").value;
         fetch("/election/" + electionUid + "/vote/new", {
             method: "POST",
             credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: addItemData
+            body: JSON.stringify({
+                name: name,
+                type: "song",
+                singer: singer,
+                cutCommentary: "",
+                album: "",
+                serviceLink: ""
+            })
         }).catch(error => console.log(error))
     }
 
