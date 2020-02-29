@@ -16,6 +16,7 @@ app = Flask(__name__)
 
 app.config["JWT_SECRET_KEY"] = JWT_SECRET_KEY
 app.config["JWT_TOKEN_LOCATION"] = ('cookies', 'headers')
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False # TODO и здесь тоже ебанный пиздец господи боже ненавижу себя
 app.config["DOMAIN"] = "http://" + DOMAIN
 
 jwt = JWTManager(app)
