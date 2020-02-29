@@ -46,9 +46,9 @@ class Voting extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "name": name,
-                "state": state,
-                "type": type
+                name: name,
+                state: state,
+                type: type
             })
         }).catch(error => console.log(error));
     }
