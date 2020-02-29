@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from .utils import normalize_id
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 
@@ -11,7 +12,7 @@ def get_users():
     out = []
 
     for user in client["meta"]["users"].find().sort("login"):
-        out.append(user)
+        out.append(normalize_id(user))
 
     return jsonify(out)
 
