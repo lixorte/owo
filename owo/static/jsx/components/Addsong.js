@@ -21,6 +21,7 @@ class AddSong extends Component {
         if (!this.state.data.hasOwnProperty("electionInfo")) {
             this.getData();
         }
+        console.log("JAVASCRIPT ПОМОЙКА");
         let electionUid = this.state.data["electionInfo"]["id"];
         let name = document.getElementById("input-song-title").value;
         let singer = document.getElementById("input-song-author").value;
