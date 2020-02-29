@@ -5,7 +5,7 @@ from owo.api.testing import tesing_blueprint
 from owo.front.main import front_blueprint
 from loguru import logger
 import os
-from flask import Flask, redirect
+from flask import Flask, redirect, request
 from flask_jwt_extended import JWTManager
 
 logger.add(__name__, colorize=True,
@@ -26,6 +26,11 @@ app.register_blueprint(front_blueprint)
 
 if os.environ["DEBUG"] == "TRUE":
     app.register_blueprint(tesing_blueprint)
+
+
+    @app.before_request
+    def before_request():
+        print(f"{request.endpoint} {request.cookies} {request.data}")
 
 
 @app.route("/index.html")
