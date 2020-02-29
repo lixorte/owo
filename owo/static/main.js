@@ -33,36 +33,6 @@ function toggleSidebar() {
     }
 }
 
-function getData() {
-    return fetch("/election/getlast/song")
-        .then(response => response.json())
-        .then(result => result)
-        .catch(error => console.log(error));
-}
-
-function sendData() {
-    if (document.getElementById("input-song-title").checkValidity() === false ||
-        document.getElementById("input-song-author").checkValidity() === false) {
-        document.getElementById("required-alert").style.display = "block";
-        return;
-    } else {
-        document.getElementById("required-alert").style.display = "none";
-    }
-    let jsondata;
-    getData().then(result => jsondata = result);
-    console.log(jsondata);
-    let electionUid = jsondata["electionInfo"]["id"];
-    let addItemData = JSON.stringify($(".add-song").serializeArray());
-    fetch("/election/" + electionUid + "/vote/new", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: addItemData
-    }).catch(error => console.log(error))
-}
-
 function auth() {
     let link = "https://auth.eljur.ru/auth/hselyceum_ring?client_id=hselyceum_ring&response_type=code&redirect_uri=" + encodeURIComponent(window.location.hostname + "/auth") + "&state="
         + encodeURIComponent(window.location.pathname);

@@ -6,7 +6,8 @@ module.exports = {
         index: __dirname + '/owo/static/index.js',
         theme: __dirname + "/owo/static/theme.js",
         user: __dirname + "/owo/static/jsx/components/User.js",
-        voting: __dirname + "/owo/static/jsx/components/Voting.js"
+        voting: __dirname + "/owo/static/jsx/components/Voting.js",
+        addsong: __dirname + "/owo/static/jsx/components/Addsong.js"
     },
     module: {
         rules: [

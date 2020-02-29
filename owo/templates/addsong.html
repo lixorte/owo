@@ -61,33 +61,11 @@
 </header>
 <main>
 	<section class="text-center">
-		<form class="add-song">
-			<div class="form-label-group add-song-input-container">
-				<input type="text" id="input-song-title" class="form-control add-song-input"
-				       name="title" placeholder="Название песни" required autofocus>
-				<!--<label class="add-song-label bmd-label-floating" for="input-song-title">Название песни</label>-->
-			</div>
-
-			<div class="form-label-group add-song-input-container">
-				<input type="text" id="input-song-author" class="form-control add-song-input"
-				       name="author" placeholder="Исполнитель" required>
-				<!--<label class="add-song-label" for="input-song-author">Исполнитель</label>-->
-			</div>
-
-			<div class="form-label-group add-song-input-container">
-				<input type="text" class="form-control add-song-input" name="link" placeholder="Яндекс.Музыка, YouTube и т.п.">
-			</div>
-
-			<div class="form-label-group add-song-input-container">
-				<input type="text" class="form-control add-song-input" name="cut" placeholder="Обрезка трека">
-			</div>
-			<button type="button" class="add-item-submit" onclick="sendData()">Добавить</button>
-		</form>
-		<div class="required-alert" id="required-alert">
-			Пожалуйста, заполните поля названия и исполнителя
+		<div id="addsong-container">
 		</div>
 	</section>
 </main>
+<script type="module" src="../static/js/addsong.bundle.js"></script>
 <!-- Load React. -->
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
@@ -96,6 +74,7 @@
 
 <!-- Load our React component. -->
 <script src="../static/main.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
 </script>
