@@ -13,7 +13,7 @@ election_blueprint = Blueprint('elections', __name__)
 
 
 @election_blueprint.route("/new", methods=["POST"])  # TODO Test
-# @jwt_required TODO check why it fucks up
+@jwt_required
 @schema_validator(create_election)
 def new_election():
     data = request.get_json()
