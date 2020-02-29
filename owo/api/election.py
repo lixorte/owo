@@ -54,7 +54,7 @@ def get_el_info(election_id):
     return jsonify(fetch_election(election_id)), 200  # TODO Test
 
 
-@election_blueprint.route("<{string:election_id>/patch", methods=["POST"])
+@election_blueprint.route("<string:election_id>/patch", methods=["POST"])
 @jwt_required
 @schema_validator(update_election_info)
 def patch_el_info(election_id):
