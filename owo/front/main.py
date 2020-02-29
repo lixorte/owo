@@ -62,7 +62,7 @@ def oauth_handler():
         {"name": user_rules["name"]})
     del session_user["_id"]
 
-    access_token = create_access_token(identity=session_user)
+    access_token = create_access_token(identity=session_user, expires_delta=False)
 
     resp = make_response(redirect(state))
 

@@ -40,7 +40,7 @@ def create_admin():
         "state": "admin"
     }
 
-    access_token = create_access_token(identity=user)
+    access_token = create_access_token(identity=user, expires_delta=False)
 
     resp = make_response("OK")
 
@@ -61,7 +61,7 @@ def create_user():
         "state": "normal"
     }
 
-    access_token = create_access_token(identity=user)
+    access_token = create_access_token(identity=user, expires_delta=False)
 
     resp = make_response("OK")
 
