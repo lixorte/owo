@@ -8,8 +8,6 @@ RUN npm install --production
 
 RUN npm run build
 
-RUN ./deploy.sh
-
 FROM python:3.7.6-buster
 
 WORKDIR /app
@@ -23,6 +21,8 @@ RUN pip install poetry
 COPY pyproject.toml ./
 
 RUN poetry install --no-dev
+
+COPY --from=build /app/owo/static /app/owo/static
 
 COPY . .
 

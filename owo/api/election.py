@@ -13,7 +13,7 @@ election_blueprint = Blueprint('elections', __name__)
 
 
 @election_blueprint.route("/new", methods=["POST"])  # TODO Test
-@jwt_required
+# @jwt_required TODO check why it fucks up
 @schema_validator(create_election)
 def new_election():
     data = request.get_json()
@@ -262,7 +262,6 @@ def get_last():  # ОНО ТЕБЯ СОЖРЕТ Функции нет в док�
 
 
 @election_blueprint.route("/getlast/<string:election_type>")
-@schema_validator(get_last_election)
 def get_specific_last(election_type: str):
     number_of_elections = client["elections"]["meta"].count_documents(
         {"type": election_type})

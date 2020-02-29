@@ -3,8 +3,8 @@ from loguru import logger
 from .utils import prefs_validator
 import uuid
 from flask import Blueprint, make_response
-from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies
-
+from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, create_refresh_token, \
+    set_access_cookies, set_refresh_cookies
 
 client = MongoClient('mongodb://mongo:27017/', connect=False)
 
@@ -38,15 +38,13 @@ def create_admin():
         "title": "TEST USER",  # RL name
         "type": "ok",
         "state": "admin"
-        }
+    }
 
     access_token = create_access_token(identity=user)
-    refresh_token = create_refresh_token(identity=user)
 
     resp = make_response("OK")
 
     set_access_cookies(resp, access_token)
-    set_refresh_cookies(resp, refresh_token)
     resp.set_cookie("isAdmin", "true" if user["state"] == "admin" else "false")
 
     client["meta"]["users"].insert_one(user)
@@ -61,15 +59,13 @@ def create_user():
         "title": "TEST USER",  # RL name
         "type": "ok",
         "state": "normal"
-        }
+    }
 
     access_token = create_access_token(identity=user)
-    refresh_token = create_refresh_token(identity=user)
 
     resp = make_response("OK")
 
     set_access_cookies(resp, access_token)
-    set_refresh_cookies(resp, refresh_token)
     resp.set_cookie("isAdmin", "true" if user["state"] == "admin" else "false")
 
     client["meta"]["users"].insert_one(user)

@@ -63,12 +63,10 @@ def oauth_handler():
     del session_user["_id"]
 
     access_token = create_access_token(identity=session_user)
-    refresh_token = create_refresh_token(identity=session_user)
 
     resp = make_response(redirect(state))
 
     set_access_cookies(resp, access_token)
-    set_refresh_cookies(resp, refresh_token)
     resp.set_cookie("isAdmin", "true" if session_user["state"] == "admin" else "false")
 
     return resp, 200
