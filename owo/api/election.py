@@ -261,7 +261,7 @@ def get_last():  # ОНО ТЕБЯ СОЖРЕТ Функции нет в док�
     return fetch_election_by_meta(election)
 
 
-@election_blueprint.route("/eleciton/getlast/{string:type}")
+@election_blueprint.route("/getlast/{string:type}")
 @schema_validator(get_last_election)
 def get_specific_last(election_type: str):
     number_of_elections = client["elections"]["meta"].count_documents(
