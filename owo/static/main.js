@@ -1,6 +1,17 @@
+function readCookie(name) {
+    let nameEQ = name + "=";
+    let ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
 function toggleSidebar() {
-    if (!document.cookie.hasOwnProperty("isAdmin")) {
-        console.log("pidoras");
+    if (readCookie("isAdmin") !== 'true') {
+        console.log("я ненавижу веб я хочу чтобы он умер натурал тупой");
         document.getElementById("adminu").style.display = "none";
         document.getElementById("adminv").style.display = "none";
     }

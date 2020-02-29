@@ -4,7 +4,6 @@ import "./../../styles.css";
 import unfilledLike from "../../../src/like_unfilled.png";
 import filledLike from "../../../src/like_filled.png";
 
-
 class SongItem extends Component {
     constructor() {
         super();
@@ -18,7 +17,7 @@ class SongItem extends Component {
 
     componentDidMount() {
         this.getData();
-        if (document.cookie.hasOwnProperty("access_token_cookie")) {
+        if (this.readCookie("access_token_cookie") != null) {
             this.setState({loggedIn: true});
         }
     }
@@ -75,6 +74,17 @@ class SongItem extends Component {
                 this.unvote(id);
             }
         }
+    }
+
+    readCookie(name) {
+        let nameEQ = name + "=";
+        let ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
     }
 
     render() {

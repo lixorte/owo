@@ -141,12 +141,12 @@ class Voting extends Component {
         fetch("/election/" + this.state.elId + "/vote/" + this.state.itemId, {
             method: "POST",
             credentials: "include",
-            body: {
+            body: JSON.stringify({
                 name: title,
                 singer: singer,
                 album: "",
                 state: ban
-            }
+            })
         });
         document.getElementsByClassName("edit-option")[0].style.display = "none";
     }
