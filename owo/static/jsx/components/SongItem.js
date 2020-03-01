@@ -98,8 +98,10 @@ class SongItem extends Component {
             this.getVoted();
         }
         if (this.state.data.hasOwnProperty("normalObjects")) {
-            let dataa = this.state.data["normalObjects"].sort((a, b) => a["voters".length] < b["voters".length] ? 1 : -1);
-            this.setState({dataObjects: dataa});
+            if (this.state.dataObjects.length === 0) {
+                let dataa = this.state.data["normalObjects"].sort((a, b) => a["voters".length] < b["voters".length] ? 1 : -1);
+                this.setState({dataObjects: dataa});
+            }
             if (this.state.loggedIn) {
                 return (
                     <div className="songitems-container">
