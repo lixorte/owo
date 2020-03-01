@@ -9,6 +9,7 @@ class SongItem extends Component {
         super();
         this.state = {
             data: [],
+            dataObjects: [],
             voted: [],
             elId: "",
             loggedIn: false
@@ -97,10 +98,12 @@ class SongItem extends Component {
             this.getVoted();
         }
         if (this.state.data.hasOwnProperty("normalObjects")) {
+            let dataa = this.state.data["normalObjects"].sort((a, b) => a["votes"] < b["votes"] ? 1 : -1);
+            this.setState({dataObjects: dataa});
             if (this.state.loggedIn) {
                 return (
                     <div className="songitems-container">
-                        {this.state.data["normalObjects"].map(item =>
+                        {this.state.dataObjects.map(item =>
                             <div className="songitem">
                                 <div className="songitem-info">
                                     <div className="songitem-title"> {item["name"]} </div>
@@ -115,7 +118,7 @@ class SongItem extends Component {
             } else {
                 return (
                     <div className="songitems-container">
-                        {this.state.data["normalObjects"].map(item =>
+                        {this.state.dataObjects.map(item =>
                             <div className="songitem">
                                 <div className="songitem-info">
                                     <div className="songitem-title"> {item["name"]} </div>
