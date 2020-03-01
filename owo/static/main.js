@@ -15,7 +15,7 @@ function toggleSidebar() {
         document.getElementById("adminu").style.display = "none";
         document.getElementById("adminv").style.display = "none";
     }
-    if (document.cookie.hasOwnProperty("access_token_cookie")) {
+    if (readCookie("access_token_cookie") != null) {
         document.getElementById("auth").innerText = "Выйти";
     }
     if (window.getComputedStyle(document.getElementById("sb"), null).getPropertyValue("left") === "-300px") {
