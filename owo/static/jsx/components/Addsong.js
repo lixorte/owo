@@ -56,7 +56,7 @@ class AddSong extends Component {
 
     render() {
         if (this.state.data.hasOwnProperty("electionInfo")) {
-            document.getElementById("title_addsong").innerText = this.state.data["electionInfo"]["name"];
+            document.getElementById("addsong_title").innerText = this.state.data["electionInfo"]["name"];
         }
         return (
             <div>
