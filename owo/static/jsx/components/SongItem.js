@@ -79,6 +79,7 @@ class SongItem extends Component {
     }
 
     readCookie(name) {
+        console.log(document.cookie);
         let nameEQ = name + "=";
         let ca = document.cookie.split(';');
         for (let i = 0; i < ca.length; i++) {
@@ -107,7 +108,7 @@ class SongItem extends Component {
                 let dataa = this.state.data["normalObjects"].sort((a, b) => a["voters".length] < b["voters".length] ? 1 : -1);
                 this.setState({dataObjects: dataa});
             }
-            if (this.state.loggedIn) {
+            if (this.state.loggedIn === true) {
                 return (
                     <div className="songitems-container">
                         {this.state.dataObjects.map(item =>
