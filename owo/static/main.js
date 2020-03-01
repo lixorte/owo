@@ -6,7 +6,7 @@ function readCookie(name) {
         while (c.charAt(0) === ' ') c = c.substring(1, c.length);
         if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
     }
-    return null;
+    return "tipidor";
 }
 
 function toggleSidebar() {
@@ -15,7 +15,7 @@ function toggleSidebar() {
         document.getElementById("adminu").style.display = "none";
         document.getElementById("adminv").style.display = "none";
     }
-    if (readCookie("access_token_cookie") != null) {
+    if (readCookie("access_token_cookie") !== "tipidor") {
         document.getElementById("auth").innerText = "Выйти";
     }
     if (window.getComputedStyle(document.getElementById("sb"), null).getPropertyValue("left") === "-300px") {

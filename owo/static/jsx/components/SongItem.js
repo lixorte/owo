@@ -18,7 +18,7 @@ class SongItem extends Component {
 
     componentDidMount() {
         this.getData();
-        if (this.readCookie("access_token_cookie") != null) {
+        if (this.readCookie("access_token_cookie") !== "tipidor") {
             this.setState({loggedIn: true});
         }
     }
@@ -89,7 +89,7 @@ class SongItem extends Component {
             }
         }
         console.log("gay");
-        return null;
+        return "tipidor";
     }
 
     render() {
