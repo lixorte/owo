@@ -96,6 +96,7 @@ class SongItem extends Component {
 
     render() {
         if (this.state.data.hasOwnProperty("electionInfo")) {
+            document.getElementById("title_index").innerText = this.state.data["electionInfo"]["name"];
             if (this.state.elId === "") {
                 this.setState((state) => {
                     return {elId: state.data["electionInfo"]["id"]}

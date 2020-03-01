@@ -600,3 +600,9 @@
 	width: 80%;
 	margin: 0 auto;
 }
+
+.added-alert {
+	display: none;
+
+	font: 18px "Avenir Next";
+}

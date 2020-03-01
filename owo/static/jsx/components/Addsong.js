@@ -39,7 +39,8 @@ class AddSong extends Component {
                 album: "",
                 serviceLink: ""
             })
-        }).catch(error => console.log(error))
+        }).catch(error => console.log(error));
+        document.getElementById("added-alert").style.display = "block";
     }
 
     getData() {
@@ -80,6 +81,9 @@ class AddSong extends Component {
                 </form>
                 <div className="required-alert" id="required-alert">
                     Пожалуйста, заполните поля названия и исполнителя
+                </div>
+                <div className="added-alert" id="added-alert">
+                    Песня добавлена
                 </div>
             </div>)
     }
