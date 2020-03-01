@@ -108,7 +108,7 @@ class ThemeItem extends Component {
                                 </div>
                                 <img src={unfilledLike} alt="icon" className="like-button" id={item["id"]}
                                      onClick={(e) => this.handleClick(item["id"], e)}/> {this.color(item['id'])}
-                                <div className="votes-count">{item["votes"]}</div>
+                                <div className="votes-count">{item["voters"].length}</div>
                             </div>
                         )}
                     </div>)
@@ -121,7 +121,7 @@ class ThemeItem extends Component {
                                     <div className="theme-title"> {item["name"]} </div>
                                 </div>
                                 <img src={unfilledLike} alt="icon" className="like-button" id={item["id"]}/>
-                                <div className="votes-count">{item["votes"]}</div>
+                                <div className="votes-count">{item["voters"].length}</div>
                             </div>
                         )}
                     </div>

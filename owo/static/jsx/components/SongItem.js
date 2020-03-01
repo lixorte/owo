@@ -9,6 +9,7 @@ class SongItem extends Component {
         super();
         this.state = {
             data: [],
+            dataObjects: [],
             voted: [],
             elId: "",
             loggedIn: false
@@ -97,10 +98,12 @@ class SongItem extends Component {
             this.getVoted();
         }
         if (this.state.data.hasOwnProperty("normalObjects")) {
+            let dataa = this.state.data["normalObjects"].sort((a, b) => a["voters".length] < b["voters".length] ? 1 : -1);
+            this.setState({dataObjects: dataa});
             if (this.state.loggedIn) {
                 return (
                     <div className="songitems-container">
-                        {this.state.data["normalObjects"].map(item =>
+                        {this.state.dataObjects.map(item =>
                             <div className="songitem">
                                 <div className="songitem-info">
                                     <div className="songitem-title"> {item["name"]} </div>
@@ -108,21 +111,21 @@ class SongItem extends Component {
                                 </div>
                                 <img src={unfilledLike} alt="icon" className="like-button" id={item["id"]}
                                      onClick={(e) => this.handleClick(item["id"], e)}/> {this.color(item['id'])}
-                                <div className="votes-count">{item["votes"]}</div>
+                                <div className="votes-count">{item["voters"].length}</div>
                             </div>
                         )}
                     </div>)
             } else {
                 return (
                     <div className="songitems-container">
-                        {this.state.data["normalObjects"].map(item =>
+                        {this.state.dataObjects.map(item =>
                             <div className="songitem">
                                 <div className="songitem-info">
                                     <div className="songitem-title"> {item["name"]} </div>
                                     <div className="songitem-singer"> {item["singer"]} </div>
                                 </div>
                                 <img src={unfilledLike} alt="icon" className="like-button" id={item["id"]}/>
-                                <div className="votes-count">{item["votes"]}</div>
+                                <div className="votes-count">{item["voters"].length}</div>
                             </div>
                         )}
                     </div>
