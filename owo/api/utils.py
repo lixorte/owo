@@ -79,6 +79,10 @@ def fetch_election_by_meta(election: dict) -> dict:
     banned_objects = [normalize_id(el)
                       for el in client["elections"]["banned"+election_id].find()]
 
+    for coll in [normal_objects, voted_objects, banned_objects]:
+        for opt in coll:
+            opt["votes"] = len(opt["voters"])
+
     response = {
         "electionInfo": election,
         "normalObjects": normal_objects,
