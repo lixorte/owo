@@ -144,10 +144,10 @@ def add_opt(election_id):
 @election_blueprint.route("/<string:election_id>/vote/<string:vote_id>", methods=["POST"])
 @jwt_required
 def add_vote(election_id: str, vote_id: str):
-    election = client["elections"]["meta"].count_documents(
+    election = client["elections"]["meta"].find_one(
         {"_id": ObjectId(election_id)})
 
-    if election == 0:
+    if election is None:
         logger.info(f"Add vote request to unknown election {election_id}")
         return "Error", 404
 
