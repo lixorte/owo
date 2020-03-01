@@ -240,7 +240,7 @@ def list_voted(election_id: str):
     user_id = get_jwt_identity()["name"]
 
     for cl_var in ["normal", "banned", "voted"]:
-        for obj in client["elections"][cl_var + election_id].find({"voters": {"$in": user_id}}):
+        for obj in client["elections"][cl_var + election_id].find({"voters": {"$in": [user_id]}}):
             votes.append(str(obj["_id"]))
 
     return jsonify(votes), 200
