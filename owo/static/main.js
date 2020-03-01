@@ -34,7 +34,7 @@ function toggleSidebar() {
 }
 
 function auth() {
-    let link = "https://auth.eljur.ru/auth/hselyceum_ring?client_id=hselyceum_ring&response_type=code&redirect_uri=" + encodeURIComponent(window.location.hostname + "/auth") + "&state="
+    let link = "https://auth.eljur.ru/auth/hselyceum_ring?client_id=hselyceum_ring&response_type=code&redirect_uri=" + encodeURIComponent("http://" + window.location.hostname + "/auth") + "&state="
         + encodeURIComponent(window.location.pathname);
     window.open(link);
 }

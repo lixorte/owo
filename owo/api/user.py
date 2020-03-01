@@ -49,7 +49,7 @@ def edit_user(user_id):
     state = data["state"] or user["state"]
 
     client["meta"]["users"].update_one(
-        {"name": user_id}, {"type": user_type, "state": state})
+        {"name": user_id}, {"$set": {"type": user_type, "state": state}})
 
     user["type"] = user_type
     user["state"] = state

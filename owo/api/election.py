@@ -96,7 +96,6 @@ def del_election(election_id):
 
 @election_blueprint.route("/<string:election_id>/vote/new", methods=["POST"])
 @jwt_required
-@schema_validator(add_option)
 def add_opt(election_id):
     election = client["elections"]["meta"].find_one(
         {"_id": ObjectId(election_id)})
@@ -137,9 +136,9 @@ def add_opt(election_id):
     new_id = client["elections"]["normal" +
                                  election_id].insert_one(new_vote).inserted_id
 
-    new_vote["id"] = str(new_id)
+    new_vote["_id"] = new_vote
 
-    return jsonify(new_vote), 200  # TODO Test
+    return jsonify(normalize_id(new_vote)), 200  # TODO Test
 
 
 @election_blueprint.route("/<string:election_id>/vote/<string:vote_id>", methods=["POST"])
@@ -274,13 +273,12 @@ def get_specific_last(election_type: str):
 
 
 @election_blueprint.route("/<string:election_id>/vote/<string:vote_id>/patch", methods=["POST"])
-@schema_validator(edit_option)
 @jwt_required
 def update_option(election_id: str, vote_id: str):
-    election = client["elections"]["meta"].count_documents(
+    election = client["elections"]["meta"].find_one(
         {"_id": ObjectId(election_id)})
 
-    if election == 0:
+    if election is None:
         logger.info(f"Update vote request to unknown election {election_id}")
         return "Error", 404
 
@@ -293,32 +291,49 @@ def update_option(election_id: str, vote_id: str):
         {"_id": ObjectId(vote_id)}
     )
 
-    if not normal_object:
-        banned_object_exists = client["elections"]["banned" + election_id].find_one(
+    banned_object_exists = client["elections"]["banned" + election_id].find_one(
+        {"_id": ObjectId(vote_id)}
+    )
+
+    to_move = None
+
+    if banned_object_exists and request.get_json()["state"] == "normal":
+
+        client["elections"]["banned" + election_id].update_one(
+            {"_id": ObjectId(vote_id)},
+            {"$set": request.get_json()}
+        )
+
+        to_move = client["elections"]["banned" + election_id].find_one(
             {"_id": ObjectId(vote_id)}
         )
 
-        if banned_object_exists:
-            logger.info(
-                f"Update request to banned option {vote_id} in election {election_id}")
-            return "Error", 403
+        to_move["_id"] = str(to_move["_id"])
+        client["elections"]["normal" + election_id].insert_one(to_move)
+        client["elections"]["baned" + election_id].delete_one(
+            {"_id": ObjectId(vote_id)}
+        )
 
-        logger.info(
-            f"Update request to unknown option {vote_id} in election {election_id}")
-        return "Error", 404
+    if normal_object and request.get_json()["state"] == "banned":
 
-    if get_jwt_identity()["name"] in normal_object["voters"]:
-        logger.info(f"Update vote request to already voted resource {vote_id}")
-        return "Error", 409
+        client["elections"]["normal" + election_id].update_one(
+            {"_id": ObjectId(vote_id)},
+            {"$set": request.get_json()}
+        )
 
-    client["elections"]["normal" + election_id].update_one(
-        {"_id": ObjectId(vote_id)},
-        {"$set": {request.json()}}
-    )
+        to_move = client["elections"]["normal" + election_id].find_one(
+            {"_id": ObjectId(vote_id)}
+        )
+
+        to_move["_id"] = str(to_move["_id"])
+        client["elections"]["banned" + election_id].insert_one(to_move)
+        client["elections"]["normal" + election_id].delete_one(
+            {"_id": ObjectId(vote_id)}
+        )
 
     return jsonify(
         normalize_id(
-            client["elections"]["normal" + election_id].find_one(
+            to_move or client["elections"]["normal" + election_id].find_one(
                 {"_id": ObjectId(vote_id)}
             )
         )

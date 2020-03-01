@@ -141,7 +141,7 @@ class Voting extends Component {
             ban = "banned";
         }
         console.log(title, singer, ban);
-        fetch("/election/" + this.state.elId + "/vote/" + this.state.itemId, {
+        fetch("/election/" + this.state.elId + "/vote/" + this.state.itemId + "/patch", {
             method: "POST",
             credentials: "include",
             headers: {

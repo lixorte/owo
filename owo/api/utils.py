@@ -108,3 +108,4 @@ def prefs_validator(prefs: dict):
             return f(*args, **kwargs)
         return __validator
     return _validator
+
