@@ -45,7 +45,7 @@ class SongItem extends Component {
     }
 
     color(id) {
-        if (this.state.voted.hasOwnProperty("ids") && this.state.voted["ids"].indexOf(id) > -1) {
+        if (this.state.voted.indexOf(id) > -1) {
             document.getElementById(id).src = filledLike;
         }
     }
@@ -105,7 +105,7 @@ class SongItem extends Component {
         }
         if (this.state.data.hasOwnProperty("normalObjects")) {
             if (this.state.dataObjects.length === 0) {
-                let dataa = this.state.data["normalObjects"].sort((a, b) => a["voters".length] < b["voters".length] ? 1 : -1);
+                let dataa = this.state.data["normalObjects"].sort((a, b) => a["voters"].length < b["voters"].length ? 1 : -1);
                 this.setState({dataObjects: dataa});
             }
             if (this.state.loggedIn === true) {
