@@ -18,6 +18,7 @@ class SongItem extends Component {
 
     componentDidMount() {
         this.getData();
+        console.log(this.readCookie("access_token_cookie"));
         if (this.readCookie("access_token_cookie") !== "tipidor") {
             this.setState({loggedIn: true});
         }
